@@ -1,7 +1,9 @@
 <div class="about-box">
   <div class="row">
     <div class="small-8 columns">
-      <div class="abouts" v-html="chamInfo.introduction" v-if="chamInfo.introduction"></div>
+      <div class="abouts">
+        <div v-html="chamInfo.introduction" v-if="chamInfo.introduction"></div>
+      </div>
     </div>
     <div class="small-4 columns none-padding-left">
       <div class="mapbox">
