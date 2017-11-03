@@ -1,0 +1,24 @@
+<div id="electronicMall">
+  <div class="row">
+    <div class="panel small-12 columns">
+      <div class="penel-heading">
+        <h2><i></i> 电子商场<span>Electronic Mall</span></h2>
+        <a href="#" target="_blank" class="more">更多...</a>
+      </div>
+      <div class="panel-body">
+        <ul class="no-bullet">
+          <li v-for="elem in companyList" :key="elem.companyId">
+            <a :href="`${baseUrl}/${elem.companyId}/profile`" target="_blank" :title="elem.companyInfo.BrandName">
+              <template v-if="elem.companyLogo">
+                <avatar :src="elem.companyLogo" :size="280" class="companyGard-avatarImage" mode="logo" :alt="elem.companyInfo.BrandName"></avatar>
+              </template>
+              <template v-else>
+                <avatar :src="getCompanyLogo(elem.companyInfo)" :size="280" class="companyGard-avatarImage" mode="logo" :alt="elem.companyInfo.BrandName"></avatar>
+              </template>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,22 +1,39 @@
-@import '../../../node_modules/foundation-sites/scss/foundation';
+/**
+ * Foundation for Sites by ZURB
+ * Version 6.4.1
+ * foundation.zurb.com
+ * Licensed under MIT Open Source
+ */
+@import 'node_modules/foundation-sites/scss/foundation.scss';
 
+// Settings
+// import your own `settings` here or
+// import and modify the default settings through
 @import 'settings';
 
-@mixin foundation-custom($flex: false) {
-  // @if $flex {
-  //   $global-flexbox: true !global;
-  // }
+@mixin foundation-custom(
+  $flex: false,
+  $prototype: false
+) {
+  @if $flex {
+    $global-flexbox: true !global;
+  }
 
-  // @include foundation-global-styles;
-  // @if not $flex {
-  //   @include foundation-grid;
-  // }
-  // @else {
-  //   @include foundation-flex-grid;
-  // }
-  // @include foundation-typography;
-  // @include foundation-forms;
-  // @include foundation-button;
+  @include foundation-global-styles;
+  @if not $flex {
+    @include foundation-grid;
+  }
+  @else {
+    @if $xy-grid {
+      @include foundation-xy-grid-classes;
+    }
+    @else {
+      @include foundation-flex-grid;
+    }
+  }
+  @include foundation-typography;
+  @include foundation-forms;
+  @include foundation-button;
   // @include foundation-accordion;
   // @include foundation-accordion-menu;
   // @include foundation-badge;
@@ -48,11 +65,15 @@
   // @include foundation-tooltip;
   // @include foundation-top-bar;
   @include foundation-visibility-classes;
-  // @include foundation-float-classes;
+  @include foundation-float-classes;
 
-  // @if $flex {
-  //   @include foundation-flex-classes;
-  // }
+  @if $flex {
+    @include foundation-flex-classes;
+  }
+
+  @if $prototype {
+    @include foundation-prototype-classes;
+  }
 }
 
 @include foundation-custom();
