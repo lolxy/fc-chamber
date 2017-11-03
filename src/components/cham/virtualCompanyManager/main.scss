@@ -1,0 +1,10 @@
+.cham-companies-manager {
+  padding: 20px;
+  .manager-bd {
+    height: 50.5vh;
+
+    & > div {
+      height: 100%;
+    }
+  }
+}

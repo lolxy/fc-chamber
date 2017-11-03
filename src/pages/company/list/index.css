@@ -1,0 +1,77 @@
+.pagination-row .el-pagination {
+  padding: 10px 0;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.pagination-row .el-pagination span,
+.pagination-row .el-pagination button,
+.pagination-row .el-pager li {
+  min-width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+}
+
+.pagination-row .el-pagination__sizes {
+  margin-left: 10px !important;
+}
+
+.pagination-row .el-pagination .el-select .el-input input {
+  height: 36px !important;
+  line-height: 36px !important;
+}
+
+.pagination-row .el-pagination__editor {
+  width: 50px !important;
+  padding: 8px 6px !important;
+}
+
+.pagination-row .btn-prev {
+  padding: 0 12px;
+}
+
+.pagination-row .btn-next {
+  padding: 0 12px;
+}
+
+.pagination-row .el-icon-arrow-left:after {
+  content: '上一页';
+  display: inline-block;
+  margin-left: 2px;
+}
+
+.pagination-row .el-icon-arrow-right:before {
+  content: '下一页';
+  display: inline-block;
+  margin-right: 2px;
+}
+
+.pagination-row .el-icon-arrow-right:after {
+  content: "\E602";
+}
+
+.pagination-row .el-pager li:last-child {
+  min-width: 50px !important;
+}
+
+.company-list-grid-wrap {
+	min-height: 300px;
+}
+
+.company-filter-search-wrap {
+  max-width: 800px;
+  float: right;
+  margin-right: 10px;
+}
+
+.company-filters-row {
+  margin-right: -25px;
+}
+
+.industry-filter-box hr {
+  margin: 10px 0;
+}
+
+.industry-filter-box .panel-footer .row {
+  margin: 0 -5px;
+}

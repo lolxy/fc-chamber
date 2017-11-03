@@ -1,0 +1,98 @@
+<div class="contact-wrap">
+  <!-- hbox layout -->
+  <div class="hbox">
+    <div class="container contact-container padder-v">
+      <div class="contact-main">
+        <main-menu></main-menu>
+        <div class="row">
+          <div class="column col-md-3 col-left no-padder">
+            <div class="panel panel-info no-border contact-list-panel">
+              <div class="list-group contact-list-group">
+                <div class="list-group-item">
+                  <div class="wrapper">
+                    <button class="btn btn-block btn-primary" @click="openAddFriendDialog">加好友</button>
+                  </div>
+                </div>
+                <div class="list-group-item" :class="{'active': teamListVisible}">
+                  <a class="menu-trigger" @click="showTeamList">
+                    <i class="fa fa-angle-right"></i> <i class="fa fa-angle-down"></i> 我的群聊 <small class="pull-right">{{ teamsCount }}</small>
+                  </a>
+                  <ul class="list-group m-b-none">
+                    <li class="list-group-item">
+                      <a class="btn btn-success btn-block" @click="openAddTeamMemberesDialog">新建群聊</a>
+                    </li>
+                    <template v-for="item in teams">
+                      <li class="list-group-item" :class="{'focus': item.teamId == currentTeamId}" @click="switchCurrentTeamId(item.teamId)">
+                        <div class="clear">
+                          <a class="pull-left thumb-sm m-r">
+                            <avatar :src="item.avatar" :size="80" class="r r-2x" v-if="item.avatar"></avatar>
+                            <avatar :src="null" :size="80" class="r r-2x" v-else></avatar>
+                          </a>
+                          <p class="m-b-xxs item-name">{{ item.name }}</p>
+                          <small class="text-muted">群号: {{ item.teamId }}</small>
+                        </div>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+                <div class="list-group-item" :class="{ 'active': group.Id == currentGroupId }" v-for="group in myFriendGroup" :key="group.Id">
+                  <a class="menu-trigger" @click="switchCurrentGroup(group.Id)">
+                    <i class="fa fa-angle-right"></i> <i class="fa fa-angle-down"></i> {{ group.Name }} 
+                    <small class="pull-right">
+                      <template v-if="myFriendList[`group-${group.Id}`]">
+                        {{ myFriendList[`group-${group.Id}`].length }}
+                      </template>
+                      <template v-else>0</template>
+                    </small>
+                  </a>
+                  <ul class="list-group m-b-none">
+                    <template v-for="(item, index) in myFriendList[`group-${group.Id}`]">
+                      <li class="list-group-item" :class="{ 'focus': item.Friend.Id === currentFriend.Id }" @click="switchCurrentFriend(item.Friend)">
+                        <div class="clear">
+                          <a class="pull-left thumb-sm m-r">
+                            <template v-if="item.Friend.UserId">
+                              <avatar :src="item.Friend.User.PortraitUrl" :size="80" class="r r-2x"></avatar>
+                            </template>
+                            <template v-else>
+                              <avatar :src="null" :size="80" class="r r-2x"></avatar>
+                            </template>
+                          </a>
+                          <p class="m-b-xxs friend-name">{{ item.Friend.Name }}</p>
+                          <small class="text-muted clear text-ellipsis" v-if="item.Friend.CompanyId">{{ item.Friend.Company.BrandName }}
+                            <template v-if="item.Friend.JobTitle">·{{ item.Friend.JobTitle }}</template>
+                          </small>
+                          <small class="text-muted clear text-ellipsis" v-else>个人</small>
+                        </div>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column col-md-9 col-main no-padder">
+            <div class="panel no-border panel-contact-profile">
+              <div class="panel-body">
+                <template v-if="currentFriend.Id">
+                  <user-profile :user="currentFriend"></user-profile>
+                </template>
+                <template v-if="currentTeamId">
+                  <team-profile :teamid="currentTeamId"></team-profile>
+                </template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /hbox layout -->
+
+  <el-dialog v-model="addTeamMembersDialogVisible" size="medium" :modal-append-to-body="false">
+    <team-members-manager v-on:closeTeamMembersManager="closeAddTeamMemberesDialog" mode="createnew"></team-members-manager>
+  </el-dialog>
+
+  <el-dialog v-model="addFriendDialogVisible" size="small" :modal-append-to-body="false">
+    <add-friend></add-friend>
+  </el-dialog>
+</div>

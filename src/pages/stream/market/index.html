@@ -1,0 +1,113 @@
+<v-layout>
+  <div class="hbox hbox-auto-xs hbox-auto-sm">
+    <div class="wrapper-md">
+      <div class="stream-wrap-main container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="panel industry-filter-box">
+              <div class="panel-heading">
+                <p class="m-b-n"><strong>行业类别</strong> <span v-if="currentCategory"> > {{ currentCategory.Name }}</span> </p>
+              </div>
+              <div class="panel-body m-l-n-xs m-r-n-xs m-b-sm">
+                <template v-for="item in formatedCategories">
+                  <el-button type="primary" size="small" @click="removeCurrentCategory()" v-if="item.Id == filters.currentCategoryId">{{item.Name}}</el-button>
+                  <el-button size="small" @click="getCurrentCategory(item.Id)" v-else>{{item.Name}}</el-button>
+                </template>
+
+                <template v-if="formatedCategories.length > 26">
+                  <el-button type="info" size="small" @click="showMoreCategory" v-if="!showAllCategory">显示更多</el-button>
+                  <el-button type="info" size="small" @click="showLessCategory" v-else>显示更少</el-button>
+                </template>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="panel">
+              <div class="panel-heading">商户角色</div>
+              <div class="panel-body">
+                <!-- filters -->
+                <div class="row filters-row">
+                  <div class="col-sm-12">
+                    <el-select v-model="filters.currentRoleId" placeholder="角色" @change="reloadStream">
+                      <el-option
+                        v-for="item in roles"
+                        :key="item.Id"
+                        :label="item.Name"
+                        :value="item.Id">
+                      </el-option>
+                    </el-select>
+                  </div>
+                </div>
+                <!-- fitlers -->
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-heading">行业类型</div>
+              <div class="panel-body">
+                <!-- filters -->
+                <div class="row filters-row">
+                  <div class="col-sm-12">
+                    <el-radio-group v-model="filters.currentTypeId">
+                      <template v-for="item in types">
+                        <el-radio class="radio" :label="item.Id" :value="item.Id">{{item.Name}}</el-radio><br>
+                      </template>
+                    </el-radio-group>
+                  </div>
+                </div>
+                <!-- fitlers -->
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <template v-if="auth">
+              <stream-form v-on:streamCreated="prePendStream" v-if="hasCompany || isRoles"></stream-form>
+            </template>
+            <template v-else>
+              <fake-stream-form></fake-stream-form>
+            </template>
+            <!-- Timeline -->
+            <div class="stream-timeline" v-if="marketStream.length > 0">
+              <template v-for="(item, index) in marketStream">
+                <stream-item
+                  type="market"
+                  :item="item"
+                  :checkFavoriteJson = "checkFavoriteJson"
+                  :gallery="galleries[`gallery${item.Id}`]"
+                  v-on:deleteStream="deleteThisStream"
+                  v-on:imageLoaded="onImageLoaded($event, item.Id, index)"></stream-item>
+              </template>
+            </div>
+
+            <infinite-loading :on-infinite="onInfinite" spinner="waveDots" ref="infiniteLoading">
+              <span slot="no-more"><a href="#">返回顶部</a></span>
+              <span slot="no-results">
+                <placeholder text="暂无结果"></placeholder>
+              </span>
+            </infinite-loading>
+          </div>
+          <div class="col-sm-3">
+            <div class="panel">
+              <div class="panel-heading">标签</div>
+              <div class="panel-body">
+                <!-- filters -->
+                <div class="row filters-row">
+                  <div class="col-sm-12">
+                    <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全部</el-checkbox>
+                    <el-checkbox-group v-model="filters.currentTagId" @change="handleCheckedCitiesChange">
+                      <template v-for="item in tags">
+                        <el-checkbox :label="item.Id">{{item.Name}}</el-checkbox><br>
+                      </template>
+                    </el-checkbox-group>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</v-layout>

@@ -1,0 +1,22 @@
+{
+  "presets": [
+    ["env", { "modules": false }],
+    "stage-2", "es2015"
+  ],
+  "plugins": [
+    ["transform-runtime"],
+    ["component", [
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "~theme"
+      }
+    ]]
+  ],
+  "comments": false,
+  "env": {
+    "test": {
+      "presets": ["env", "stage-2", "es2015"],
+      "plugins": [ "istanbul" ]
+    }
+  }
+}

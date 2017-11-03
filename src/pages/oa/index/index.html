@@ -1,0 +1,61 @@
+<v-layout>
+  <div class="oa-index-wrap">
+    <div class="container">
+      <div class="row row-sm text-center">
+          <div class="col-xs-6">
+            <router-link :to="{ name: 'worktasks' }" class="block panel padder-v item">
+              <span class="text-primary-dk h3 block"><i class="fa fa-tasks"></i> 工作任务</span>
+            </router-link>
+          </div>
+          <div class="col-xs-6">
+            <router-link :to="{ name: 'oa.export.checkin' }" class="block panel padder-v item">
+              <span class="text-primary-dk h3 block"><i class="fa fa-map-marker"></i> 签到查询</span>
+            </router-link>
+          </div>
+          <div class="col-xs-12">
+            <div class="block panel padder-v item">
+              <div class="text-default h3"><span>审批查询 <i class="fa fa-caret-down"></i></span></div>
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <div class="list-group list-group-lg list-group-sp">
+              <router-link :to="{ name: 'oa.export.leave' }" class="list-group-item clearfix">
+                <span class="clear">
+                  <span><i class="fa fa-calendar-check-o"></i> 请假</span>
+                </span>
+              </router-link>
+              <router-link :to="{ name: 'oa.export.reimbursement' }" class="list-group-item clearfix">
+                <span class="clear">
+                  <span><i class="fa fa-yen"></i> 报销</span>
+                </span>
+              </router-link>
+              <router-link :to="{ name: 'oa.export.cost' }" class="list-group-item clearfix">
+                <span class="clear">
+                  <span><i class="fa fa-yen"></i> 费用</span>
+                </span>
+              </router-link>
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <div class="list-group list-group-lg list-group-sp">
+              <router-link :to="{ name: 'oa.export.businessTravels' }" class="list-group-item clearfix">
+                <span class="clear">
+                  <span><i class="fa fa-briefcase"></i> 出差</span>
+                </span>
+              </router-link>
+              <router-link :to="{ name: 'oa.export.purchases' }" class="list-group-item clearfix">
+                <span class="clear">
+                  <span><i class="fa fa-shopping-basket"></i> 采购</span>
+                </span>
+              </router-link>
+              <router-link :to="{ name: 'oa.export.overTimes' }" class="list-group-item clearfix">
+                <span class="clear">
+                  <span><i class="fa fa-clock-o"></i> 加班</span>
+                </span>
+              </router-link>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</v-layout>

@@ -1,0 +1,123 @@
+<v-layout>
+  <div class="hbox hbox-auto-xs hbox-auto-sm">
+    <div class="container biddings-list-wrap">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="panel" v-for="typeItem in types">
+            <div class="panel-heading m-b-n"><strong>{{ typeItem.Name }}</strong></div>
+            <div class="panel-body">
+              <div class="row filters-row">
+                <div class="col-sm-12">
+                  <el-select v-model="filters[`cat-${typeItem.Id}`]" :placeholder="`请选择${typeItem.Name}`" clearable>
+                    <el-option
+                      v-for="item in typeItem.Categories"
+                      :key="item.Id"
+                      :label="item.Name"
+                      :value="item.Id">
+                    </el-option>
+                  </el-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <template v-if="detail.Id">
+            <div class="stream-item">
+              <div class="stream-item-inner">
+                <div class="stream-item-header wrapper-xs clearfix m-b-sm">
+                  <div class="item-cover">
+                    <template v-if="detail.Images.length">
+                      <img v-lazy="detail.Images[0].ImgUri" alt="">
+                    </template>
+                  </div>
+                  <div class="item-info">
+                    <p class="title"><strong>{{ detail.Title }}</strong></p>
+                    <p class="qty"><span class="label-name">数量：</span> <span>{{ detail.Qty }}</span> <span class="unit">{{ detail.Unit }}</span></p>
+                    <p class="production-type"><span class="label-name">类型：</span> <span>{{ detail.ProductionType }}</span></p>
+                    <p class="quoted-price"><span class="label-name">意向单价：</span>
+                      <template v-if="detail.QuotedPrice">
+                        <strong>{{ formatPrice(detail.QuotedPrice) }}</strong> <span class="unit">元</span>
+                      </template>
+                        <span v-else>未填写</span>
+                    </p>
+                    <p class="delivery-time"><span class="label-name">交货时间：</span> <span>{{ formatDate(detail.DeliveryTime) }}</span></p>
+                    <p class="end-time"><span class="label-name">距离结束：</span>
+                      <template v-if="!detail.CloseTime">
+                        <span class="end" v-if="isEnded(detail.EndTime)">已结束</span>
+                        <vue-countdown-2 :deadline="detail.EndTime" v-if="!isEnded(detail.EndTime)"></vue-countdown-2>
+                      </template>
+                      <template v-else>
+                        <span class="end">已结束</span>
+                      </template>
+                    </p>
+                    <br>
+                    <template v-if="detail.Publisher.Id == meId || getRoles('BiddingAdmin')">
+                      <template v-if="!detail.CloseTime && !isEnded(detail.EndTime)">
+                        <button class="btn btn-dark btn-block" @click="closeBiddings(detail)"><i class="fa fa-pause"></i> 关闭当前求购</button>
+                      </template>
+                      <template v-else>
+                        <template v-if="!isEnded(detail.EndTime)">
+                          <button class="btn btn-success btn-block" @click="openBiddings(detail)"><i class="fa fa-rotate-right"></i> 重新打开求购</button>
+                        </template>
+                      </template>
+                      <button class="btn btn-danger btn-delete" @click="deleteBiddings(detail)"><i class="fa fa-trash"></i> 删除</button>
+                    </template>
+                    <template v-if="detail.Publisher.Id !== meId">
+                      <template v-if="!detail.CloseTime && !isEnded(detail.EndTime)">
+                        <button class="btn btn-default btn-block" @click="askForThis(detail)"><i class="fa fa-comments-o"></i> 立即咨询（附带发送当前供应信息）</button>
+                        <button class="btn btn-success btn-block" @click="openBiddingComment(detail)"><i class="fa fa-send"></i> 参与投标</button>
+                      </template>
+                    </template>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="bidding-offers-timeline" v-if="offers.length">
+              <ul class="timeline">
+                <li class="tl-header">
+                  <div class="btn btn-default">报价列表</div>
+                </li>
+                <li class="tl-item" v-for="item in offers">
+                  <div class="tl-wrap">
+                    <span class="tl-date"><timeago :since="item.CreatedTime"></timeago></span>
+                    <div class="tl-content">
+                      【{{ item.Company.BrandName }}·{{ item.Sender.JobTitle }}-{{ item.Sender.Name }}】报价 <strong>{{ formatPrice(item.Price) }}元</strong>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div> -->
+          </template>
+          <template v-else>
+            <placeholder text="当前供应不存在或者已经被删除" v-if="!detailLoaded"></placeholder>
+          </template>
+        </div>
+        <div class="col-sm-3">
+          <div class="list-group m-n">
+            <template v-for="item in menu">
+              <a class="list-group-item" @click="openBiddingManager" v-if="item.handle == 'create'">
+                <i class="fa" :class="item.icon"></i> {{ item.name }}
+              </a>
+              <a class="list-group-item" :class="{'active': item.handle == currentMenu}" @click="switchMenu(item.handle)" v-else>
+                <i class="fa" :class="item.icon"></i> {{ item.name }}
+              </a>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <el-dialog title="发布求购" v-model="biddingManagerVisible" size="small">
+    <bidding-manager :types="types" v-on:biddingManagerUpdate="onAuctionManagerUpdate"></bidding-manager>
+  </el-dialog>
+
+  <el-dialog title="参与投标" v-model="biddingCommentVisible" size="tiny">
+    <bidding-comment :item="detail" v-on:close="onBiddingCommentClose"></bidding-comment>
+  </el-dialog>
+
+  <el-dialog title="欢迎来到辅城，请先登录" v-model="loginDialogVisible" size="tiny">
+    <login-dialog-form></login-dialog-form>
+  </el-dialog>
+</v-layout>

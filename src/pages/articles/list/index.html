@@ -1,0 +1,66 @@
+<v-layout>
+  <div class="hbox hbox-auto-xs hbox-auto-sm">
+    <div class="container article-list-wrap">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="list-group article-list-group m-n">
+            <router-link class="list-group-item" :to="{ name: 'articles.list', params: { categoryId: 'featured' } }">精选</router-link>
+            <template v-for="item in categories">
+              <router-link class="list-group-item" :to="{ name: 'articles.list', params: { categoryId: item.Id } }">{{ item.Title }}</router-link>
+            </template>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <template v-for="item in list">
+            <div class="article-list-item">
+              <router-link :to="{ name: 'articles.entry', params: { entryId: item.Id } }">
+                <template v-if="item.PlatformArticleAlbum.length">
+                  <span class="cover" v-lazy:background-image="formatCover(item.PlatformArticleAlbum[0].Imgurl)">
+                    <span class="category">{{ item.PlatformArticleCategory.Title }}</span>
+                  </span>
+                </template>
+                <template v-else>
+                  <span class="cover"></span>
+                </template>
+                <span class="date pull-right">
+                  <timeago :since="item.CreatedTimeUtc" :max-time="864000"></timeago>
+                </span>
+                <span class="title">{{ item.Title }}</span>
+              </router-link>
+            </div>
+          </template>
+
+          <infinite-loading :on-infinite="onListInfinite" spinner="waveDots" ref="streamInfiniteLoading">
+            <span slot="no-more"><a href="#">返回顶部</a></span>
+            <span slot="no-results">
+              <placeholder text="暂无结果"></placeholder>
+            </span>
+          </infinite-loading>
+        </div>
+        <div class="col-sm-3">
+          <div class="panel view-history-panel" v-if="viewHistoryList.length">
+            <div class="panel-heading m-b-n">
+              <strong>最近浏览</strong>
+            </div>
+            <div class="panel-body">
+              <ul>
+                <li class="clearfix" v-for="item in viewHistoryList">
+                  <router-link :to="{ name: 'articles.entry', params: { entryId: item.PlatformArticle.Id } }">
+                    <template v-if="item.PlatformArticle.PlatformArticleAlbum.length">
+                      <span class="cover" v-lazy:background-image="formatCover(item.PlatformArticle.PlatformArticleAlbum[0].Imgurl)"></span>
+                    </template>
+                    <template v-else>
+                      <span class="cover"></span>
+                    </template>
+                    <span class="title">{{ item.PlatformArticle.Title }}</span>
+                    <span class="text-xs block m-t-xs"><timeago :since="item.UpdateTime"></timeago></span>
+                  </router-link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</v-layout>

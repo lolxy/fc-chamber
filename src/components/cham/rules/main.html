@@ -1,0 +1,23 @@
+<div class="rules-box">
+  <div class="entry-hd">
+    <h3>商会章程<span v-if="rules.lastEditTime" class="text-center">( 更新时间：<timeago :since="rules.lastEditTime * 1000"></timeago> )</span></h3>
+    <template v-if="isMyCham">
+      <el-button type="primary" class="btn-add" @click="openRulesManagerDialog">编辑章程</el-button>
+      <el-dialog class="company-manager-dialog" title="编辑商会章程" v-model="rulesManagerVisible" size="large">
+        <el-form ref="rulesForm" :model="rulesForm">
+          <el-form-item>
+            <froala id="froala-editor" :tag="'textarea'" :config="config" v-model="rulesForm.content" ref="froala"></froala>
+          </el-form-item>
+          <el-form-item class="text-right">
+            <el-button type="primary" @click="saveChanges">保存更改</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
+    </template>
+    <hr/>
+  </div>
+
+  <div class="entry-bd">
+    <div class="entry-content" v-html="rules.content"></div>
+  </div>
+</div>

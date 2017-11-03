@@ -1,0 +1,11 @@
+<div class="mall-articles-wrap">
+  <template v-if="isMyMall">
+    <router-link :to="{ name: 'mall.article.new' }" class="btn btn-primary btn-add-new">添加文章</router-link>
+  </template>
+
+  <div class="row clearfix">
+    <div class="col-sm-12 col-md-8">
+      <article-list></article-list>
+    </div>
+  </div>
+</div>

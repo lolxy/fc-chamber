@@ -1,0 +1,25 @@
+<div class="cham-annual-entry" v-if="entry.id">
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="breadcrumbbox">
+        <ol class="breadcrumb">
+          <li>年度总结</li>
+          <li class="active">{{ entry.title }}</li>
+        </ol>
+      </div>
+
+      <div class="annual-entry">
+        <div class="entry-hd">
+          <h3>{{ entry.title }}</h3>
+          <p>发布时间：<timeago :since="entry.createTime * 1000"></timeago>
+              <router-link :to="{ name: 'cham.annual.edit', params: { entryId: entry.id } }" class="edit-link" v-if="isMyCham"><i class="fa fa-edit"></i> 编辑该文章</router-link>
+              <span @click="dellAnnual" class="dell-link" v-if="isMyCham"><i class="fa fa-trash"></i> 删除该总结</span>
+          </p>
+        </div>
+        <div class="entry-bd">
+          <div class="entry-content" v-html="entry.content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

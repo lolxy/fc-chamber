@@ -1,0 +1,52 @@
+<v-layout>
+  <div class="hbox hbox-auto-xs hbox-auto-sm">
+    <div class="container workTasks-list-wrap">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="list-group workTasks-list-group m-n">
+            <router-link :to="{ name: 'worktasks' }" class="list-group-item" :class="{'active': !currentCategory}">
+              执行的任务
+            </router-link>
+            <router-link :to="{ name: 'worktasks.list', params: { slug: 'assignedByMe' } }" class="list-group-item" :class="{'active': currentCategory == 'assignedByMe'}">
+              指派的任务
+            </router-link>
+            <router-link :to="{ name: 'worktasks.list', params: { slug: 'completed' } }" class="list-group-item" :class="{'active': currentCategory == 'completed'}">
+              历史工作安排
+            </router-link>
+          </div>
+        </div>
+        <div class="col-sm-9">
+          <div class="workTasks-list list-group list-group-lg list-group-sp" v-if="list.length">
+            <template v-for="item in list">
+              <router-link :to="{ name: 'worktasks.entry', params: { taskId: item.Id } }" class="list-group-item clearfix">
+                <span class="clear">
+                  <span class="title text-ellipsis">{{ item.Title }}</span>
+                  <span class="clear">
+                    <span :class="`item-state item-state-${item.State}`">{{ formatWorkTaskState(item.State) }}</span>
+                    <span :class="`item-priority item-priority-${item.Priority}`">{{ formatWorkTaskPriority(item.Priority) }}</span>
+                    <span class="item-dueTime" :class="{'item-timeout': item.IsDueTimeout}" v-if="item.DueTime">{{ formatTime(item.DueTime) }} 截止</span>
+                  </span>
+                  <span class="clear m-t-sm" v-if="item.SubTaskCount">
+                    <span class="subTaskCount"><i class="fa fa-calendar-check-o"></i> {{ subTasksDoneCount(item.SubTasks) }}/{{ item.SubTaskCount }}</span>
+                  </span>
+                  <!-- <hr> -->
+                  <!-- <pre>{{ item }}</pre> -->
+                </span>
+              </router-link>
+            </template>
+          </div>
+
+          <infinite-loading :on-infinite="onListInfinite" spinner="waveDots" ref="tasksInfiniteLoading">
+            <span slot="no-more"><a href="#">返回顶部</a></span>
+            <span slot="no-results">
+              <placeholder text="暂无工作任务"></placeholder>
+            </span>
+          </infinite-loading>
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</v-layout>

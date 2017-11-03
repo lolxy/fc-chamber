@@ -1,0 +1,208 @@
+<div class="cham-company-create-box">
+<template v-if="isVirtual">
+  <div class="cerate-new-user">
+    <div class="col-sm-12">
+      <div class="alert alert-danger" v-if="isShowAlert">
+        <h4>搜索结果：</h4>
+        <p>{{ searchResultTitle }}</p>
+        <div class="close" @click="closeAlert()">&times;</div>
+      </div>
+
+      <div class="createVirtualForm">
+
+          <div class="col-sm-6" style="padding-left:0">
+            <div class="searchCompanyBox">
+
+            <div class="row">
+              <div class="col-xs-9">
+                <div class="input-group search-wrap">
+                  <input
+                  type="text"
+                  placeholder="请输入公司名称"
+                  class="form-control"
+                  v-model="companyKeyword"
+                  @keyup.enter="searchCompany">
+                  <span class="input-group-btn">
+                    <button
+                      class="btn btn-primary padder-lg"
+                      type="button"
+                      @click="searchCompany">搜索</button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-xs-3">
+                <button class="btn btn-success" @click="createNewCompany" style="margin-left:12px;">创建新公司</button>
+              </div>
+            </div>
+
+            <template>
+              <template v-if="companyList.length && !showCreateCompany">
+                <div class="searchResultList">
+                  <ul class="list-unstyled">
+                    <li v-for="(elem,index) in companyList">
+                      <el-radio class="radio" v-model="selectedCompanyId" :label="elem.Id">{{ elem.Name }}</el-radio>
+                    </li>
+                  </ul>
+                </div>
+              </template>
+              <template v-if="showCreateCompany">
+                <div class="createCompanyForm">
+                  <p>如果搜索不到您输入关键字对应的公司名称，请创建新公司！</p>
+                  <el-form :model="companyForm" :rules="companyrules" ref="companyForm" label-width="80px">
+                        <el-form-item label="公司全称" prop="Name">
+                          <el-input v-model="companyForm.Name"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="公司简称" prop="BrandName">
+                          <el-input v-model="companyForm.BrandName"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="联系电话" prop="ServiceTel">
+                          <el-input v-model="companyForm.ServiceTel"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="企业类型" v-if="categories.length" prop="category">
+                          <el-select v-model="companyForm.category" placeholder="企业类型">
+                            <el-option
+                              v-for="item in categories"
+                              :key="item.Id"
+                              :label="item.Name"
+                              :value="item.Id">
+                            </el-option>
+                          </el-select>
+                        </el-form-item>
+
+                        <el-form-item label="行业属性" v-if="industryProps.length">
+                          <el-select v-model="companyForm.industryProps" placeholder="行业属性">
+                            <el-option
+                              v-for="item in industryProps"
+                              :key="item.Id"
+                              :label="item.Name"
+                              :value="item.Id">
+                            </el-option>
+                          </el-select>
+                        </el-form-item>
+                        <el-form-item label="行业类别" v-if="industryTypes.length">
+                          <el-select v-model="companyForm.industryTypes" placeholder="行业类别" multiple>
+                            <el-option
+                              v-for="item in industryTypes"
+                              :key="item.Id"
+                              :label="item.Name"
+                              :value="item.Id">
+                            </el-option>
+                          </el-select>
+                        </el-form-item>
+                        <el-form-item label="行业类型" v-if="industryCategories.length">
+                          <el-select
+                            v-model="companyForm.industryCategories"
+                            placeholder="行业类型"
+                            multiple>
+                            <el-option
+                              v-for="item in industryCategories"
+                              :key="item.Id"
+                              :label="item.Name"
+                              :value="item.Id">
+                            </el-option>
+                          </el-select>
+                        </el-form-item>
+
+                        <el-form-item label="公司法人" prop="LegalPersonName">
+                          <el-input v-model="companyForm.LegalPersonName"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="公司简介" prop="AboutUs">
+                          <el-input v-model="companyForm.AboutUs"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="所在地" prop="residents">
+                          <el-cascader :options="options" v-model="companyForm.residents" v-if="options.length">
+                          </el-cascader>
+                        </el-form-item>
+                        <el-form-item label="详细地址" prop="Address">
+                          <el-input
+                            placeholder="街道门牌号"
+                            v-model="companyForm.Address">
+                          </el-input>
+                        </el-form-item>
+
+                        <el-form-item label="是否显示真实信息">
+                        <el-switch
+                          v-model="companyForm.IsShowFullDetails"
+                          on-color=""
+                          off-color="">
+                        </el-switch>
+                        </el-form-item>
+
+                        <el-form-item>
+                          <el-button type="info" @click="submitCompanyForm('companyForm')">创建公司</el-button>
+                        </el-form-item>
+                  </el-form>
+                </div>
+              </template>
+            </template>
+            </div>
+          </div>
+
+          <div class="col-sm-6" style="padding-right:0">
+            <div class="addVirtualMemberBox">
+            <el-form :model="virtualForm" :rules="rules" ref="virtualForm" label-width="110px" v-if="selectedCompanyId">
+                <el-form-item label="公司名称">
+                  {{ selectedCompany.BrandName || newCreateCompanyName }}
+                </el-form-item>
+                <el-form-item label="上传头像">
+                <div class="card-logo">
+                  <el-upload
+                    action="//up.qbox.me/"
+                    :show-file-list="false"
+                    list-type="picture"
+                    :on-success="handleLogoUploadSuccess"
+                    :before-upload="beforeLogoUpload"
+                    :data="uploadLogoImageData"
+                    ref="logoImageUploader"
+                    class="avatar-uploader"
+                    >
+                    <img v-if="companyLogo" :src="companyLogo" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  </el-upload>
+                </div>
+                </el-form-item>
+                <el-form-item label="成员名称" prop="name">
+                  <el-input v-model="virtualForm.name"></el-input>
+                </el-form-item>
+                <el-form-item label="联系电话" prop="phone">
+                  <el-input v-model="virtualForm.phone"></el-input>
+                </el-form-item>
+                <el-form-item label="商会企业类型" prop="typeId">
+                  <el-select v-model="virtualForm.typeId" placeholder="请选择商会企业类型"  @visible-change="initSelectType()">
+                    <el-option
+                      v-for="elems in enterpriseTypeList"
+                      :key="elems.typeId"
+                      :label="elems.name"
+                      :value="elems.typeId">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="商会成员类型" prop="childTypeId" v-if="formateEnterpriseType(virtualForm.typeId).length">
+                  <el-select v-model="virtualForm.childTypeId" placeholder="请选择商会成员类型">
+                    <el-option
+                      v-for="itemChild in formateEnterpriseType(virtualForm.typeId)"
+                      :key="itemChild.typeId"
+                      :label="itemChild.name"
+                      :value="itemChild.typeId">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+
+                <el-form-item>
+                  <el-button type="primary" @click="submitVirtualMemberForm('virtualForm')">加入商会</el-button>
+                </el-form-item>
+
+            </el-form>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+</div>

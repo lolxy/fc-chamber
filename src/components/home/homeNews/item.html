@@ -1,0 +1,47 @@
+<div class="home-news-panel panel">
+  <div class="panel-heading">
+    <h4>新闻资讯</h4>
+  </div>
+  <div class="panel-body">
+    <el-tabs v-model="activePanel" @tab-click="handleClick">
+      <el-tab-pane label="精选" name="featured">
+        <div class="home-article-list">
+          <div class="home-article-list-item clearfix" v-for="item in articleList" :key="item.Id">
+            <router-link :to="{ name: 'articles.entry', params: { entryId: item.Id } }"  class="cover" v-lazy:background-image="formatSrc(getArticleCover(item.PlatformArticleAlbum).Imgurl)"></router-link>
+            <div class="info">
+              <h3>
+                <router-link :to="{ name: 'articles.entry', params: { entryId: item.Id } }">{{ item.Title }}</router-link>
+              </h3>
+              <p class="summary">
+                {{ item.Abstract }}
+              </p>
+              <timeago :since="item.CreateTime"></timeago>
+            </div>
+          </div>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane :label="pane.Title" :name="pane.Id" v-for="pane in articleCats" :key="pane.Id">
+        <div class="home-article-list" v-if="articleList.length">
+          <div class="home-article-list-item clearfix" v-for="item in articleList" :key="item.Id">
+            <router-link :to="{ name: 'articles.entry', params: { entryId: item.Id } }"  class="cover" v-lazy:background-image="formatSrc(getArticleCover(item.PlatformArticleAlbum).Imgurl)"></router-link>
+            <div class="info">
+              <h3>
+                <router-link :to="{ name: 'articles.entry', params: { entryId: item.Id } }">{{ item.Title }}</router-link>
+              </h3>
+              <p class="summary">
+                {{ item.Abstract }}
+              </p>
+              <timeago :since="item.CreateTime"></timeago>
+            </div>
+          </div>
+        </div>
+        <placeholder text="暂无相关文章" v-else></placeholder>
+      </el-tab-pane>
+    </el-tabs>
+  </div>
+  <div class="panel-footer">
+    <router-link :to="{ name: 'articles.index' }" class="btn btn-block btn-dark btn-more">
+      查看更多
+    </router-link>
+  </div>
+</div>

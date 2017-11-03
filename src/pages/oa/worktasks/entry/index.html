@@ -1,0 +1,26 @@
+<v-layout>
+  <div class="hbox hbox-auto-xs hbox-auto-sm">
+    <div class="container workTasks-entry-wrap">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="list-group workTasks-list-group m-n">
+            <router-link :to="{ name: 'worktasks' }" class="list-group-item">
+              执行的任务
+            </router-link>
+            <router-link :to="{ name: 'worktasks.list', params: { slug: 'assignedByMe' } }" class="list-group-item">
+              指派的任务
+            </router-link>
+            <router-link :to="{ name: 'worktasks.list', params: { slug: 'completed' } }" class="list-group-item">
+              历史工作安排
+            </router-link>
+          </div>
+        </div>
+        <div class="col-sm-9">
+          <div class="workTasks-entry">
+            <task-detail :taskId="taskId"></task-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</v-layout>

@@ -1,0 +1,13 @@
+<div class="image-manager">
+  <div class="image-manager-bd clearfix">
+    <div class="col-sm-4 col-md-3 col-lg-2 image-wrap" v-for="image in images">
+      <div class="thumb-wrap">
+        <img v-lazy="image.url" :width="image.width" :height="image.height" alt="">
+        <div class="btns">
+          <a @click="insertImage(image)" title="插入图片"><i class="fa fa-plus"></i></a>
+          <a @click="preDeleteImage(image.id)" title="删除图片"><i class="fa fa-trash"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

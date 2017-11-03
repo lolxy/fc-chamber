@@ -1,0 +1,162 @@
+@import '~@/assets/scss/foundation';
+
+.text-left {
+  text-align: left;
+}
+
+.el-time-panel {
+  min-width: 156px;
+}
+
+.task-handler {
+  .col {
+    padding: 10px 16px 15px;
+
+    a {
+      display: inline-block;
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+
+    .col-label {
+      display: block;
+      margin-bottom: 4px;
+    }
+  }
+}
+
+.task-sender {
+  cursor: pointer;
+  display: inline-block;
+
+  &:hover {
+    color: $primary-color;
+  }
+
+  .avatar-wrap {
+    display: inline-block;
+    margin-right: 6px;
+    float: left;
+  }
+
+  .task-sender-name {
+    line-height: rem-calc(32);
+  }
+}
+
+.task-state {
+  display: inline-block;
+  color: #fff;
+  padding: 3px 6px 1px;
+  background-color: #808080;
+  border-radius: 3px;
+  margin-right: 6px;
+  font-size: rem-calc(14);
+}
+
+.task-state-0 {
+  background-color: #238EFA;
+}
+
+.task-state-10 {
+  background-color: #08CE8A;
+}
+
+.task-priority {
+  display: inline-block;
+  color: #fff;
+  padding: 3px 10px 2px;
+  background-color: #808080;
+  border-radius: 3px;
+  margin-right: 6px;
+
+  &:hover {
+  
+  }
+}
+
+.task-priority-0 {
+  color: #303030;
+  background-color: #f0f0f0;
+}
+
+.task-priority-10 {
+  background-color: #FF9500;
+}
+
+.task-priority-100 {
+  background-color: #F22F2F;
+}
+
+.task-dueTime {
+  display: inline-block;
+  color: inherit;
+  padding: 3px 6px 1px;
+  border-radius: 3px;
+  margin-right: 6px;
+}
+
+.task-timeout {
+  color: #F22F2F;
+}
+
+.task-executor-list {
+  margin: 0 -10px;
+
+  .task-executor {
+    padding: 6px 10px;
+    border-radius: 3px;
+    float: left;
+    margin-right: 15px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+
+    .avatar-wrap {
+      display: inline-block;
+      float: left;
+      margin-right: 6px;
+    }
+
+    .task-executor-name {
+      line-height: rem-calc(32);
+    }
+  }
+}
+
+.main-task-panel,
+.subtask-panel {
+  .list-group {
+    margin: 0;
+  }
+  .list-group-item {
+    border-left: 0 none;
+    border-right: 0 none;
+    border-radius: 0;
+  }
+
+  .task-priority {
+    padding: 1px 6px;
+  }
+
+  .task-priority-0 {
+    display: none;
+  }
+}
+
+.task-dueTime-col {
+  width: 36%;
+
+  .el-date-editor.el-input {
+    width: 172px;
+
+    .el-input__inner {
+      border: 0 none;
+      padding-left: 4px;
+    }
+  }
+}

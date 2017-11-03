@@ -1,0 +1,49 @@
+.cham-articles-wrap {
+  padding-top: 10px;
+  position: relative;
+
+  .moduleCategory{
+    overflow: hidden;
+    li{
+      float: left;
+      width:130px;
+      text-align: center;
+      padding: 10px;
+      span{
+        border: 1px solid #e2e2e2;
+        display:block;
+        height: 30px;
+        border-radius: 3px;
+        line-height: 30px;
+        cursor: pointer;
+        transition: all ease-in-out .5s;
+      }
+      &.active,&:hover{
+        span{
+          background-color: #1a4a94;
+          border: 1px solid #1a4a94;
+          color:#ffffff;
+        }
+      }
+    }
+  }
+  .btnbox{
+    position:relative;
+    height: 50px;
+    background-color: #fff;
+    margin-bottom: 5px;
+  }
+  .btn-add-new {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+  }
+  .btn-add-category{
+    position: absolute;
+    right: 100px;
+    top: 8px;
+  }
+  .articleModule{
+    padding-top: 5px;
+  }
+}

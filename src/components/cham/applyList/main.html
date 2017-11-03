@@ -1,0 +1,45 @@
+<div class="cham-articles-list">
+  <div class="article-item" v-for="(item, index) in list" :key="item.id">
+    <el-collapse accordion>
+      <el-collapse-item :title="`${item.companyName} 的入会申请`" :name="index">
+        <div class="suggest-content">
+          <div class="col-sm-6">
+          <ul class="list-group">
+            <li class="list-group-item"><b>单位名称：</b><span>{{ item.companyName }}</span></li>
+            <li class="list-group-item"><b>单位地址：</b><span>{{ item.address }}</span></li>
+            <li class="list-group-item"><b>法人代表：</b><span>{{ item.legalRepresentative }}</span></li>
+            <li class="list-group-item"><b>联系电话：</b><span>{{ item.phone }}</span></li>
+            <li class="list-group-item"><b>邮箱地址：</b><span>{{ item.email }}</span></li>
+            <li class="list-group-item"><b>微 信 号：</b><span>{{ item.wechat }}</span></li>
+            <li class="list-group-item"><b>注册资金：</b><span>{{ item.balance }}元</span></li>
+            <li class="list-group-item"><b>企业人数：</b><span>{{ item.peopleNumber }}人</span></li>
+            <li class="list-group-item"><b>申请商会：</b><span>{{ chamName }}</span></li>
+          </ul>
+          </div>
+          <div class="col-sm-6">
+            <ul class="list-group">
+              <li class="list-group-item"><b>身份证：</b></li>
+              <li class="list-group-item">
+                <img :src="item.enclosureidentity[0]" class="cover-thumb img-responsive"/>
+              </li>
+              <li class="list-group-item"><b>营业执照：</b></li>
+              <li class="list-group-item">
+                <img :src="item.enclosurelicense[0]" class="cover-thumb img-responsive"/>
+              </li>
+            </ul>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="time">申请时间：<timeago :since="item.createTime * 1000"></timeago></div>
+      </el-collapse-item>
+    </el-collapse>
+  </div>
+
+  <infinite-loading :on-infinite="onListInfinite" spinner="waveDots" ref="streamInfiniteLoading">
+    <span slot="no-more"><a href="javascript:void(0);" @click="backtop">返回顶部</a></span>
+    <span slot="no-results">
+      <placeholder text="暂无结果"></placeholder>
+    </span>
+  </infinite-loading>
+
+</div>

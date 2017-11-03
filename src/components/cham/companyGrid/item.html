@@ -1,0 +1,515 @@
+<div class="company-list-grid" v-if="items">
+  <template v-if="currentChildTypeId && isAllowSort && isMyCham">
+    <draggable v-model="drapList" @update="datadragEnd">
+      <transition-group>
+        <div class="grid-item col-sm-6 col-md-3 wrapper-xs" v-for="(item,index) in drapList" :key="item.id">
+      <template v-if="item.identity">
+        <div class="grid-item-bd">
+          <div class="profileCard">
+            <router-link :to="{ name: 'company.profile', params: { id: item.companyId } }" class="profileCard-bg">
+              <template v-if="formatCardBg(item.companyInfo)">
+                <img v-lazy="formatCardBg(item.companyInfo)" alt=""/>
+              </template>
+            </router-link>
+            <div class="profileCard-content">
+              <template v-if="isMyCham">
+                <div class="card-logo" @click="getCompanySelectId(item.companyId)">
+                  <el-upload
+                    action="//up.qbox.me/"
+                    :show-file-list="false"
+                    list-type="picture"
+                    :on-success="handleLogoUploadSuccess"
+                    :before-upload="beforeLogoUpload"
+                    :data="uploadLogoImageData"
+                    ref="logoImageUploader"
+                    class="logo-uploader-wrap"
+                    >
+                    <template v-if="item.companyLogo">
+                      <avatar :src="item.companyLogo" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                    </template>
+                    <template v-else>
+                      <avatar :src="getCompanyLogo(item.companyInfo)" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                    </template>
+                    <div class="editor-mask">
+                      <span><i class="fa fa-camera"></i><br>修改LOGO </span>
+                    </div>
+                  </el-upload>
+                </div>
+                <div class="recomicon">
+                  <el-tag type="primary" class="btn-primary"  v-if="item.recommendCompany">已推荐企业</el-tag>
+                  <el-tag type="primary" class="btn-primary"  v-if="item.recommendSite">已推荐站点</el-tag>
+                </div>
+              </template>
+              <template v-else>
+                <div class="card-logo">
+                  <template v-if="item.companyLogo">
+                    <avatar :src="item.companyLogo" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                  </template>
+                  <template v-else>
+                    <avatar :src="getCompanyLogo(item.companyInfo)" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                  </template>
+                </div>
+              </template>
+              <div class="profileCard-userFields">
+                  <div class="profileName-wrap clearfix m-b-xs">
+
+                    <router-link :to="{ name: 'company.profile', params: { id: item.companyId } }" class="profileName pull-left">
+                      <strong>{{ item.companyInfo.BrandName }}</strong>
+                    </router-link>
+
+                      <template v-if="isMyCham">
+                        <div class="dropdown pull-right">
+                          <button class="btn btn-default" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-dropdown>
+                            <i class="glyphicon glyphicon-cog"></i> 操作 <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a @click="deleteThisMember(item.identity,item.companyId,item.id)"><i class="fa fa-trash"></i> 删除该成员</a></li>
+                            <li><a @click="modifyThisMemberInfo(item.typeId,item.childTypeId,item.companyId)"><i class="fa fa-edit"></i> 修改会员类型</a></li>
+                          </ul>
+                        </div>
+                      </template>
+
+                      <template v-else>
+                        <template v-if="item.identity !== userId && memberinfo[`user${item.identity}`]">
+                          <template v-if="!memberinfo[`user${item.identity}`].RelationshipOfUs">
+                            <button
+                              class="btn btn-info btn-sm pull-right"
+                              @click="addFriend(item.userIdentityInfo);">
+                              <i class="fa fa-plus-square"></i>
+                              <span>加为好友</span>
+                            </button>
+                          </template>
+                          <template v-else-if="memberinfo[`user${item.identity}`].RelationshipOfUs === 1">
+                            <button class="btn btn-info btn-sm pull-right disabled">
+                              <i class="fa fa-clock-o"></i>
+                              <span>等待通过</span>
+                            </button>
+                          </template>
+                          <template v-else-if="memberinfo[`user${item.identity}`].RelationshipOfUs === 2">
+                            <button class="btn btn-info btn-sm pull-right disabled">
+                              <i class="fa fa-check"></i>
+                              <span>已添加</span>
+                            </button>
+                          </template>
+                        </template>
+                        <template v-else>
+                          <button class="btn btn-info btn-sm pull-right disabled">
+                            <i class="fa fa-user"></i> <span>当前登录用户</span>
+                          </button>
+                        </template>
+                      </template>
+
+                  </div>
+                  <div class="profileCard-location">
+                    <img src="~@/assets/svg/company/icon_shop.svg" width="40" v-if="item.HasProducts"/>
+                    <span v-if="item.companyInfo.ResidentProvince">{{ item.companyInfo.ResidentProvince }} {{ item.companyInfo.ResidentCity }} {{ item.companyInfo.ResidentArea }}</span>
+                  </div>
+                  <div class="cham-category">
+                    商会类型：{{ getEnterpriseTypeName(item.typeId,item.childTypeId) }}
+                  </div>
+                  <div class="profileCard-meta">
+                    <span>公司全称：</span><strong>{{item.companyInfo.Name}}</strong>
+                  </div>
+
+                  <template v-if="isMyCham">
+                    <div class="foot-cz">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <el-checkbox v-model="checked[`recommendCompany${item.companyId}`]" v-if="item.recommendCompany" @change="removeRecommondCompany(item.companyId)">取消推荐所属公司</el-checkbox>
+                          <el-checkbox v-model="checked[`recommendCompany${item.companyId}`]"  @change="setRecommondCompany(item.companyId)" v-else>推荐所属公司</el-checkbox>
+                        </div>
+                        <div class="col-sm-12" v-if="item.companyInfo && item.companyInfo.HasSites">
+                          <el-checkbox v-model="checked[`recommendSite${item.companyId}`]" v-if="item.recommendSite" @change="removeRecommondSite(item.companyId)">取消推荐品牌企业</el-checkbox>
+                          <el-checkbox v-model="checked[`recommendSite${item.companyId}`]"  @change="setRecommondSite(item.companyId)" v-else>推荐品牌企业</el-checkbox>
+                        </div>
+                      </div>
+                      <div class="sort"><i class="fa fa-arrows"></i></div>
+                    </div>
+                  </template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <template v-else>
+        <div class="grid-item-bd">
+          <div class="profileCard">
+            <router-link :to="{ name: 'company.profile', params: { id: item.companyId } }" class="profileCard-bg">
+              <template v-if="formatCardBg(item.companyInfo)">
+                <img v-lazy="formatCardBg(item.companyInfo)" alt=""/>
+              </template>
+            </router-link>
+            <div class="profileCard-content">
+              <template v-if="isMyCham">
+                <div class="card-logo" @click="getCompanySelectId(item.companyId)">
+                  <el-upload
+                    action="//up.qbox.me/"
+                    :show-file-list="false"
+                    list-type="picture"
+                    :on-success="handleLogoUploadSuccess"
+                    :before-upload="beforeLogoUpload"
+                    :data="uploadLogoImageData"
+                    ref="logoImageUploader"
+                    class="logo-uploader-wrap"
+                    >
+                    <template v-if="item.companyLogo">
+                      <avatar :src="item.companyLogo" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                    </template>
+                    <template v-else>
+                      <avatar :src="getCompanyLogo(item.companyInfo)" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                    </template>
+                    <div class="editor-mask">
+                      <span><i class="fa fa-camera"></i><br>修改LOGO </span>
+                    </div>
+                  </el-upload>
+                </div>
+                <div class="recomicon">
+                  <el-tag type="gray">待认领</el-tag>
+                  <el-tag type="primary" class="btn-primary" v-if="item.recommendCompany">已推荐企业</el-tag>
+                  <el-tag type="primary" class="btn-primary" v-if="item.recommendSite">已推荐站点</el-tag>
+                </div>
+              </template>
+              <template v-else>
+                <div class="card-logo">
+                  <template v-if="item.companyLogo">
+                    <avatar :src="item.companyLogo" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                  </template>
+                  <template v-else>
+                    <avatar :src="getCompanyLogo(item.companyInfo)" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                  </template>
+                </div>
+              </template>
+              <div class="profileCard-userFields">
+                  <div class="profileName-wrap clearfix m-b-xs">
+
+                    <router-link :to="{ name: 'company.profile', params: { id: item.companyId } }" class="profileName pull-left">
+                      <strong>{{ item.companyInfo.Name }}</strong>
+                    </router-link>
+
+                      <template v-if="isMyCham">
+                        <div class="dropdown pull-right">
+                          <button class="btn btn-default" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-dropdown>
+                            <i class="glyphicon glyphicon-cog"></i> 操作 <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a @click="pointThisMember(item.companyId)"><i class="fa fa-hand-o-right"></i> 指派成员</a></li>
+                            <li><a @click="deleteThisMember('',item.companyId,item.id)"><i class="fa fa-trash"></i> 删除该成员</a></li>
+                            <li><a @click="modifyThisMemberInfo(item.typeId,item.childTypeId,item.companyId)"><i class="fa fa-edit"></i> 修改会员类型</a></li>
+                            <li><a @click="modifyThisCompanyInfo(item.companyId)"><i class="fa fa-hand-o-right"></i> 修改虚拟企业信息</a></li>
+                          </ul>
+                        </div>
+                      </template>
+
+                  </div>
+                  <div class="profileCard-location">
+                    <img src="~@/assets/svg/company/icon_shop.svg" width="40" v-if="item.HasProducts"/>
+                    <span>{{ getCompanyAddress(item.companyInfo) }}</span>
+                  </div>
+                  <div class="cham-category">
+                    商会类型：{{ getEnterpriseTypeName(item.typeId,item.childTypeId) }}
+                  </div>
+                  <div class="profileCard-meta">
+                    <span>公司全称：</span><strong v-if="item.companyInfo && item.companyInfo.Name">{{item.companyInfo.Name}}</strong>
+                  </div>
+
+                  <template v-if="isMyCham">
+                    <div class="foot-cz">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <el-checkbox v-model="checked[`recommendCompany${item.companyId}`]" v-if="item.recommendCompany" @change="removeRecommondCompany(item.companyId)">取消推荐所属公司</el-checkbox>
+                          <el-checkbox v-model="checked[`recommendCompany${item.companyId}`]"  @change="setRecommondCompany(item.companyId)" v-else>推荐所属公司</el-checkbox>
+                        </div>
+                        <div class="col-sm-12" v-if="item.companyInfo && item.companyInfo.HasSites">
+                          <el-checkbox v-model="checked[`recommendSite${item.companyId}`]" v-if="item.recommendSite" @change="removeRecommondSite(item.companyId)">取消推荐品牌企业</el-checkbox>
+                          <el-checkbox v-model="checked[`recommendSite${item.companyId}`]"  @change="setRecommondSite(item.companyId)" v-else>推荐品牌企业</el-checkbox>
+                        </div>
+                      </div>
+                      <div class="sort"><i class="fa fa-arrows"></i></div>
+                    </div>
+                  </template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+      </transition-group>
+    </draggable>
+  </template>
+  <template v-else>
+    <div class="grid-item col-sm-6 col-md-3 wrapper-xs" v-for="(item,index) in drapList" :key="item.id">
+      <template v-if="item.identity">
+        <div class="grid-item-bd">
+          <div class="profileCard">
+            <router-link :to="{ name: 'company.profile', params: { id: item.companyId } }" class="profileCard-bg">
+              <template v-if="formatCardBg(item.companyInfo)">
+                <img v-lazy="formatCardBg(item.companyInfo)" alt=""/>
+              </template>
+            </router-link>
+            <div class="profileCard-content">
+              <template v-if="isMyCham">
+                <div class="card-logo" @click="getCompanySelectId(item.companyId)">
+                  <el-upload
+                    action="//up.qbox.me/"
+                    :show-file-list="false"
+                    list-type="picture"
+                    :on-success="handleLogoUploadSuccess"
+                    :before-upload="beforeLogoUpload"
+                    :data="uploadLogoImageData"
+                    ref="logoImageUploader"
+                    class="logo-uploader-wrap"
+                    >
+                    <template v-if="item.companyLogo">
+                      <avatar :src="item.companyLogo" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                    </template>
+                    <template v-else>
+                      <avatar :src="getCompanyLogo(item.companyInfo)" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                    </template>
+                    <div class="editor-mask">
+                      <span><i class="fa fa-camera"></i><br>修改LOGO </span>
+                    </div>
+                  </el-upload>
+                </div>
+                <div class="recomicon">
+                  <el-tag type="primary" class="btn-primary"  v-if="item.recommendCompany">已推荐企业</el-tag>
+                  <el-tag type="primary" class="btn-primary"  v-if="item.recommendSite">已推荐站点</el-tag>
+                </div>
+              </template>
+              <template v-else>
+                <div class="card-logo">
+                  <template v-if="item.companyLogo">
+                    <avatar :src="item.companyLogo" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                  </template>
+                  <template v-else>
+                    <avatar :src="getCompanyLogo(item.companyInfo)" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                  </template>
+                </div>
+              </template>
+              <div class="profileCard-userFields">
+                  <div class="profileName-wrap clearfix m-b-xs">
+
+                    <router-link :to="{ name: 'company.profile', params: { id: item.companyId } }" class="profileName pull-left">
+                      <strong>{{ item.companyInfo.BrandName }}</strong>
+                    </router-link>
+
+                      <template v-if="isMyCham">
+                        <div class="dropdown pull-right">
+                          <button class="btn btn-default" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-dropdown>
+                            <i class="glyphicon glyphicon-cog"></i> 操作 <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a @click="deleteThisMember(item.identity,item.companyId,item.id)"><i class="fa fa-trash"></i> 删除该成员</a></li>
+                            <li><a @click="modifyThisMemberInfo(item.typeId,item.childTypeId,item.companyId)"><i class="fa fa-edit"></i> 修改会员类型</a></li>
+                          </ul>
+                        </div>
+                      </template>
+
+                      <template v-else>
+                        <template v-if="item.identity !== userId && memberinfo[`user${item.identity}`]">
+                          <template v-if="!memberinfo[`user${item.identity}`].RelationshipOfUs">
+                            <button
+                              class="btn btn-info btn-sm pull-right"
+                              @click="addFriend(item.userIdentityInfo);">
+                              <i class="fa fa-plus-square"></i>
+                              <span>加为好友</span>
+                            </button>
+                          </template>
+                          <template v-else-if="memberinfo[`user${item.identity}`].RelationshipOfUs === 1">
+                            <button class="btn btn-info btn-sm pull-right disabled">
+                              <i class="fa fa-clock-o"></i>
+                              <span>等待通过</span>
+                            </button>
+                          </template>
+                          <template v-else-if="memberinfo[`user${item.identity}`].RelationshipOfUs === 2">
+                            <button class="btn btn-info btn-sm pull-right disabled">
+                              <i class="fa fa-check"></i>
+                              <span>已添加</span>
+                            </button>
+                          </template>
+                        </template>
+                        <template v-else>
+                          <button class="btn btn-info btn-sm pull-right disabled">
+                            <i class="fa fa-user"></i> <span>当前登录用户</span>
+                          </button>
+                        </template>
+                      </template>
+
+                  </div>
+                  <div class="profileCard-location">
+                    <img src="~@/assets/svg/company/icon_shop.svg" width="40" v-if="item.HasProducts"/>
+                    <span v-if="item.companyInfo.ResidentProvince">{{ item.companyInfo.ResidentProvince }} {{ item.companyInfo.ResidentCity }} {{ item.companyInfo.ResidentArea }}</span>
+                  </div>
+                  <div class="cham-category">
+                    商会类型：{{ getEnterpriseTypeName(item.typeId,item.childTypeId) }}
+                  </div>
+                  <div class="profileCard-meta">
+                    <span>公司全称：</span><strong>{{item.companyInfo.Name}}</strong>
+                  </div>
+
+                  <template v-if="isMyCham">
+                    <div class="foot-cz">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <el-checkbox v-model="checked[`recommendCompany${item.companyId}`]" v-if="item.recommendCompany" @change="removeRecommondCompany(item.companyId)">取消推荐所属公司</el-checkbox>
+                          <el-checkbox v-model="checked[`recommendCompany${item.companyId}`]"  @change="setRecommondCompany(item.companyId)" v-else>推荐所属公司</el-checkbox>
+                        </div>
+                        <div class="col-sm-12" v-if="item.companyInfo && item.companyInfo.HasSites">
+                          <el-checkbox v-model="checked[`recommendSite${item.companyId}`]" v-if="item.recommendSite" @change="removeRecommondSite(item.companyId)">取消推荐品牌企业</el-checkbox>
+                          <el-checkbox v-model="checked[`recommendSite${item.companyId}`]"  @change="setRecommondSite(item.companyId)" v-else>推荐品牌企业</el-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <template v-else>
+        <div class="grid-item-bd">
+          <div class="profileCard">
+            <router-link :to="{ name: 'company.profile', params: { id: item.companyId } }" class="profileCard-bg">
+              <template v-if="formatCardBg(item.companyInfo)">
+                <img v-lazy="formatCardBg(item.companyInfo)" alt=""/>
+              </template>
+            </router-link>
+            <div class="profileCard-content">
+              <template v-if="isMyCham">
+                <div class="card-logo" @click="getCompanySelectId(item.companyId)">
+                  <el-upload
+                    action="//up.qbox.me/"
+                    :show-file-list="false"
+                    list-type="picture"
+                    :on-success="handleLogoUploadSuccess"
+                    :before-upload="beforeLogoUpload"
+                    :data="uploadLogoImageData"
+                    ref="logoImageUploader"
+                    class="logo-uploader-wrap"
+                    >
+                    <template v-if="item.companyLogo">
+                      <avatar :src="item.companyLogo" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                    </template>
+                    <template v-else>
+                      <avatar :src="getCompanyLogo(item.companyInfo)" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                    </template>
+                    <div class="editor-mask">
+                      <span><i class="fa fa-camera"></i><br>修改LOGO </span>
+                    </div>
+                  </el-upload>
+                </div>
+                <div class="recomicon">
+                  <el-tag type="gray">待认领</el-tag>
+                  <el-tag type="primary" class="btn-primary"  v-if="item.recommendCompany">已推荐企业</el-tag>
+                  <el-tag type="primary" class="btn-primary"  v-if="item.recommendSite">已推荐站点</el-tag>
+                </div>
+              </template>
+              <template v-else>
+                <div class="card-logo">
+                  <template v-if="item.companyLogo">
+                    <avatar :src="item.companyLogo" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                  </template>
+                  <template v-else>
+                    <avatar :src="getCompanyLogo(item.companyInfo)" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                  </template>
+                </div>
+              </template>
+              <div class="profileCard-userFields">
+                  <div class="profileName-wrap clearfix m-b-xs">
+
+                    <router-link :to="{ name: 'company.profile', params: { id: item.companyId } }" class="profileName pull-left">
+                      <strong>{{ item.companyInfo.Name }}</strong>
+                    </router-link>
+
+                      <template v-if="isMyCham">
+                        <div class="dropdown pull-right">
+                          <button class="btn btn-default" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-dropdown>
+                            <i class="glyphicon glyphicon-cog"></i> 操作 <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a @click="pointThisMember(item.companyId)"><i class="fa fa-hand-o-right"></i> 指派成员</a></li>
+                            <li><a @click="deleteThisMember('',item.companyId,item.id)"><i class="fa fa-trash"></i> 删除该成员</a></li>
+                            <li><a @click="modifyThisMemberInfo(item.typeId,item.childTypeId,item.companyId)"><i class="fa fa-edit"></i> 修改会员类型</a></li>
+                            <li><a @click="modifyThisCompanyInfo(item.companyId)"><i class="fa fa-hand-o-right"></i> 修改虚拟企业信息</a></li>
+                          </ul>
+                        </div>
+                      </template>
+
+                  </div>
+                  <div class="profileCard-location">
+                    <img src="~@/assets/svg/company/icon_shop.svg" width="40" v-if="item.HasProducts"/>
+                    <span>{{ getCompanyAddress(item.companyInfo) }}</span>
+                  </div>
+                  <div class="cham-category">
+                    商会类型：{{ getEnterpriseTypeName(item.typeId,item.childTypeId) }}
+                  </div>
+                  <div class="profileCard-meta">
+                    <span>公司全称：</span><strong v-if="item.companyInfo && item.companyInfo.Name">{{item.companyInfo.Name}}</strong>
+                  </div>
+
+                  <template v-if="isMyCham">
+                    <div class="foot-cz">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <el-checkbox v-model="checked[`recommendCompany${item.companyId}`]" v-if="item.recommendCompany" @change="removeRecommondCompany(item.companyId)">取消推荐所属公司</el-checkbox>
+                          <el-checkbox v-model="checked[`recommendCompany${item.companyId}`]"  @change="setRecommondCompany(item.companyId)" v-else>推荐所属公司</el-checkbox>
+                        </div>
+                        <div class="col-sm-12" v-if="item.companyInfo && item.companyInfo.HasSites">
+                          <el-checkbox v-model="checked[`recommendSite${item.companyId}`]" v-if="item.recommendSite" @change="removeRecommondSite(item.companyId)">取消推荐品牌企业</el-checkbox>
+                          <el-checkbox v-model="checked[`recommendSite${item.companyId}`]"  @change="setRecommondSite(item.companyId)" v-else>推荐品牌企业</el-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </template>
+
+  <el-dialog class="company-manager-dialog" title="查找成员" v-model="memberManagerVisible" size="small" :before-close="handleClose">
+    <point-member-manager :currentCompanyId="currentCompanyId" v-on:managerUpdate="onManagerUpdate" ref="pointMemberManager"></point-member-manager>
+  </el-dialog>
+
+  <el-dialog class="company-manager-dialog" title="修改虚拟企业信息" v-model="updateVCompanyType" size="small">
+    <virtual-company-manager :currentCompanyId="currentCompanyId" v-on:managerUpdate="onManagerUpdate" ref="virtualCompanyManager"></virtual-company-manager>
+  </el-dialog>
+
+  <el-dialog title="修改商会成员类型" v-model="updateVMemberType" size="tiny">
+    <el-form :model="updateVMemberTypeForm" ref="updateVMemberTypeForm" :rules="updateVMemberTypeFormRules" label-width="110px" class="updateVMemberTypeForm">
+      <el-form-item label="商会企业类型" prop="typeId">
+        <el-select v-model="updateVMemberTypeForm.typeId" placeholder="请选择商会企业类型" @visible-change="initSelectType()">
+          <el-option
+            v-for="elem in enterpriseTypeList"
+            :key="elem.typeId"
+            :label="elem.name"
+            :value="elem.typeId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <template v-if="formateEnterpriseType(updateVMemberTypeForm.typeId).length">
+      <el-form-item label="商会成员类型" prop="childTypeId">
+        <el-select v-model="updateVMemberTypeForm.childTypeId" placeholder="请选择商会成员类型">
+          <el-option
+            v-for="itemChild in formateEnterpriseType(updateVMemberTypeForm.typeId)"
+            :key="itemChild.typeId"
+            :label="itemChild.name"
+            :value="itemChild.typeId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <div class="dialog-footer">
+        <el-button @click="updateVMemberType = false">取 消</el-button>
+        <el-button type="primary" @click="changeVMemberType('updateVMemberTypeForm')">确 定</el-button>
+      </div>
+      </template>
+    </el-form>
+  </el-dialog>
+
+  <el-dialog title="欢迎来到辅城，请先登录" v-model="loginDialogVisible" size="tiny">
+    <login-dialog-form></login-dialog-form>
+  </el-dialog>
+</div>

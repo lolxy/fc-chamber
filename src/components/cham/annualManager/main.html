@@ -1,0 +1,16 @@
+<div class="annual-manager">
+  <el-form ref="annualForm" :rules="rules" :model="annualForm">
+    <div class="col-sm-12 col-md-8">
+      <el-form-item label="年度总结标题" prop="title">
+        <el-input v-model="annualForm.title" placeholder="年度总结标题"></el-input>
+      </el-form-item>
+      <el-form-item label="年度总结内容" prop="content">
+        <froala id="froala-editor" :tag="'textarea'" :config="config" v-model="annualForm.content" ref="froala"></froala>
+      </el-form-item>
+      <el-form-item class="action-row">
+          <el-button type="primary" @click="createNew('annualForm')" v-if="!annualForm.summaryId">立即提交</el-button>
+          <el-button type="primary" @click="saveChanges('annualForm')" v-else>立即修改</el-button>
+      </el-form-item>
+    </div>
+  </el-form>
+</div>

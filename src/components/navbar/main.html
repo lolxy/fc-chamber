@@ -1,0 +1,58 @@
+<div id="navbar">
+    <div class="container">
+        <div class="topbar-brand pull-left">
+          <router-link :to="{ name: 'home.index' }" class="navbar-brand">辅城网络</router-link>
+        </div>
+
+        <ul class="nav navbar-nav hidden-xs">
+          <li>
+            <a @click="goToPage('home.index')" :class="{'active': routeRoot == 'home' && !contactVisible}">
+              <span>首 页</span>
+            </a>
+          </li>
+          <li>
+            <a @click="goToPage('stream.market')" :class="{'active': routeRoot == 'stream' && !contactVisible}">
+              <span>市场动态</span>
+            </a>
+          </li>
+          <li>
+            <a @click="goToPage('companies')" :class="{'active': routeRoot == 'companies' && !contactVisible}">
+              <span>搜索引擎</span>
+            </a>
+          </li>
+          <li>
+            <template v-if="auth">
+              <a class="dropdown-toggle" :class="{'active': ( routeRoot === 'company' && isMyCompany) && !contactVisible }" data-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
+                <span class="ng-scope">业务管理</span> <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a @click="goToMyCompany('profile')">公司主页</a>
+                </li>
+                <li>
+                  <a @click="goToMyCompany('products')">公司微店</a>
+                </li>
+                <li>
+                  <a @click="goToMyCompany('stream')">公司动态</a>
+                </li>
+              </ul>
+            </template>
+            <template v-else>
+              <a href="/access/login">
+                <span>业务管理</span>
+              </a>
+            </template>
+          </li>
+          <li>
+            <a @click="goToPage('articles.index')" :class="{'active': routeRoot == 'articles' && !contactVisible}">新闻资讯</a>
+          </li>
+          <li>
+            <a @click="goToPage('circles.auctions')" :class="{'active': routeName == 'circles.auctions' && !contactVisible}">供应</a>
+          </li>
+          <li>
+            <a @click="goToPage('circles.biddings')" :class="{'active': routeName == 'circles.biddings' && !contactVisible}">求购</a>
+          </li>
+        </ul>
+    </div>
+</div>

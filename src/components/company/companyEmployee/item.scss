@@ -1,0 +1,36 @@
+.company-employee{
+  .wrapper{
+    padding: 10px;
+  }
+  .list-group-item.active {
+    background-color: #337ab7 !important;
+    border-color: #337ab7 !important;
+  }
+  .panel{
+    border: none;
+    .panel-heading{
+      padding: 15px;
+      padding-bottom: 20px;
+    }
+  }
+  .batchadd{
+    margin-top: 10px;
+    .btn{
+      width: 100%;
+    }
+  }
+
+  .no_rbac{
+    padding: 50px;
+    text-align: center;
+    background-color: #fff;
+    color:#c30000;
+    font-size: 14px;
+    line-height: 18px;
+    i{
+      font-size: 18px;
+      margin-right: 5px;
+      vertical-align: top;
+    }
+  }
+}

@@ -1,0 +1,21 @@
+<div class="company-stream company-subpage">
+  <div class="row">
+    <div class="col-sm-12 col-md-8 col-main">
+      <stream-form v-on:streamCreated="prePendStream" v-if="isMyCompany || getRoles('MarketTalkAdmin')"></stream-form>
+
+      <div class="stream-timeline" v-if="streams.length">
+        <template v-for="item in streams">
+          <stream-item :item="item" :checkFavoriteJson="checkFavoriteJson" :gallery="galleries[`gallery${item.Id}`]"  type="market" v-on:imageLoaded="onImageLoaded($event, item.Id)"></stream-item>
+        </template>
+      </div>
+      <placeholder text="暂无动态" v-else></placeholder>
+      <infinite-loading :on-infinite="onInfinite" spinner="waveDots" ref="infiniteLoading">
+        <a slot="no-more" @click="goTop">返回顶部</a>
+        <span slot="no-results"></span>
+      </infinite-loading>
+    </div>
+    <div class="col-sm-12 col-md-4 col-aside">
+      <employee-list-group :employees="employees"></employee-list-group>
+    </div>
+  </div>
+</div>

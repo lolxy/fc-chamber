@@ -1,0 +1,158 @@
+<div class="panel panel-chat no-border" :class="{ 'is-official-panel': currentSession.scene === 'p2p' && !checkNotOfficial(currentSession.lastMsg)}">
+  <div class="panel-heading">
+    <template v-if="currentSession.scene == 'team'">
+      <strong v-if="teams[currentSession.id]">{{ teams[currentSession.id].name }} ( {{ teams[currentSession.id].memberNum }}人 )</strong>
+    </template>
+    <template v-if="currentSession.scene == 'p2p'">
+      <strong v-if="users[currentSession.id]">{{ users[currentSession.id].nick }}</strong>
+    </template>
+  </div>
+  <div class="panel-body">
+    <chat-msg :sid="currentSession.id" v-if="currentSession.messages"></chat-msg>
+  </div>
+
+  <transition name="emojis">
+    <div class="emojis-wrap" v-show="emojisVisible">
+      <div class="emojis-box">
+        <el-tabs v-model="emojiActiveName">
+          <el-tab-pane name="emoji">
+            <span slot="label">
+              <img src="/static/img/emojis/emoji001.png" width="32" alt="">
+            </span>
+            <template v-for="(emoji, key) in emojis.emoji">
+              <a class="emoji-item" @click="insertEmoji(key)">
+                <img :src="`/static/img/emojis/emoji/${emoji.file}`" width="24" :alt="key">
+              </a>
+            </template>
+          </el-tab-pane>
+          <el-tab-pane name="ajmd">
+            <span slot="label">
+              <img src="/static/img/emojis/ajmd001.png" width="32" alt="">
+            </span>
+            <template v-for="emoji in emojis.pinupList.ajmd">
+              <a class="emoji-item" @click="sendPinupMsg('ajmd', emoji)">
+                <img :src="`/static/img/emojis/ajmd/${emoji}`" width="60" alt="">
+              </a>
+            </template>
+          </el-tab-pane>
+          <el-tab-pane name="xxy">
+            <span slot="label">
+              <img src="/static/img/emojis/xxy001.png" width="32" alt="">
+            </span>
+            <template v-for="emoji in emojis.pinupList.xxy">
+              <a class="emoji-item" @click="sendPinupMsg('xxy', emoji)">
+                <img :src="`/static/img/emojis/xxy/${emoji}`" width="60" alt="">
+              </a>
+            </template>
+          </el-tab-pane>
+          <el-tab-pane name="lt">
+            <span slot="label">
+              <img src="/static/img/emojis/lt001.png" width="32" alt="">
+            </span>
+            <template v-for="emoji in emojis.pinupList.lt">
+              <a class="emoji-item" @click="sendPinupMsg('lt', emoji)">
+                <img :src="`/static/img/emojis/lt/${emoji}`" width="60" alt="">
+              </a>
+            </template>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+    </div>
+  </transition>
+  <transition name="custom-message-menu">
+    <div class="custom-message-menu dropup open">
+      <ul class="dropdown-menu" v-show="customMenuVisible">
+        <li><a @click="openFriendsCardDialog"><i class="fa fa-vcard"></i> 好友名片</a></li>
+        <li><a @click="sendCompanyCard" v-if="companyId !== 'null'"><i class="fa fa-id-card-o"></i> 公司名片</a></li>
+        <!-- <li><a><i class="fa fa-cubes"></i> 公司主页</a></li> -->
+      </ul>
+    </div>
+  </transition>
+
+  <footer class="panel-footer" v-if="currentSession.messages && checkNotOfficial(currentSession.lastMsg)">
+    <div class="panel-footer-hd">
+      <form class="sendFileForm pull-left">
+        <label class="image-menu-trigger">
+          <i class="fa fa-folder-open"></i>
+          <input multiple="multiple" type="file" name="file" class="hide" @change="sendFile"/>
+        </label>
+      </form>
+      <div class="input-group">
+        <span class="input-group-btn">
+          <button class="btn btn-emoji" :class="{'btn-default': !emojisVisible, 'btn-primary': emojisVisible}" type="button" @click="toggleEmojisMenu"><i class="fa fa-smile-o"></i></button>
+          <button class="btn btn-more" :class="{'btn-default': !customMenuVisible, 'btn-primary': customMenuVisible}" type="button" @click="toggleCustomMenu"><i class="fa fa-th-large"></i></button>
+        </span>
+      </div>
+    </div>
+    <div class="panel-footer-bd">
+      <template v-if="currentSession.scene == 'team'">
+        <template v-if="currentTeamMembers">
+          <at :members="atMembers" name-key="name">
+            <template slot="item" scope="s">
+              <template v-if="s.item.avatar">
+                <span :style="`background-image:url(${s.item.avatar})`" class="item-avatar"></span>
+              </template>
+              <template v-else>
+                <span class="item-avatar"></span>
+              </template>
+              <span v-text="s.item.name"></span>
+            </template>
+            <div 
+              class="msgTextInput" 
+              contenteditable="true" 
+              ref="msgTextInput"
+              v-on:keyup.enter="preSendMsg($event, 'team')"></div>
+          </at>
+          <button class="btn btn-default btn-send-msg" type="button" @click="sendMsg('team')">发送</button>
+        </template>
+      </template>
+      <template v-else>
+        <div class="msg-input-wrap">
+          <div 
+            class="msgTextInput" 
+            contenteditable="true" 
+            ref="msgTextInput" 
+            v-on:keyup.enter="preSendMsg($event, 'p2p')"></div>
+        </div>
+        <button class="btn btn-default btn-send-msg" type="button" @click="sendMsg('p2p')">发送</button>
+      </template>
+    </div>
+  </footer>
+
+  <el-dialog v-model="friendsCardDialogVisible" size="tiny" :modal-append-to-body="false">
+    <div class="friend-cards-selector">
+      <div class="list-group-item" :class="{ 'active': group.Id == currentGroupId }" v-for="group in myFriendGroup" :key="group.Id">
+        <a class="menu-trigger" @click="switchCurrentGroup(group.Id)">
+          <i class="fa fa-angle-right"></i> <i class="fa fa-angle-down"></i> {{ group.Name }} 
+          <small class="pull-right">
+            <template v-if="myFriendList[`group-${group.Id}`]">
+              {{ myFriendList[`group-${group.Id}`].length }}
+            </template>
+            <template v-else>0</template>
+          </small>
+        </a>
+        <ul class="list-group m-b-none">
+          <template v-for="(item, index) in myFriendList[`group-${group.Id}`]">
+            <li class="list-group-item" :class="{ 'focus': item.Friend.Id === currentFriend.Id }" @click="switchCurrentFriend(item.Friend)">
+              <div class="clear">
+                <a class="pull-left thumb-sm m-r">
+                  <template v-if="item.Friend.UserId">
+                    <avatar :src="item.Friend.User.PortraitUrl" :size="80" class="r r-2x"></avatar>
+                  </template>
+                  <template v-else>
+                    <avatar :src="null" :size="80" class="r r-2x"></avatar>
+                  </template>
+                </a>
+                <p class="m-b-xxs">{{ item.Friend.Name }}</p>
+                <small class="text-muted clear text-ellipsis" v-if="item.Friend.CompanyId">{{ item.Friend.Company.BrandName }}
+                  <template v-if="item.Friend.JobTitle">·{{ item.Friend.JobTitle }}</template>
+                </small>
+                <small class="text-muted clear text-ellipsis" v-else>个人</small>
+              </div>
+            </li>
+          </template>
+        </ul>
+      </div>
+    </div>
+  </el-dialog>
+</div>

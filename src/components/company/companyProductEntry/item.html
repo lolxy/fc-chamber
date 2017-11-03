@@ -1,0 +1,25 @@
+<div class="company-product-entry company-subpage">
+  <div class="row">
+    <div class="col-sm-12 col-md-5 column">
+      <div class="company-product-swiper" :id="`company-product-swiper-${product.Id}`">
+        <swiper :options="swiperOption" ref="productImageSwiper">
+            <swiper-slide v-for="(image, index) in product.Images" :key="image.OriginalPath">
+              <div class="placeholder"></div>
+              <img class="preview-img" :src="image.OriginalPath" @click="$preview.open(index, gallery, galleryOptions(`company-product-swiper-${product.Id}`))">
+            </swiper-slide>
+            <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
+        <div class="product-sn">
+          产品编号: <span>{{ product.Number }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-7 column">
+      <div class="product-info">
+        <h3>{{ product.Name }}</h3>
+        <p class="price">产品单价：￥{{ product.MinPrice }} <template v-if="product.MaxPrice">~ ￥{{ product.MaxPrice }}</template> / {{ product.Unit }}</p>
+        <p class="desc">{{ product.Notes }}</p>
+      </div>
+    </div>
+  </div>
+</div>

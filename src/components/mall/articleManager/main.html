@@ -1,0 +1,57 @@
+<div class="article-manager">
+  <el-form ref="articleForm" :rules="rules" :model="articleForm">
+    <div class="col-sm-12 col-md-9">
+      <el-form-item label="标题" prop="title">
+        <el-input v-model="articleForm.title" placeholder="文章标题"></el-input>
+      </el-form-item>
+      <el-form-item label="摘要" prop="abstractContent">
+        <el-input type="textarea" :rows="2" :maxlength="100" placeholder="请输入摘要" v-model="articleForm.abstractContent"></el-input>
+      </el-form-item>
+      <el-form-item label="内容" prop="content">
+        <froala id="froala-editor" :tag="'textarea'" :config="config" v-model="articleForm.content" ref="froala"></froala>
+      </el-form-item>
+    </div>
+    <div class="col-sm-12 col-md-3">
+      <el-form-item label="封面">
+        <div class="cover-uploader-wrap">
+          <el-upload
+            class="avatar-uploader"
+            :action="uploadUrl"
+            :on-success="handleSuccess"
+            :before-upload="beforeUpload"
+            :data="imageData"
+            :show-file-list="false"
+            :with-credentials="true"
+            ref="imageUploader">
+            <template v-if="coverImage.id">
+              <img :src="coverImage.url" class="cover-thumb"/>
+            </template>
+            <template v-else>
+              <i class="el-icon-plus avatar-uploader-icon"></i>
+            </template>
+          </el-upload>
+        </div>
+      </el-form-item>
+
+      <el-form-item label="推荐">
+        <el-switch on-text="" off-text="" v-model="articleForm.isTop"></el-switch>
+      </el-form-item>
+      <el-form-item label="发布">
+        <el-switch on-text="" off-text="" v-model="articleForm.isPublish"></el-switch>
+      </el-form-item>
+      <el-form-item class="action-row">
+        <template v-if="route.name == 'mall.article.new'">
+          <el-button type="primary" @click="createNew('articleForm')">立即创建</el-button>
+        </template>
+        <template v-else>
+          <el-button type="primary" @click="saveChanges">保存更改</el-button>
+          <el-button type="default" @click="previewThis">查看预览</el-button>
+        </template>
+      </el-form-item>
+    </div>
+  </el-form>
+
+  <el-dialog title="图片管理" v-model="imageManagerDialogVisible" size="large">
+    <image-manager v-on:insertImageDone="closeImageManagerDialog" :status="imageManagerDialogVisible"></image-manager>
+  </el-dialog>
+</div>

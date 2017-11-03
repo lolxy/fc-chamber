@@ -1,0 +1,19 @@
+<div class="notice-manager">
+  <el-form ref="noticeForm" :rules="rules" :model="noticeForm">
+    <div class="col-sm-12 col-md-8">
+      <el-form-item label="通知公告标题" prop="title">
+        <el-input v-model="noticeForm.title" placeholder="通知公告标题"></el-input>
+      </el-form-item>
+      <el-form-item label="通知公告内容" prop="content">
+        <froala id="froala-editor" :tag="'textarea'" :config="config" v-model="noticeForm.content" ref="froala"></froala>
+      </el-form-item>
+      <el-form-item label="是否发布">
+        <el-switch on-text="" off-text="" v-model="noticeForm.isPublish"></el-switch>
+      </el-form-item>
+      <el-form-item class="action-row">
+          <el-button type="primary" @click="createNew('noticeForm')" v-if="!noticeForm.noticeId">立即提交</el-button>
+          <el-button type="primary" @click="saveChanges('noticeForm')" v-else>立即修改</el-button>
+      </el-form-item>
+    </div>
+  </el-form>
+</div>

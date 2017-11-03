@@ -1,0 +1,100 @@
+@import '~@/assets/scss/foundation';
+
+.contact-wrap {
+  background-color: #eef0f6;
+}
+
+.page-contact-list .contact-container .list-group .list-group-item.active {
+    color: inherit !important;
+    background-color: transparent !important;
+}
+
+.contact-list-group .list-group-item i.fa {
+  min-width: 12px;
+}
+
+.contact-list-group > .list-group-item .item-name {
+  height: 20px;
+  line-height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+
+.contact-list-group .list-group-item i.fa-angle-down,
+.contact-list-group .list-group-item.active i.fa-angle-right {
+  display: none;
+}
+
+.contact-list-group .list-group-item.active i.fa-angle-down {
+  display: inline-block;
+}
+
+.contact-list-group > .list-group-item {
+  padding: 0 !important;
+}
+
+.contact-list-group .list-group-item a.menu-trigger {
+  display: block;
+  padding: 10px 15px !important;
+  width: 100%;
+}
+
+.contact-list-group > .list-group-item.active {
+  color: inherit;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.contact-container .contact-list-group .list-group-item.active .btn {
+  color: #fff !important;
+}
+
+.contact-list-group > .list-group-item.active a.menu-trigger {
+  color: inherit;
+  background-color: #f8f8f8;
+}
+
+.contact-list-group > .list-group-item.active .text-muted {
+  color: inherit !important;
+}
+
+.contact-list-group .list-group-item .list-group {
+  display: none;
+}
+.contact-list-group .list-group-item.active .list-group {
+  display: block;
+}
+
+.contact-list-group .list-group-item .friend-name {
+  height: 20px;
+  line-height: 20px;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel-contact-profile {
+  height: 100%;
+  height: calc(100vh - 106px);
+  position: relative;
+}
+
+.panel-contact-profile .panel-body {
+  height: 100%;
+  height: calc(100vh - 106px);
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.panel-contact-profile .panel-body > .user-profile {
+  margin: 0;
+  position: relative;
+  top: 50%;
+  -webkit-transform: translate3d(0, -50%, 0);
+  -ms-transform: translate3d(0, -50%, 0);
+  -o-transform: translate3d(0, -50%, 0);
+  transform: translate3d(0, -50%, 0);
+}

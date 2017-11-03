@@ -1,0 +1,52 @@
+<div class="stream-item">
+  <div class="stream-item-inner" v-if="item.RelObj">
+    <div class="stream-item-header wrapper-xs clearfix m-b-sm">
+      <a class="pull-left thumb-sm m-r-sm" :href="`/company/${item.RelObj.CompanyId}/profile`" target="_blank">
+        <template v-if="item.RelObj.CompanyId">
+          <avatar :src="item.RelObj.Company.LogoUrl" :size="80" class="img-rounded"></avatar>
+        </template>
+        <template v-else>
+          <avatar :src="null" :size="80" class="img-rounded"></avatar>
+        </template>
+      </a>
+      <div class="m-l-sm m-b-xs">
+        <a class="company-brand-name" :href="`/company/${item.RelObj.CompanyId}/profile`" target="_blank">
+          <template v-if="item.RelObj.Company.VerifyStatus == 1">
+            <i class="icon-company-type icon-company-type-1" v-if="!item.RelObj.Company.NotAllPass">企</i>
+            <i class="icon-company-type icon-company-type-2" v-else>商</i>
+            <i class="icon-company-type icon-company-verified">证</i>
+          </template>
+          <template v-else>
+            <i class="icon-company-type">商</i>
+          </template>
+          {{ item.RelObj.Company.BrandName }}
+        </a>
+        <span class="text-muted m-r-xs m-t-xs pull-right">
+          <timeago :since="item.CreatedTime"></timeago>
+        </span>
+        <p>
+          <small class="text-muted clear text-ellipsis">
+            <span>{{ item.RelObj.Company.ResidentProvince }}</span>
+            <span> - {{ item.RelObj.Company.ResidentCity }}</span>
+            <span> - {{ item.RelObj.Company.ResidentArea }}</span>
+          </small>
+        </p>
+      </div>
+      <hr class="m-t-md m-b-n">
+    </div>
+    <div class="stream-item-content clear">
+      <template v-if="item.RelType == 'Product'">
+        <product-item :item="item.RelObj"></product-item>
+      </template>
+      <template v-if="item.RelType == 'CompanyTalk'">
+        <market-item :item="item.RelObj" :gallery="galleries[`gallery${item.RelObj.Id}`]" v-on:imageLoaded="onImageLoaded($event, item.RelObj.Id)"></market-item>
+      </template>
+      <template v-if="item.RelType == 'Auction'">
+        <auction-item :item="item.RelObj"></auction-item>
+      </template>
+      <template v-if="item.RelType == 'Bidding'">
+        <bidding-item :item="item.RelObj"></bidding-item>
+      </template>
+    </div>
+  </div>
+</div>

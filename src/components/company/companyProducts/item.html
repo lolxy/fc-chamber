@@ -1,0 +1,124 @@
+<div class="company-products company-subpage">
+  <template v-if="isMyOwnCompany() || getRoles('ProductAdmin')">
+    <button class="btn btn-primary btn-save-productSort" v-if="productsOrderable" @click="saveProductSort"><i class="fa fa-check"></i> 保存排序</button>
+    <div class="products-grid row clear">
+      <div class="product-grid-item product-grid-item-create col-sm-6 col-md-3" @click="createNewProduct">
+        <div class="item-inner">
+          <div class="cover">
+            <span><i class="fa fa-plus"></i> 新增产品</span>
+          </div>
+          <div class="info">
+            <h4>&nbsp;</h4>
+            <p>&nbsp;</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-grid-item col-sm-6 col-md-3" v-for="item in products" :key="item.Id" v-dragging="{ item: item, list: products, group: 'item.Id' }">
+        <div class="item-inner">
+          <div class="cover">
+            <router-link :to="{ name: 'product.entry', params: { productId: item.Id } }">
+              <img v-lazy="productCover(item.Images).OriginalPath" alt="">
+            </router-link>
+          </div>
+          <div class="info">
+            <h4>{{ item.Name }}</h4>
+            <p>￥{{ item.MinPrice }} <template v-if="item.MaxPrice"> ~ {{ item.MaxPrice }}</template> / {{ item.Unit }}</p>
+            <el-dropdown class="product-edit-menu" trigger="click">
+              <span class="el-dropdown-link">
+                <i class="fa fa-edit"></i>编辑
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item><a @click="editThisProduct(item)"><i class="fa fa-edit"></i> 编辑该产品</a></el-dropdown-item>
+                <el-dropdown-item><a @click="deleteThisProduct(item)"><i class="fa fa-trash"></i> 删除该产品</a></el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+        </div>
+      </div>
+      <infinite-loading :on-infinite="onInfinite" spinner="waveDots" ref="productsInfiniteLoading">
+        <a slot="no-more" @click="goTop">返回顶部</a>
+        <span slot="no-results"></span>
+      </infinite-loading>
+    </div>
+    <el-dialog :title="editDialogTitle" v-model="editDialogVisible" size="large" v-if="currentProductItem">
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <div class="product-covers-editor">
+            <el-upload
+              action="//up.qbox.me/"
+              list-type="picture-card"
+              :multiple="true"
+              :show-file-list="false"
+              :on-success="handleSuccess"
+              :before-upload="beforeUpload"
+              :data="coverEditor.imageData"
+              ref="imageUploader"
+              class="product-cover-uploader"
+              v-if="uploaderVisible">
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <div class="cover" :class="{'is-index': image.IsIndex}" v-for="(image, index) in currentProductItem.Images" :key="image.OriginalPath" v-dragging="{ item: image, list: currentProductItem.Images, group: 'image.OriginalPath'}">
+              <div class="cover-bg" v-lazy:background-image="image.OriginalPath">
+                <a @click="removeCover(image)" class="btn btn-dark btn-sm btn-remove"><i class="fa fa-trash"></i></a>
+              </div>
+              <a @click="setIndexCover(image)" class="btn-setIndex text-center">设为封面</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <el-form ref="form" v-model="currentProductItem" labelWidth="80px">
+            <el-form-item label="产品名称">
+              <el-input v-model="currentProductItem.Name"></el-input>
+            </el-form-item>
+            <el-form-item label="产品编号">
+              <el-input v-model="currentProductItem.Number"></el-input>
+            </el-form-item>
+            <el-form-item label="产品单价">
+              <el-input v-model="currentProductItem.MinPrice">
+                <template slot="prepend">最低价</template>
+                <template slot="append">必填项</template>
+              </el-input>
+              <el-input v-model="currentProductItem.MaxPrice">
+                <template slot="prepend">最高价</template>
+                <template slot="append">选填项</template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="价格单位">
+              <el-input v-model="currentProductItem.Unit"></el-input>
+            </el-form-item>
+            <el-form-item label="产品描述">
+              <el-input v-model="currentProductItem.Notes"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="saveThisProductInfo(editDialogMode)" v-if="editDialogMode == 'modify'">保存更改</el-button>
+              <el-button type="primary" @click="saveThisProductInfo(editDialogMode)" v-if="editDialogMode == 'new'">新增产品</el-button>
+              <el-button @click="cancelSaveProductInfo">取消</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+    </el-dialog>
+  </template>
+  <template v-else>
+    <div class="products-grid row clear" v-if="products.length">
+      <div class="product-grid-item col-sm-6 col-md-3" v-for="item in products" :key="item.Id">
+        <div class="item-inner">
+          <div class="cover">
+            <router-link :to="{ name: 'product.entry', params: { productId: item.Id } }">
+              <img v-lazy="productCover(item.Images).OriginalPath" alt="">
+            </router-link>
+          </div>
+          <div class="info">
+            <h4>{{ item.Name }}</h4>
+            <p>￥{{ item.MinPrice }} <template v-if="item.MaxPrice"> ~ {{ item.MaxPrice }}</template> / {{ item.Unit }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <placeholder text="商户有点忙，暂时还没有上传产品" v-else></placeholder>
+    <infinite-loading :on-infinite="onInfinite" spinner="waveDots" ref="productsInfiniteLoading">
+      <a slot="no-more" @click="goTop">返回顶部</a>
+      <span slot="no-results"></span>
+    </infinite-loading>
+  </template>
+</div>

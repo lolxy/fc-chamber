@@ -1,0 +1,10 @@
+<div class="topic-reply-form">
+  <el-form ref="replyForm" :model="replyForm" :rules="rules">
+    <el-form-item prop="content" required>
+      <froala id="froala-editor" :tag="'textarea'" :config="config" v-model="replyForm.content" ref="froala"></froala>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" class="pull-right" @click="addComment">回复该评论</el-button>
+    </el-form-item>
+  </el-form>
+</div>

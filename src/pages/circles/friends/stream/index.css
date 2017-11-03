@@ -1,0 +1,19 @@
+.following-stream-wrap {
+  padding-top: 20px;
+}
+
+.following-stream-wrap .infinite-status-prompt {
+  padding-top: 0 !important;
+}
+
+.comments-container {
+  background-color: #f0f3f4 !important;
+}
+
+.comments-container .comment-item {
+  border-bottom: 1px solid #e0e5e6 !important;
+}
+
+.comments-container .comment-item:last-child {
+  border-bottom: 0 none !important;
+}

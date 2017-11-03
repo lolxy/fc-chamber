@@ -1,0 +1,22 @@
+<div class="organize-box">
+  <div class="entry-hd">
+    <h3>商会架构<span v-if="orginize.lastEditTime" class="text-center">( 更新时间：<timeago :since="orginize.lastEditTime * 1000"></timeago> )</span></h3>
+    <template v-if="isMyCham">
+      <el-button type="primary" class="btn-add" @click="openOrginizeManagerDialog">编辑架构</el-button>
+      <el-dialog class="company-manager-dialog" title="编辑组织架构" v-model="orginizeManagerVisible" size="large">
+        <el-form ref="orginizeForm" :model="orginizeForm">
+          <el-form-item>
+            <froala id="froala-editor" :tag="'textarea'" :config="config" v-model="orginizeForm.content" ref="froala"></froala>
+          </el-form-item>
+          <el-form-item class="text-right">
+            <el-button type="primary" @click="saveChanges">保存更改</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
+    </template>
+    <hr/>
+  </div>
+  <div class="entry-bd">
+      <div class="entry-content" v-html="orginize.content"></div>
+  </div>
+</div>

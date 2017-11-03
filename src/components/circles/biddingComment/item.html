@@ -1,0 +1,18 @@
+<div class="bidding-comment">
+  <el-form ref="biddingComment" :model="biddingComment" label-width="120px">
+    <el-form-item class="form-price-item clearfix" label="投标单价">
+      <el-input-number v-model="biddingComment.Price"></el-input-number>
+      <span>总价：{{ biddingComment.Price * item.Qty }}元</span>
+    </el-form-item>
+    <el-form-item label="交货日期">
+      <el-date-picker type="date" placeholder="选择日期" v-model="date" style="width: 100%;"></el-date-picker>
+    </el-form-item>
+    <el-form-item label="我的留言">
+      <el-input type="textarea" v-model="biddingComment.Message"></el-input>
+    </el-form-item>
+    <el-form-item class="form-action-item">
+      <el-button type="primary" @click="onSubmit">参与投标</el-button>
+      <el-button @click="onClose">取消</el-button>
+    </el-form-item>
+  </el-form>
+</div>

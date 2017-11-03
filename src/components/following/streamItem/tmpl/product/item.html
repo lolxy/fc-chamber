@@ -1,0 +1,14 @@
+<div class="stream-item-content stream-item-product-content">
+  <div class="content-wrap">
+    <a class="clear" :href="`/company/${item.CompanyId}/product/${item.Id}`" target="_blank">
+      <span class="cover">
+        <img v-lazy="getCover(item.Images)" alt="">
+      </span>
+      <span class="info">
+        <span class="title">{{ item.Name }}</span>
+        <span class="sn">产品编号：<span>{{ item.Number }}</span></span>
+        <span class="price">产品单价：￥<span>{{ item.MinPrice }}</span><span v-if="item.MaxPrice"> - {{ item.MaxPrice }} </span> / {{ item.Unit }}</span>
+      </span>
+    </a>
+  </div>
+</div>

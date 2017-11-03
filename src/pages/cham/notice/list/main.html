@@ -1,0 +1,13 @@
+<div class="cham-topic-wrap">
+  <template v-if="isMyCham">
+    <div class="btnbox">
+      <router-link :to="{ name: 'cham.notice.new' }" class="btn btn-primary btn-add-new">添加通知公告</router-link>
+    </div>
+  </template>
+
+  <div class="row clearfix">
+    <div class="col-sm-12 col-md-12">
+      <notice-list></notice-list>
+    </div>
+  </div>
+</div>

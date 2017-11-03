@@ -1,0 +1,38 @@
+.create-market-stream-form .panel-body {
+  padding-top: 0;
+}
+
+.create-market-stream-form .el-upload-list--picture-card .el-upload-list__item {
+  border: 0 none;
+}
+
+.stream-image-uploader-wrap {
+  margin-bottom: 16px;
+  padding: 16px;
+  background-color: #f1f4f7;
+  border-radius: 3px;
+}
+
+.stream-cats-select-wrap {
+  margin-bottom: 16px;
+}
+
+.stream-cats-select-wrap .col {
+  padding: 0 5px;
+}
+
+.stream-cats-select {
+  margin-bottom: 4px;
+}
+
+.stream-types-radio-wrap {
+  display: inline-block;
+}
+
+.stream-types-radio-wrap .el-radio {
+  display: inline-block;
+}
+
+.create-market-stream-form .btn-submit {
+  padding: 6px 30px;
+}

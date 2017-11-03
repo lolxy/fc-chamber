@@ -1,0 +1,48 @@
+<div class="cham-article-badrecord" v-if="badrecord.id">
+  <div class="col-sm-12 col-md-8" style="padding-left:0">
+    <div class="article-badrecord">
+      <div class="badrecord-hd">
+        <h3 class="pull-left">【不良记录】 {{ badrecord.companyName }}</h3>
+        <div class="pull-right"><span @click="dellRecord" v-if="isMyCham" class="btn btn-danger"><i class="fa fa-trash"></i> 删除该记录</span></div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="badrecord-bd bdt" v-for="(comment,index) in commentList" :key="comment.id">
+        <p class="metas" v-if="index != 0">
+          <span>评论时间：<timeago :since="comment.createTime * 1000"></timeago></span>
+        </p>
+        <div class="badrecord-content" v-html="comment.content"></div>
+        <p>分享附图：</p>
+        <ul class="thumbnailbox list-inline list-unstyled">
+          <li v-for="imgs in comment.enclosure">
+            <img :src="imgs" alt="" class="img-rounded img-responsive">
+          </li>
+        </ul>
+        <div class="dellbox">
+          <span @click="editComment(comment.id)" v-if="isMyCham || meId == comment.identity" class="btn btn-link"><i class="fa fa-edit"></i> 修改分享</span>
+          <span @click="dellComment(comment.id)" v-if="isMyCham || meId == comment.identity" class="btn btn-link"><i class="fa fa-trash"></i> 删除</span></div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="badrecord-ft">
+        <comment-form v-on:badrecordComments="fetchBadrecordComments" :items="commentData"></comment-form>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-4" style="padding-right:0">
+    <div class="article-badrecord-aside">
+      <div class="aside-hd">
+        <h4>最新不良记录</h4>
+      </div>
+      <div class="aside-bd">
+        <ul class="latest-news">
+          <li v-for="item in latestList">
+            <router-link :to="{name:'cham.badrecord.entry', params: {recordId:item.id}}">
+              <span class="title">公司名：{{ item.companyName }}</span>
+              <span class="text-xs block m-t-xs">发布时间：<timeago :since="item.createTime * 1000"></timeago></span>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

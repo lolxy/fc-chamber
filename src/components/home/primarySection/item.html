@@ -1,0 +1,183 @@
+<div class="home-primary-section">
+  <el-popover
+    ref="appQRcodePopover"
+    placement="right"
+    width="160"
+    trigger="hover">
+    <div class="qrcode-popover">
+      <img src="~@/assets/img/login-section/qrcode.png" alt="" width="113" height="141">
+    </div>
+  </el-popover>
+  <div class="container">
+    <div class="row row-01">
+      <div class="col-sm-12 col-md-2 section-col">
+        <company-menu></company-menu>
+      </div>
+      <div class="col-sm-12 col-md-7 section-col">
+        <div class="hero-swiper-wrap">
+          <swiper class="hero-swiper" :options="heroSwiperOptions" ref="heroSwiper">
+            <swiper-slide v-for="hero in heros" :key="hero.Id">
+              <a :href="hero.LinkUrl" target="_blank">
+                <template v-if="hero.WebSizeImgUrl">
+                  <span class="cover" :style="`background-image:url(${formatImageSrc(hero.WebSizeImgUrl)})`"></span>
+                </template>
+                <template v-else>
+                  <span class="cover" :style="`background-image:url(${formatImageSrc(hero.IndexVisualizationImgUrl)})`"></span>
+                </template>
+              </a>
+            </swiper-slide>
+            <div class="swiper-btn swiper-btn-prev hero-swiper-btn-prev" slot="button-prev">
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 6.6 12" style="enable-background:new 0 0 6.6 12;" xml:space="preserve">
+                <path id="Path_22" style="fill:#FFFFFF;" d="M6.4,0.2C6.3,0.1,6.2,0,6,0C5.9,0,5.8,0.1,5.7,0.2L0.2,5.6C0,5.8-0.1,6.1,0.1,6.3
+                c0,0,0,0,0,0l5.5,5.5c0.2,0.2,0.5,0.2,0.7,0c0,0,0,0,0,0c0.2-0.2,0.2-0.5,0-0.7c0,0,0,0,0,0L1.3,6l5.1-5.1C6.6,0.7,6.6,0.4,6.4,0.2
+                C6.4,0.2,6.4,0.2,6.4,0.2z"/>
+              </svg>
+            </div>
+            <div class="swiper-btn swiper-btn-next hero-swiper-btn-next" slot="button-next">
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 6.5 12" style="enable-background:new 0 0 6.5 12;" xml:space="preserve">
+                <path id="Path_23" style="fill:#FFFFFF;" d="M0.2,11.8C0.3,11.9,0.4,12,0.5,12c0.1,0,0.3-0.1,0.4-0.2l5.5-5.5c0.2-0.2,0.2-0.5,0-0.7
+                c0,0,0,0,0,0L0.9,0.2C0.7,0,0.4-0.1,0.2,0.1c0,0,0,0,0,0C0,0.4-0.1,0.7,0.1,0.9c0,0,0,0,0,0L5.3,6l-5.1,5.1
+                C0,11.3-0.1,11.6,0.2,11.8C0.1,11.8,0.2,11.8,0.2,11.8z"/>
+              </svg>
+            </div>
+            <div class="swiper-pagination hero-swiper-pagination " slot="pagination"></div>
+          </swiper>
+        </div>
+        <div class="latest-article-swiper-wrap">
+          <swiper class="latest-article-swiper" :options="articleSwiperOptions" ref="articleSwiper">
+            <swiper-slide v-for="item in articleList" :key="item.Id">
+              <router-link :to="{ name: 'articles.entry', params: { entryId: item.Id } }" :style="`background-image:url(${formatImageSrc(getArticleCover(item.PlatformArticleAlbum).Imgurl)})`">
+                <span class="title">{{ item.Title }}</span>
+              </router-link>
+            </swiper-slide>
+            <div class="swiper-btn swiper-btn-prev article-swiper-btn-prev" slot="button-prev">
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 6.6 12" style="enable-background:new 0 0 6.6 12;" xml:space="preserve">
+                <path id="Path_22" style="fill:#FFFFFF;" d="M6.4,0.2C6.3,0.1,6.2,0,6,0C5.9,0,5.8,0.1,5.7,0.2L0.2,5.6C0,5.8-0.1,6.1,0.1,6.3
+                c0,0,0,0,0,0l5.5,5.5c0.2,0.2,0.5,0.2,0.7,0c0,0,0,0,0,0c0.2-0.2,0.2-0.5,0-0.7c0,0,0,0,0,0L1.3,6l5.1-5.1C6.6,0.7,6.6,0.4,6.4,0.2
+                C6.4,0.2,6.4,0.2,6.4,0.2z"/>
+              </svg>
+            </div>
+            <div class="swiper-btn swiper-btn-next article-swiper-btn-next" slot="button-next">
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 6.5 12" style="enable-background:new 0 0 6.5 12;" xml:space="preserve">
+                <path id="Path_23" style="fill:#FFFFFF;" d="M0.2,11.8C0.3,11.9,0.4,12,0.5,12c0.1,0,0.3-0.1,0.4-0.2l5.5-5.5c0.2-0.2,0.2-0.5,0-0.7
+                c0,0,0,0,0,0L0.9,0.2C0.7,0,0.4-0.1,0.2,0.1c0,0,0,0,0,0C0,0.4-0.1,0.7,0.1,0.9c0,0,0,0,0,0L5.3,6l-5.1,5.1
+                C0,11.3-0.1,11.6,0.2,11.8C0.1,11.8,0.2,11.8,0.2,11.8z"/>
+              </svg>
+            </div>
+          </swiper>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-3 section-col">
+        <div class="panel primary-panel">
+          <div class="panel-body">
+            <div class="login-form" v-if="!auth">
+              <form @submit.prevent="login(user)">
+                <div class="row">
+                  <div class="col col-sm-12">
+                    <input type="text" name="fc.username" class="form-control" placeholder="手机号/用户名/邮箱" v-model="user.Account" required>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col col-sm-12">
+                    <input type="password" name="fc.password" class="form-control" placeholder="密码" v-model="user.Password" required>
+                  </div>
+                </div>
+                <div class="row form-action-group">
+                  <div class="col col-sm-6">
+                    <button type="submit" class="btn btn-primary">登录</button>
+                  </div>
+                  <div class="col col-sm-6">
+                    <router-link :to="{ name: 'signup.index' }" class="btn btn-default">注册</router-link>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col col-sm-6">
+                    <label>
+                      <input name="fc.remember" type="checkbox" v-model="user.RememberMe" value="true"> 下次自动登录
+                    </label>
+                  </div>
+                  <div class="col col-sm-6 text-right">
+                    <a href="/access/password-reset">忘记密码?</a>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="user-info" v-else>
+              <template v-if="cIdentity.UserId">
+                <avatar :src="cIdentity.User.PortraitUrl" :size="100" class="img-rounded" v-if="cIdentity.User.PortraitUrl"></avatar>
+                <avatar :src="null" :size="100" class="img-rounded" v-else></avatar>
+              </template>
+              <template v-else>
+                <avatar :src="null" :size="100" class="img-rounded"></avatar>
+              </template>
+              <ul>
+                <template v-if="cIdentity.CompanyId">
+                  <li>当前身份：{{ cIdentity.Name }}</li>
+                  <li>所属公司：<template v-if="cIdentity.CompanyId"><a :href="`/company/${cIdentity.CompanyId}/profile`">{{ cIdentity.Company.BrandName }}</a></template></li>
+                  <li>公司职位：{{ cIdentity.JobTitle }}</li>
+                </template>
+                <template v-else>
+                  <li>当前身份：个人用户</li>
+                  <li>姓名：{{ myProfile.RealName }}</li>
+                </template>
+              </ul>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div class="app-download clearfix" @click="openDownloadPage" v-popover:appQRcodePopover>
+              <div class="qrcode">
+                <img src="~@/assets/svg/home/qrcode.svg" alt="" width="50" height="50">
+              </div>
+              <div class="info">
+                <h3 class="app-title"><strong>辅城APP</strong></h3>
+                <p class="app-desc">微信扫一扫下载</p>
+              </div>
+            </div>
+            <div class="grid-menu clearfix">
+              <div class="col-sm-4 col">
+                <a class="block-link-menu block-link-menu-01" @click="goToPage('stream.market')">
+                  <img src="~@/assets/icons/menu/icon1.svg" alt="" class="icon icon-01">
+                  <span class="title">市场</span>
+                </a>
+              </div>
+              <div class="col-sm-4 col">
+                <a class="block-link-menu block-link-menu-02" @click="goToPage('circles.auctions')">
+                  <img src="~@/assets/icons/menu/icon2.svg" alt="" class="icon icon-02">
+                  <span class="title">供应</span>
+                </a>
+              </div>
+              <div class="col-sm-4 col">
+                <a class="block-link-menu block-link-menu-03" @click="goToPage('circles.biddings')">
+                  <img src="~@/assets/icons/menu/icon3.svg" alt="" class="icon icon-03">
+                  <span class="title">求购</span>
+                </a>
+              </div>
+              <div class="col-sm-4 col">
+                <a class="block-link-menu block-link-menu-04" @click="goToPage('companies')">
+                  <img src="~@/assets/icons/menu/icon4.svg" alt="" class="icon icon-04">
+                  <span class="title">找公司</span>
+                </a>
+              </div>
+              <div class="col-sm-4 col">
+                <a class="block-link-menu block-link-menu-05">
+                  <img src="~@/assets/icons/menu/icon5.svg" alt="" class="icon icon-05">
+                  <span class="title">人才</span>
+                </a>
+              </div>
+              <div class="col-sm-4 col">
+                <a class="block-link-menu block-link-menu-06" @click="goToPage('articles.index')">
+                  <img src="~@/assets/icons/menu/icon6.svg" alt="" class="icon icon-06">
+                  <span class="title">资讯</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

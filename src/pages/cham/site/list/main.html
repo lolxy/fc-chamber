@@ -1,0 +1,10 @@
+<div class="cham-site-wrap">
+  <template v-if="hasData">
+    <site-recommend-grid :items="siteList" v-on:chamSiteDeleted="onChamSiteDeleted" v-on:chamSiteList="fetchSiteList"></site-recommend-grid>
+  </template>
+  <template v-else>
+    <div class="siteNull">
+      您还没有推荐品牌企业！
+    </div>
+  </template>
+</div>

@@ -1,0 +1,14 @@
+.mall-companies-manager {
+  .search-wrap {
+    margin-bottom: 20px;
+  }
+
+  .manager-bd {
+    height: 60vh;
+    overflow: hidden;
+
+    & > div {
+      height: 100%;
+    }
+  }
+}

@@ -1,0 +1,7 @@
+.following-stream-wrap {
+  padding-top: 20px;
+}
+
+.following-stream-wrap .infinite-status-prompt {
+  padding-top: 0 !important;
+}

@@ -1,0 +1,6 @@
+<li class="list-group-item" v-if="item.RelObj">
+  <a :href="`/company/${item.RelObj.Id}/profile`" target="_blank" class="thumb-sm m-r">
+    <avatar :src="item.RelObj.LogoUrl" :size="80" class="img-rounded"></avatar>
+  </a>
+  <a :href="`/company/${item.RelObj.Id}/profile`" target="_blank">{{ item.RelObj.BrandName }}</a>
+</li>

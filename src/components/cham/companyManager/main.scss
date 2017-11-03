@@ -1,0 +1,13 @@
+.cham-companies-manager {
+  .search-wrap {
+    margin-bottom: 20px;
+  }
+
+  .manager-bd {
+    height: 60vh;
+
+    & > div {
+      height: 100%;
+    }
+  }
+}

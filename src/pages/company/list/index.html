@@ -1,0 +1,147 @@
+<v-layout>
+  <div class="wrapper-md">
+    <div class="container">
+      <div class="row company-filters-row">
+        <div class="col-sm-12">
+          <div class="panel industry-filter-box">
+            <div class="panel-heading padder-v">
+              <strong>查找公司/商户</strong>
+            </div>
+            <div class="panel-body m-l-n-xs m-r-n-xs">
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="company-role-filter">
+                    <template v-for="item in roleList">
+                      <el-button type="primary" size="small" v-if="item.Value == filters.currentRole" @click="removeCurrentRole()">
+                        {{ item.Name }}
+                      </el-button>
+                      <el-button size="small" @click="getCurrentRole(item.Value)" v-else>
+                        {{ item.Name }}
+                      </el-button>
+                    </template>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="input-group search-wrap company-filter-search-wrap">
+                    <input
+                    type="text"
+                    placeholder="请输入商户/企业名称"
+                    class="form-control"
+                    v-model="currentKeyword"
+                    @keyup.enter="searchCompany">
+                    <span class="input-group-btn">
+                      <button
+                        class="btn btn-primary padder-lg"
+                        type="button"
+                        @click="searchCompany">搜索</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="company-industryProperties-filter">
+                <template v-for="item in industryProps">
+                  <el-button type="primary" size="small" v-if="item.Id == filters.currentIndustryProperty" @click="removeCurrentIndustryProperty()">
+                    {{ item.Name }}
+                  </el-button>
+                  <el-button size="small" @click="getCurrentIndustryProperty(item.Id)" v-else>
+                    {{ item.Name }}
+                  </el-button>
+                </template>
+              </div>
+
+              <hr>
+
+              <div class="company-industry-filter">
+                <template v-for="item in industryFiltered">
+                  <el-button type="primary" size="small" @click="removeCurrentIndustry()" v-if="item.Id == filters.currentIndustry">
+                    {{item.Name}}
+                    <template v-if="item.CompanyCount">
+                      ( {{ item.CompanyCount }} )
+                    </template>
+                  </el-button>
+                  <el-button size="small" @click="getCurrentIndustry(item.Id)" v-else>
+                    {{item.Name}}
+                    <template v-if="item.CompanyCount">
+                      ( {{ item.CompanyCount }} )
+                    </template>
+                  </el-button>
+                </template>
+                <template v-if="industryFiltered.length > 17">
+                  <el-button type="info" size="small" @click="showMoreIndustry" v-if="!showAllIndustry">显示更多</el-button>
+                  <el-button type="info" size="small" @click="showLessIndustry" v-else>显示更少</el-button>
+                </template>
+              </div>
+
+              <hr>
+
+              <div class="company-industryTypes-filter">
+                <template v-for="item in industryTypes">
+                  <el-button type="primary" size="small" v-if="item.Id == filters.currentIndustryType" @click="removeCurrentIndustry()">
+                    {{ item.Name }}
+                  </el-button>
+                  <el-button size="small" @click="getCurrentIndustryType(item.Id)" v-else>
+                    {{ item.Name }}
+                  </el-button>
+                </template>
+              </div>
+
+              <hr>
+
+              <div class="company-companyCats-filter">
+                <template v-for="item in companyCats">
+                  <el-button type="primary" size="small" v-if="item.Id == filters.currentCategory" @click="removeCurrentCategory()">
+                    {{ item.Name }}
+                  </el-button>
+                  <el-button size="small" @click="getCurrentCategory(item.Id)" v-else>
+                    {{ item.Name }}
+                  </el-button>
+                </template>
+              </div>
+              
+            </div>
+            <div class="panel-footer">
+              <div class="row">
+                <div class="col-sm-6 col-md-3">
+                  <el-select v-model="filters.currentLocation" size="small" placeholder="所在省市" clearable>
+                    <el-option
+                      v-for="item in location"
+                      :key="item.name"
+                      :label="item.name"
+                      :value="item.name">
+                    </el-option>
+                  </el-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row m-l-n-xs m-b-sm">
+        <div class="company-list-grid-wrap" v-loading="companyLoading" element-loading-text="加载中...">
+          <template v-if="companyList.length">
+            <profile-grid :items="companyList"></profile-grid>
+          </template>
+          <template v-else>
+            <p class="text-center" v-if="!companyLoading">暂无内容</p>
+          </template>
+        </div>
+      </div>
+      <div class="row pagination-row">
+        <div class="col-sm-12">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="pageSizes"
+            layout="prev, pager, next, jumper, sizes, total"
+            :total="totalCompanies"
+            v-if="totalCompanies > currentPageSize">
+          </el-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</v-layout>

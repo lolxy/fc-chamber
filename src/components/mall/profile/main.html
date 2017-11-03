@@ -1,0 +1,121 @@
+<div class="mall-profile clearfix" v-if="mall">
+  <div class="row clearfix">
+    <div class="col-sm-12 col-sm-8">
+      <template v-if="isMyMall">
+        <div class="profile-main">
+          <div class="row clearfix">
+            <div class="col-sm-8">
+              <div class="card-content">
+                <p class="info-item clear">
+                  <span class="info-label">商城名称：</span>
+                  <span class="info-wrap"><a href="#" data-type="text" :data-ids="meId" :data-id="mall.id" data-pk="name" data-field="name" data-maxlength="50" v-editableInput>{{ mall.name }}</a></span>
+                </p>
+                <!-- <p class="info-item clear">
+                  <span class="info-label">商城简介：</span>
+                  <span class="info-wrap"><a href="#" data-type="textarea" :data-ids="meId" :data-id="mall.id" data-pk="introduction" data-field="introduction" data-maxlength="200" v-editableInput>{{ mall.introduction }}</a></span>
+                </p> -->
+                <p class="info-item clear">
+                  <span class="info-label">商城APP：</span>
+                  <span class="info-wrap"><a href="#" data-type="text" :data-ids="meId" :data-id="mall.id" data-pk="mallAppUrl" data-field="mallAppUrl" data-maxlength="50" v-editableInput>{{ mall.mallAppUrl }}</a></span>
+                </p>
+                <p class="info-item clear">
+                  <span class="info-label">详细地址：</span>
+                  <span class="info-wrap"><a href="#" data-type="text" :data-ids="meId" :data-id="mall.id" data-pk="addressDetail" data-field="addressDetail" v-editableInput>{{ mall.addressDetail }}</a></span>
+                </p>
+                <p class="info-item clear">
+                  <span class="info-label">商城经纬度：</span>
+                  <span class="info-wrap" style="margin-right:10px;">
+                    <a href="#" data-type="text" :data-id="mall.id" :data-ids="meId" data-pk="longitude" data-field="longitude" data-maxlength="50" v-editableInput>{{ mall.longitude }}</a>
+                  </span>
+                  <span class="info-wrap">
+                    <a href="#" data-type="text" :data-id="mall.id" :data-ids="meId" data-pk="latitude" data-field="latitude" data-maxlength="50" v-editableInput>{{ mall.latitude }}</a>
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card-logo">
+                <el-upload
+                  action="//up.qbox.me/"
+                  :show-file-list="false"
+                  list-type="picture"
+                  :on-success="handleLogoUploadSuccess"
+                  :before-upload="beforeLogoUpload"
+                  :data="uploadLogoImageData"
+                  ref="logoImageUploader"
+                  class="logo-uploader-wrap">
+                  <avatar :src="mall.iconPhotoUrl" :size="240" mode="logo"></avatar>
+                  <div class="editor-mask">
+                    <span><i class="fa fa-camera"></i><br>修改商城LOGO </span>
+                  </div>
+                </el-upload>
+              </div>
+            </div>
+          </div>
+          <div class="amap-page-container" v-if="mallMap.center">
+            <div class="amap-wrap">
+              <el-amap vid="amap" :zoom="mallMap.zoom" :center="mallMap.center" :scrollWheel="false" :plugin="mallMap.plugin" class="amap-main">
+                <el-amap-marker :position="mallMap.window.position" :visible="true" :events="mallMap.maker.events"></el-amap-marker>
+                <el-amap-info-window :position="mallMap.window.position" :content="mallMap.window.content" :visible="mallMap.window.visible" :offset="[0, -36]" :size="[360, 120]"></el-amap-info-window>
+              </el-amap>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <template v-else>
+        <div class="profile-main">
+          <div class="row clearfix">
+            <div class="col-sm-8">
+          <div class="card-content">
+            <p class="info-item clear">
+              <span class="info-label">商城名称：</span>
+              <span>{{ mall.name }}</span>
+            </p>
+            <!-- <p class="info-item clear" v-if="mall.introduction">
+              <span class="info-label">商城简介：</span>
+              <span>{{ mall.introduction }}</span>
+            </p> -->
+            <p class="info-item clear" v-if="mall.mallAppUrl">
+              <span class="info-label">商城APP：</span>
+              <span>{{ mall.mallAppUrl }}</span>
+            </p>
+            <p class="info-item clear" v-if="mall.addressDetail">
+              <span class="info-label">详细地址：</span>
+              <span class="info-wrap">{{ mall.addressDetail }}</span>
+            </p>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <avatar :src="mall.iconPhotoUrl" :size="200" mode="logo"></avatar>
+        </div>
+      </div>
+          <div class="amap-page-container" v-if="mallMap.center">
+            <div class="amap-wrap">
+              <el-amap vid="amap" :zoom="mallMap.zoom" :center="mallMap.center" :scrollWheel="false" :plugin="mallMap.plugin" class="amap-main">
+                <el-amap-marker :position="mallMap.window.position" :visible="true" :events="mallMap.maker.events"></el-amap-marker>
+                <el-amap-info-window :position="mallMap.window.position" :content="mallMap.window.content" :visible="mallMap.window.visible" :offset="[0, -36]" :size="[360, 120]"></el-amap-info-window>
+              </el-amap>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+    <div class="col-sm-12 col-sm-4">
+      <ad-list :items="adList"></ad-list>
+      <template v-if="isMyMall">
+        <button class="btn btn-primary btn-add-new" @click="openAdManagerDialog">添加广告</button>
+        <button class="btn btn-primary btn-add-new" @click="openAdListManagerDialog">管理广告</button>
+
+        <el-dialog class="ad-manager-dialog" title="上传广告图" v-model="adManagerVisible" size="tiny">
+          <ad-manager v-on:adManagerUpdate="onAdManagerUpdate"></ad-manager>
+        </el-dialog>
+
+        <el-dialog class="ad-manager-dialog" title="管理广告列表" v-model="adListManagerVisible">
+          <ad-list-manager :items="adList" v-on:adListDeleted="onAdListDeleted"></ad-list-manager>
+        </el-dialog>
+      </template>
+
+    </div>
+  </div>
+</div>

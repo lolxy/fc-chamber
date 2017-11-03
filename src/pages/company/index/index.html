@@ -1,0 +1,45 @@
+<v-layout>
+  <div class="company-wrap">
+    <div class="container">
+      <template v-if="company.Id">
+        <template v-if="myCompanies.loaded && !myCompanies.list.length && companyId === myCompanyId">
+          <placeholder text="尚未创建公司"></placeholder>
+          <router-link class="btn btn-success btn-lg btn-block m-b-md" :to="{ name: 'company.new' }">马上创建公司</router-link>
+        </template>
+        <template v-else>
+          <profile-header :company="company" :companyId="companyId"></profile-header>
+        </template>
+        <div class="company-menu">
+          <router-link :to="{ name: 'company.profile', params: { id: companyId } }">公司名片</router-link>
+
+          <template v-if="!company.HasSites">
+            <router-link
+              :to="{ name: 'company.products', params: { id: companyId } }"
+              :class="{'router-link-active': route.name == 'product.entry'}">微店</router-link>
+          </template>
+
+          <router-link :to="{ name: 'company.stream', params: { id: companyId } }">动态</router-link>
+
+          <router-link :to="{ name: 'company.auctions', params: { id: companyId } }">供应</router-link>
+          <router-link :to="{ name: 'company.biddings', params: { id: companyId } }">求购</router-link>
+          <template v-if="isManager">
+            <span class="divider"></span>
+            <span class="menu-group">
+              <router-link :to="{ name: 'company.employee', params: { id: companyId } }" v-if="isMyCompany || getRoles('EmployeeAdmin')">职员管理</router-link>
+              <router-link :to="{ name: 'company.rbac', params: { id: companyId } }" v-if="isMyCompany">权限管理</router-link>
+              <template v-if="cIdentity && cIdentity.Company && cIdentity.Company.HasSites">
+                <a :href="productsManagerPage" target="_blank" v-if="isMyCompany || getRoles('CompanySiteAdmin')">产品管理</a>
+                <a :href="newsManagerPage" target="_blank" v-if="isMyCompany || getRoles('CompanySiteAdmin')">新闻管理</i></a>
+                <a :href="siteBuilderPage" target="_blank" v-if="isMyCompany || getRoles('CompanySiteAdmin')">官网管理</i></a>
+              </template>
+            </span>
+          </template>
+        </div>
+        <router-view></router-view>
+      </template>
+      <template v-else>
+        <placeholder text="找不到该公司"></placeholder>
+      </template>
+    </div>
+  </div>
+</v-layout>

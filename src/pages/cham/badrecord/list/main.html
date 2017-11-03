@@ -1,0 +1,13 @@
+<div class="cham-topic-wrap">
+  <template v-if="isMyCham">
+    <div class="btnbox">
+      <router-link :to="{ name: 'cham.badrecord.new' }" class="btn btn-primary btn-add-new">添加不良记录</router-link>
+    </div>
+  </template>
+
+  <div class="row clearfix">
+    <div class="col-sm-12 col-md-12">
+      <badrecord-list></badrecord-list>
+    </div>
+  </div>
+</div>

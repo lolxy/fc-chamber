@@ -1,0 +1,31 @@
+<div class="mall-companies-manager">
+  <div class="manager-hd clearfix">
+    <div class="col-sm-12">
+      <div class="input-group search-wrap">
+        <input
+        type="text"
+        placeholder="请输入商户/企业名称"
+        class="form-control"
+        v-model="keyword"
+        @keyup.enter="searchCompany">
+        <span class="input-group-btn">
+          <button
+            class="btn btn-primary padder-lg"
+            type="button"
+            @click="searchCompany">搜索</button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="manager-bd m-b-md">
+    <template v-if="companyList.length">
+      <company-search-list :items="companyList" v-on:updateCheckedList="updateCheckedList"></company-search-list>
+    </template>
+  </div>
+  <div class="manager-ft clearfix" v-if="checkedListKeys.length">
+    <div class="col-sm-12">
+      <button class="btn btn-primary pull-right m-l-sm" @click="addCompaniesToMall">添加到我的商城</button>
+      <button class="btn btn-default pull-right">取消</button>
+    </div>
+  </div>
+</div>

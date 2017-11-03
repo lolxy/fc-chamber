@@ -1,0 +1,106 @@
+<v-layout>
+  <div class="wrapper">
+    <div class="container padder-v">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel">
+            <div class="panel-heading">
+              <p class="text-center wrapper-sm"><strong>创建新公司</strong></p>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                  <el-form ref="form" :model="form" :rules="formRules" label-width="80px">
+                    <el-form-item label="企业全称">
+                      <el-input
+                        placeholder=""
+                        v-model="form.name">
+                      </el-input>
+                    </el-form-item>
+                    <el-form-item label="公司简称" prop="brandName">
+                      <el-input
+                        placeholder="6个字以内"
+                        v-model="form.brandName">
+                      </el-input>
+                    </el-form-item>
+                    <el-form-item label="所在地">
+                      <el-cascader :options="options" v-model="form.residents" v-if="options.length">
+                      </el-cascader>
+                    </el-form-item>
+                    <el-form-item label="详细地址">
+                      <el-input
+                        placeholder="街道门牌号"
+                        v-model="form.address">
+                      </el-input>
+                    </el-form-item>
+                    <el-form-item label="企业类型" v-if="categories.length">
+                      <el-select v-model="form.category" placeholder="企业类型">
+                        <el-option
+                          v-for="item in categories"
+                          :key="item.Id"
+                          :label="item.Name"
+                          :value="item.Id">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item label="行业属性" v-if="industryProps.length">
+                      <el-select v-model="form.industryProps" placeholder="行业属性">
+                        <el-option
+                          v-for="item in industryProps"
+                          :key="item.Id"
+                          :label="item.Name"
+                          :value="item.Id">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item label="行业类别" v-if="industryTypes.length">
+                      <el-select v-model="form.industryTypes" placeholder="行业类别" multiple>
+                        <el-option
+                          v-for="item in industryTypes"
+                          :key="item.Id"
+                          :label="item.Name"
+                          :value="item.Id">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item label="行业类型" v-if="industryCategories.length">
+                      <el-select
+                        v-model="form.industryCategories"
+                        placeholder="行业类型"
+                        multiple>
+                        <el-option
+                          v-for="item in industryCategories"
+                          :key="item.Id"
+                          :label="item.Name"
+                          :value="item.Id">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item label="经营范围">
+                      <el-input
+                        placeholder=""
+                        v-model="form.business">
+                      </el-input>
+                    </el-form-item>
+                    <el-form-item label="是否显示真实信息">
+                    <el-switch
+                      v-model="form.isShowFullDetails"
+                      on-color=""
+                      off-color="" style="margin-top:14px;">
+                    </el-switch>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-button type="primary" @click="submit">立即创建</el-button>
+                      <p class="help-block help-block-error">温馨提示：请认真填写公司信息，所在地、企业类型等数据。一经提交不得修改</p>
+                    </el-form-item>
+                  </el-form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</v-layout>

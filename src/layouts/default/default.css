@@ -1,0 +1,14 @@
+.contact-wrap {
+  display: block;
+  position: fixed;
+  top: 33px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+}
+
+.contact-panel-open {
+  height: 100% !important;
+  overflow: hidden;
+}

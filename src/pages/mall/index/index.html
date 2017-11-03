@@ -1,0 +1,14 @@
+<v-layout>
+  <div class="mall-page-wrap" v-if="mall.id">
+    <div class="container">
+      <profile-header :company="company" :companyId="company.Id"></profile-header>
+        <subnav></subnav>
+        <template v-if="route.name == 'mall.index'">
+          <mall-profile :company="company" :mall="mall" v-on:reloadMallData="fetchMallInfo"></mall-profile>
+        </template>
+        <template v-else>
+          <router-view></router-view>
+        </template>
+    </div>
+  </div>
+</v-layout>

@@ -1,0 +1,8 @@
+<div class="mall-menu subnav" v-if="mallId">
+  <router-link :to="{ name: 'mall.index', params: { mallId: mallId } }" exact>商城名片</router-link>
+  <router-link :to="{ name: 'mall.about', params: { mallId: mallId } }" exact>商城简介</router-link>
+  <router-link :to="{ name: 'mall.article.list', params: { mallId: mallId } }">商城动态</router-link>
+  <router-link :to="{ name: 'mall.topic.list', params: { mallId: mallId } }">社区交流</router-link>
+  <router-link :to="{ name: 'mall.companies.list', params: { mallId: mallId } }" exact>商家列表</router-link>
+  <router-link :to="{ name: 'mall.recommend.list', params: { mallId: mallId } }" exact>推荐商家</router-link>
+</div>

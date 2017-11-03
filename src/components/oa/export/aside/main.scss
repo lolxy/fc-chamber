@@ -1,0 +1,18 @@
+@import '~@/assets/scss/foundation';
+
+.oa-export-menu {
+  a {
+    text-decoration: none !important;
+  }
+  .router-link-active {
+    color: #fff;
+    background-color: $primary-color;
+
+    &:hover,
+    &:active {
+      color: #fff;
+      background-color: $primary-color;
+      text-decoration: none !important;
+    }
+  }
+}

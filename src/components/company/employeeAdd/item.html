@@ -1,0 +1,72 @@
+<div class="wrapper employee-page-wrapper">
+    <div class="panel">
+      <div class="panel-heading">
+        <p><strong v-if="!items.Id"><i class="fa fa-gavel"></i> 新增职员</strong><strong v-else><i class="fa fa-gavel"></i> 编辑职员</strong></p>
+      </div>
+      <div class="panel-body">
+        <div class="row formbox">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-8">
+            <el-form ref="form" :model="form" :rules="formRules" label-width="100px">
+              <el-form-item label="姓名" prop="Name" required>
+                <el-input
+                  placeholder="请输入员工姓名"
+                  v-model="form.Name">
+                </el-input>
+              </el-form-item>
+              <el-form-item label="职位" prop="JobTitle" required>
+                <el-input
+                  placeholder="请输入员工职位"
+                  v-model="form.JobTitle">
+                </el-input>
+              </el-form-item>
+              <el-form-item label="部门" prop="CompanyDepartmentId" required>
+                <el-select v-model="form.CompanyDepartmentId" placeholder="请选择部门">
+                  <el-option
+                    v-for="item in formatedCompanydepartments"
+                    :key="item.Id"
+                    :label="item.Name"
+                    :value="item.Id">
+                  </el-option>
+                </el-select>
+                <span @click="newAddDepartments" class="btn-link" v-if="!items.Id">新增部门</span>
+              </el-form-item>
+              <template v-if="departmentsDialogVisible">
+                <div class="departmentsFormBox">
+                <el-form ref="departmentsForm" :model="departmentsForm" :rules="departmentsFormRules">
+                  <el-form-item label="部门名称" prop="Name" required>
+                    <el-input
+                      placeholder="请输入部门名称"
+                      v-model="departmentsForm.Name">
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item label="部门备注">
+                    <el-input type="textarea" :rows="2" placeholder="请输入部门备注信息" v-model="departmentsForm.Notes"></el-input>
+                  </el-form-item>
+                  <el-button type="info" @click="submitDepartmentsForm('departmentsForm')" class="mt15">新增部门</el-button>
+                </el-form>
+                </div>
+              </template>
+              <el-form-item label="手机号码" prop="PhoneNumber" required>
+                <el-input type="tel" placeholder="请输入员工的手机号码" v-model="form.PhoneNumber"></el-input>
+              </el-form-item>
+              <el-form-item label="对外显示">
+                <el-radio-group v-model="form.isShowInCompanySite">
+                  <el-radio label="true">显示</el-radio>
+                  <el-radio label="false">不显示</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="submitForm('form')" v-if="!items.Id">邀请员工</el-button>
+                <el-button type="primary" @click="submitForm('form')" v-else>更新员工</el-button>
+                <template v-if="massage">
+                  <el-alert :title="info" type="success" v-if="success"></el-alert>
+                  <el-alert :title="info" type="warning" v-else></el-alert>
+                </template>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

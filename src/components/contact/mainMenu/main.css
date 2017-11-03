@@ -1,0 +1,19 @@
+.contact-main-menu {
+  position: relative;
+}
+
+.contact-main-menu span {
+  display: inline-block;
+  position: relative;
+}
+
+.contact-main-menu span .badge {
+  position: absolute;
+  top: -4px;
+}
+
+.contact-main-menu .btn-close {
+  position: absolute;
+  right: 0;
+  font-size: 12px;
+}

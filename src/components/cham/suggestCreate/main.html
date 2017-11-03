@@ -1,0 +1,17 @@
+<div class="article-manager">
+  <el-form ref="suggestForm" :model="suggestForm">
+    <div class="panel">
+      <div class="panel-heading">
+        我要反馈
+      </div>
+      <div class="panel-body">
+          <froala id="froala-editor" :tag="'textarea'" :config="config" v-model="suggestForm.content" ref="froala"></froala>
+      </div>
+      <div class="panel-footer">
+        <el-form-item class="action-row">
+            <el-button type="primary" @click="createNew">提交反馈</el-button>
+        </el-form-item>
+      </div>
+    </div>
+  </el-form>
+</div>

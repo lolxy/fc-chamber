@@ -1,0 +1,74 @@
+@import '~@/assets/scss/foundation';
+
+.oa-export-wrap {
+  padding-top: 20px;
+
+  .col-sm-7 {
+    padding: 0 15px;
+  }
+
+  .panel {
+    .panel-heading {
+      strong {
+        display: inline-block;
+        margin-top: 7px;
+      }
+    }
+    .panel {
+      box-shadow: none;
+    }
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .el-checkbox.checkall {
+    margin-right: 10px;
+  }
+
+  .el-checkbox-group {
+    display: inline-block;
+
+    &.employee-list {
+      width: 100%;
+
+      .el-checkbox {
+        width: 16.5%;
+        margin: 0;
+      }
+    }
+
+  }
+
+  .el-collapse-item {
+    &.is-active {
+      .el-collapse-item__header {
+        background-color: #f4f4f4;
+      }
+    }
+
+    .name {
+      display: inline-block;
+      width: 156px;
+    }
+    .type-label {
+      display: inline-block;
+      min-width: 64px;
+    }
+    .status {
+      display: inline-block;
+      width: 100px;
+      height: 24px;
+      line-height: 21px;
+      margin-top: 9px;
+      margin-right: 12px;
+      float: right;
+    }
+
+    table {
+      width: 100%;
+      margin-bottom: 0;
+    }
+  }
+}

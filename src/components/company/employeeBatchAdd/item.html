@@ -1,0 +1,102 @@
+<div class="wrapper employee-page-wrapper">
+    <div class="panel">
+      <div class="panel-heading">
+        <p><strong><i class="fa fa-gavel"></i> 批量添加员工</strong></p>
+      </div>
+      <div class="panel-body">
+        <el-button type="text" @click="getEmpExcel" class="pull-left"><i class="fa fa-cloud-download"></i> 下载Execl表格</el-button>
+        <el-upload
+          class="uploadbtn"
+          :action="uploadUrl"
+          :data="fileData"
+          :on-success="handleExeclSuccess"
+          :on-error="handleExeclError"
+          :before-upload="beforeExeclUpload"
+          :on-progress="handleExeclProgress"
+          :multiple="false"
+          :show-file-list="false"
+          :file-list="fileList"
+          :with-credentials="true"
+          ref="imageUploader">
+          <el-button type="primary" class="btn btn-primary"><i class="fa fa-cloud-upload"></i> 从Execl中导入</el-button>
+          <template v-if="!isDescriptShow">
+            <span class="uploadResult">批量导入 <b>{{ uploadResult.length }}</b> 位员工，添加成功 <b class="text-primary">{{ successUploadNum }}</b> 位，添加失败 <b class="text-danger">{{ uploadResult.length - successUploadNum }}</b> 位。</span>
+          </template>
+        </el-upload>
+
+        <div class="clearfix"></div>
+
+        <template v-if="isDescriptShow">
+          <p class="tip">请下载Execl表格，按示例填充员工信息后，导入Execl表格。</p>
+        </template>
+
+        <template v-else>
+          <div class="row mt30">
+            <div class="col-sm-12">
+              <template v-if="uploadResult.length">
+                <el-table
+                  element-loading-text="拼命加载中"
+                  :data="uploadResult"
+                  border
+                  style="width: 100%">
+                  <el-table-column
+                    label="姓名">
+                    <template scope="scope">
+                      {{scope.row.Name}}
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="职位">
+                    <template scope="scope">
+                      {{ scope.row.CompanyPosition }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="部门">
+                    <template scope="scope">
+                      {{ scope.row.CompanyDepartmentName }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="国家代码">
+                    <template scope="scope">
+                      + {{ scope.row.Code }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="手机号码" width="130">
+                    <template scope="scope">
+                      {{ scope.row.PhoneNumber }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="对外显示">
+                    <template scope="scope">
+                      {{ scope.row.Display }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="处理结果" width="250">
+                    <template scope="scope">
+                      <span :class="[scope.row.Result?'text-primary':'text-danger']">{{ scope.row.Remark }}</span>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </template>
+            </div>
+          </div>
+        </template>
+
+        <template v-if="isShow">
+          <div class="row mt100">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+              <p>导入中，请不要关闭浏览器</p>
+              <el-progress :text-inside="true" :stroke-width="20" :percentage="percent"></el-progress>
+            </div>
+          </div>
+        </template>
+
+      </div>
+    </div>
+</div>

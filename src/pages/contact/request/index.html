@@ -1,0 +1,131 @@
+<v-layout>
+    <!-- hbox layout -->
+    <div class="hbox hbox-auto-xs hbox-auto-sm">
+        <div class="wrapper">
+            <div class="container padder-v">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="panel panel-info no-border">
+                            <div class="panel-heading wrapper b-b b-light">
+                                <strong>好友请求</strong>
+                            </div>
+                            <div class="list-group">
+                              <a class="list-group-item" :class="{ 'active': group.id == currentGroupId }" v-for="group in groups" :key="group.Id" @click="switchGroup(group.id)">
+                                {{ group.name }}
+                                <template v-if="group.id == 1 && latestReceiveList.length">
+                                  <b class="badge bg-danger pull-right">{{ latestReceiveList.length }}</b>
+                                </template>
+                              </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 no-padder">
+                        <div class="panel no-border">
+                            <template v-if="currentGroupId == 1">
+                              <div class="panel-heading wrapper b-b b-light">
+                                  <strong>收到的请求</strong>
+                              </div>
+                              <ul class="list-group list-group-lg m-b-none" v-if="receiveList.length !== 0">
+                                  <!-- BEGIN: Results -->
+                                  <template v-for="(item, index) in receiveList">
+                                    <li class="list-group-item">
+                                        <a class="pull-left thumb-sm m-r">
+                                            <template v-if="item.Sender.UserId">
+                                              <avatar :src="item.Sender.User.PortraitUrl" :size="80" class="r r-2x"></avatar>
+                                            </template>
+                                            <template v-else>
+                                              <avatar :src="null" :size="80" class="r r-2x"></avatar>
+                                            </template>
+                                        </a>
+                                        <div class="btn-group dropdown pull-right">
+                                          <template v-if="item.Status == 0">
+                                            <button class="btn btn-success" @click="applyRequest(item.Id)">通过验证</button>
+                                          </template>
+                                          <template v-else>
+                                            <button class="btn btn-default" disabled>已添加</button>
+                                          </template>
+                                          <button class="btn btn-default" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                                          <ul class="dropdown-menu">
+                                            <template v-if="item.Status == 0">
+                                              <li><a @click="applyRequest(item.Id)">通过验证</a></li>
+                                              <li class="divider"></li>
+                                            </template>
+                                            <li><a @click="deleteRequest(item, 1)">删除申请</a></li>
+                                          </ul>
+                                        </div>
+                                        <span class="clear">
+                                          <span>{{ item.Sender.Name }}</span>
+                                          <small class="text-muted clear text-ellipsis" v-if="item.Sender.CompanyId">{{ item.Sender.Company.BrandName }}
+                                            <template v-if="item.Sender.JobTitle">·{{ item.Sender.JobTitle }}</template>
+                                          </small>
+                                          <small class="text-muted clear text-ellipsis" v-else>个人</small>
+                                        </span>
+                                    </li>
+                                  </template>
+                                  <!-- END: Results -->
+                              </ul>
+                              <placeholder text="暂无收到的请求" v-else></placeholder>
+                              <!-- <pre>{{ receiveList }}</pre> -->
+                            </template>
+                            <template v-if="currentGroupId == 2">
+                              <div class="panel-heading wrapper b-b b-light">
+                                  <strong>发出的请求</strong>
+                              </div>
+                              <ul class="list-group list-group-lg m-b-none" v-if="sendList.length !== 0">
+                                  <!-- BEGIN: Results -->
+                                  <template v-for="(item, index) in sendList">
+                                      <li class="list-group-item">
+                                          <a class="pull-left thumb-sm m-r">
+                                            <template v-if="item.Receiver.UserId">
+                                              <avatar :src="item.Receiver.User.PortraitUrl" :size="80" class="r r-2x"></avatar>
+                                            </template>
+                                            <template v-else>
+                                              <avatar :src="null" :size="80" class="r r-2x"></avatar>
+                                            </template>
+                                          </a>
+                                          <div class="btn-group dropdown pull-right">
+                                            <template v-if="item.Status == 1">
+                                              <button class="btn btn-default" disabled>已通过</button>
+                                            </template>
+                                            <template v-else>
+                                              <button class="btn btn-default" disabled>等等验证</button>
+                                            </template>
+                                            <button class="btn btn-default" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                              <li><a @click="deleteRequest(item, 2)">删除申请</a></li>
+                                            </ul>
+                                          </div>
+                                          <span class="clear">
+                                            <span>{{ item.Receiver.Name }}</span>
+                                            <small class="text-muted clear text-ellipsis" v-if="item.Receiver.CompanyId">{{ item.Receiver.Company.BrandName }}
+                                              <template v-if="item.Receiver.JobTitle">·{{ item.Receiver.JobTitle }}</template>
+                                            </small>
+                                            <small class="text-muted clear text-ellipsis" v-else>个人</small>
+                                          </span>
+                                      </li>
+                                  </template>
+                                  <!-- END: Results -->
+                              </ul>
+                              <placeholder text="暂无发出的请求" v-else></placeholder>
+                              <!-- <pre>{{ sendList }}</pre>   -->
+                            </template>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="panel panel-info no-border">
+                        <div class="panel-heading wrapper b-b b-light">
+                          <strong>新的朋友</strong>
+                        </div>
+                        <div class="panel-body">
+                            <router-link :to="{ name: 'contact.new' }" class="btn btn-block btn-success">
+                                <i class="fa fa-plus"></i> 查找好友
+                            </router-link>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /hbox layout -->
+</v-layout>

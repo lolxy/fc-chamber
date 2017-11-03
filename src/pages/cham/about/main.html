@@ -1,0 +1,26 @@
+<div class="about-wrapper">
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="about-nav">
+        <ul class="list-group">
+          <li class="list-group-item" v-for="(elem,index) in navMenu" :class="{active:elem.value == currentModule}" @click="getCurrentModule(elem.value)">{{elem.name}}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-9 col-md-9">
+      <div class="about-content">
+        <template v-if="currentModule == 'about'">
+          <about></about>
+        </template>
+
+        <template v-if="currentModule == 'organize'">
+          <organize></organize>
+        </template>
+
+        <template v-if="currentModule == 'rules'">
+          <rules></rules>
+        </template>
+      </div>
+    </div>
+  </div>
+</div>

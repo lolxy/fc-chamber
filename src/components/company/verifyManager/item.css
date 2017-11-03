@@ -1,0 +1,50 @@
+.verify-manager {
+  padding: 0 80px 0 50px;
+}
+
+.verify-manager .el-form-item {
+  margin-bottom: 8px;
+}
+
+.verify-manager .el-form-item p {
+  padding-top: 10px;
+  line-height: 140%;
+}
+
+.verify-manager .cover-uploader-item {
+  margin-bottom: 16px;
+}
+
+.verify-manager .form-action-item {
+  padding-top: 10px;
+}
+
+.verify-manager .el-form-item .cover-uploader,
+.verify-manager .el-form-item .cover {
+  display: inline-block;
+  float: left;
+  margin-right: 6px;
+}
+
+.verify-manager .el-form-item .cover {
+  display: inline-block;
+  width: 72px;
+  height: 72px;
+  position: relative;
+  margin-right: 6px;
+}
+
+.verify-manager .el-form-item .cover-bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.verify-manager .el-form-item .cover .btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}

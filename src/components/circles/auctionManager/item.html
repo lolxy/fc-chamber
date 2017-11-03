@@ -1,0 +1,76 @@
+<div class="auction-manager">
+  <el-form ref="auctionForm" :model="auctionForm" label-width="80px">
+    <el-form-item label="标题">
+      <el-input v-model="auctionForm.Title"></el-input>
+    </el-form-item>
+    <el-form-item label="产品封面" class="cover-uploader-item">
+      <el-upload
+        action="//up.qbox.me/"
+        list-type="picture-card"
+        :multiple="true"
+        :show-file-list="false"
+        :on-success="handleSuccess"
+        :before-upload="beforeUpload"
+        :data="coverEditor.imageData"
+        ref="imageUploader"
+        class="cover-uploader">
+        <i class="el-icon-plus"></i>
+      </el-upload>
+      <div class="cover" :class="{'is-index': image.IsIndex}" v-for="(image, index) in auctionForm.Images" :key="image.ImgUri">
+        <div class="cover-bg" v-lazy:background-image="image.ImgUri">
+          <a @click="removeCover(image)" class="btn btn-dark btn-xs btn-remove"><i class="fa fa-trash"></i></a>
+        </div>
+      </div>
+    </el-form-item>
+    <template v-if="types">
+      <template v-for="typeItem in types">
+        <el-form-item :label="typeItem.Name" v-if="typeItem">
+          <el-select :placeholder="typeItem.Name" v-model="currentTypes[`type-${typeItem.Id}`]">
+            <el-option :label="item.Name" :value="item.Id" v-for="item in typeItem.Categories" :key="item.Id"></el-option>
+          </el-select>
+        </el-form-item>
+      </template>
+    </template>
+    <el-form-item label="供应底价">
+      <el-input v-model="auctionForm.StartPrice">
+        <template slot="prepend">￥</template>
+        <template slot="append">元</template>
+      </el-input>
+    </el-form-item>
+    <el-form-item class="form-qty-item" label="供应数量">
+      <el-col :span="11">
+        <el-input-number v-model="auctionForm.Qty" :min="1"></el-input-number>
+      </el-col>
+      <el-col :span="2" class="text-center">单位</el-col>
+      <el-col :span="11">
+        <el-input v-model="auctionForm.Unit"></el-input>
+      </el-col>
+    </el-form-item>
+    <el-form-item label="结束日期">
+      <el-col :span="11">
+        <el-date-picker type="date" placeholder="选择日期" v-model="date.date1" style="width: 100%;"></el-date-picker>
+      </el-col>
+      <el-col :span="2" class="text-center">时间</el-col>
+      <el-col :span="11">
+        <el-time-picker type="fixed-time" placeholder="选择时间" v-model="date.date2" style="width: 100%;"></el-time-picker>
+      </el-col>
+    </el-form-item>
+    <el-form-item label="产品描述">
+      <el-input type="textarea" v-model="auctionForm.Description"></el-input>
+    </el-form-item>
+    <el-form-item label="咨询人">
+      <el-select v-model="auctionForm.ContacterId" filterable placeholder="请选择联系人">
+        <el-option
+          v-for="employee in employees"
+          :key="employee.Id"
+          :label="`${employee.Name}-${employee.JobTitle}`"
+          :value="employee.Id">
+        </el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item class="form-action-item">
+      <el-button type="primary" @click="onSubmit">立即创建</el-button>
+      <el-button>取消</el-button>
+    </el-form-item>
+  </el-form>
+</div>

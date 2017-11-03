@@ -1,0 +1,302 @@
+<div class="company-profile company-subpage">
+  <div class="profile-card" v-if="userId === company.OwnerId && !!company.OwnerId || getRoles('EmployeeAdmin')">
+    <div class="card-main">
+      <div class="card-content">
+        <p class="info-item clear">
+          <span class="info-label">公司简称：</span>
+          <span class="info-wrap">
+            <a href="#" data-type="text" :data-id="company.Id" data-pk="BrandName" data-field="BrandName" data-maxlength="6" v-editableInput>{{ company.BrandName }}</a>
+          </span>
+        </p>
+        <p class="info-item clear" v-if="company.VerifyStatus !== 1">
+          <span class="info-label">公司全称：</span>
+          <span class="info-wrap">
+            <a href="#" data-type="text" :data-id="company.Id" data-pk="Name" data-field="Name" data-maxlength="50" v-editableInput>{{ company.Name }}</a>
+            <small v-if="company.VerifyStatus !== 1">(未认证)</small>
+          </span>
+        </p>
+        <p class="info-item clear" v-if="company.VerifyStatus == 1">
+          <span class="info-label">公司全称：</span> <span>{{ company.Name }} (已认证)</span>
+        </p>
+        <p class="info-item clear">
+          <span class="info-label">公司简介：</span>
+          <span class="info-wrap"><a href="#" data-type="textarea" :data-id="company.Id" data-pk="AboutUs" data-field="AboutUs" data-maxlength="160" v-editableInput>{{ company.AboutUs }}</a></span>
+        </p>
+        <div class="info-item clear">
+          <span class="info-label">所在地：</span>
+          <span class="info-wrap" v-if="!districtFieldVisible">
+            <a href="javascript:;" class="editable editable-pre-wrapped editable-click" @click="toggleDistrictFieldVisible">
+              <span>{{ company.ResidentProvince }}</span> <span class="divider"></span>
+              <span>{{ company.ResidentCity }}</span> <span class="divider"></span>
+              <span>{{ company.ResidentArea }}</span>
+            </a>
+          </span>
+          <div class="control-group pull-left" v-if="districtFieldVisible">
+            <div class="editable-input">
+              <el-cascader
+                :options="allDistricts"
+                v-model="districts">
+              </el-cascader>
+            </div>
+            <div class="editable-buttons">
+              <button class="btn btn-primary btn-sm editable-submit" @click="updateDistricts"><i class="glyphicon glyphicon-ok"></i></button>
+              <button class="btn btn-default btn-sm editable-cancel" @click="toggleDistrictFieldVisible"><i class="glyphicon glyphicon-remove"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <p class="info-item clear">
+          <span class="info-label">详细地址：</span>
+          <span class="info-wrap">
+            <a href="#" data-type="text" :data-id="company.Id" data-pk="Address" data-field="Address" data-maxlength="36"  v-editableInput>{{ company.Address }}</a>
+          </span>
+        </p>
+        <p class="info-item clear">
+          <span class="info-label">联系方式：</span>
+          <span class="info-wrap" v-if="auth">
+            <a href="#" data-type="text" :data-id="company.Id" data-pk="ServiceTel" data-field="ServiceTel" v-editableInput>{{ company.ServiceTel }}</a>
+          </span>
+          <span class="info-wrap" v-else>*********** ( 登入后可见 )</span>
+        </p>
+        <p class="info-item clear" v-if="companyCats.length">
+          <span class="info-label">公司类型：</span>
+
+          <a href="#" data-type="select" :data-id="company.Id" data-pk="Category" data-field="CategoryIds" v-editableSelect="{ currVal: getCategory, options: companyCats, otherIds: otherCatIds('07154e16-de57-e611-b281-a00b61b73b60') }">
+            <template v-for="(category, index) in getCategory">
+              <span>{{ category.Name }}</span>
+              <span class="divider" v-if="index !== (getCategory.length -1)"></span>
+            </template>
+          </a>
+        </p>
+
+        <div class="info-item clear clear">
+          <span class="info-label">行业类型：</span>
+          <span class="info-wrap" v-if="!industryTypeFieldVisible">
+            <a href="javascript:;"
+              :data-value="getIndustryTypeIds"
+              class="editable editable-pre-wrapped editable-click"
+              @click="toggleIndustryTypeFieldVisible">
+              <template v-if="getIndustryType.length">
+                <template v-for="(category, index) in getIndustryType">
+                  <span>{{ category.Name }}</span>
+                  <span class="divider" v-if="index !== (getIndustryType.length - 1)"></span>
+                </template>
+              </template>
+              <template v-else>
+                <span class="editable-empty"> 未填写</span>
+              </template>
+            </a>
+          </span>
+          <div class="control-group pull-left" v-if="industryTypeFieldVisible">
+            <div class="editable-input">
+              <el-select v-model="currentIndustryTypeIds" multiple placeholder="请选择">
+                <el-option
+                  v-for="category in industryTypes"
+                  :key="category.Id"
+                  :label="category.Name"
+                  :value="category.Id">
+                </el-option>
+              </el-select>
+            </div>
+            <div class="editable-buttons">
+              <button
+                class="btn btn-primary btn-sm editable-submit"
+                @click="updateIndustryTypes">
+                <i class="glyphicon glyphicon-ok"></i>
+              </button>
+              <button
+                class="btn btn-default btn-sm editable-cancel"
+                @click="toggleIndustryTypeFieldVisible">
+                <i class="glyphicon glyphicon-remove"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-item clear clear">
+          <span class="info-label">行业类别：</span>
+          <span class="info-wrap" v-if="!industryCatFieldVisible">
+            <a href="javascript:;"
+              :data-value="getIndustryIds"
+              class="editable editable-pre-wrapped editable-click"
+              @click="toggleIndustryCatFieldVisible">
+              <template v-if="getIndustry.length">
+                <template v-for="(category, index) in getIndustry">
+                  <span>{{ category.Name }}</span>
+                  <span class="divider" v-if="index !== (getIndustry.length - 1)"></span>
+                </template>
+              </template>
+              <template v-else>
+                <span class="editable-empty"> 未填写</span>
+              </template>
+            </a>
+          </span>
+          <div class="control-group pull-left" v-if="industryCatFieldVisible">
+            <div class="editable-input">
+              <el-select v-model="currentIndustryCatIds" multiple placeholder="请选择">
+                <el-option
+                  v-for="category in industryCats"
+                  :key="category.Id"
+                  :label="category.Name"
+                  :value="category.Id">
+                </el-option>
+              </el-select>
+            </div>
+            <div class="editable-buttons">
+              <button
+                class="btn btn-primary btn-sm editable-submit"
+                @click="updateIndustryCats">
+                <i class="glyphicon glyphicon-ok"></i>
+              </button>
+              <button
+                class="btn btn-default btn-sm editable-cancel"
+                @click="toggleIndustryCatFieldVisible">
+                <i class="glyphicon glyphicon-remove"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <p class="info-item clear">
+          <span class="info-label">经营范围：</span>
+          <span class="info-wrap"><a href="#" data-type="text" :data-id="company.Id" data-pk="CustomMainBusiness" data-field="CustomMainBusiness" data-maxlength="60" v-editableInput>{{ company.CustomMainBusiness }}</a></span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="profile-card" v-else>
+    <div class="card-main">
+      <div class="card-action">
+        <template v-if="company.OwnerId">
+          <div class="btn-group dropdown">
+            <button class="btn btn-success padder-lg" data-toggle="dropdown" aria-expanded="false">添加好友 <span class="caret"></span></button>
+            <ul class="dropdown-menu pull-right">
+              <li class="wrapper" v-for="item in employees">
+                <div class="media">
+                  <span class="pull-left">
+                    <template v-if="item.UserId">
+                      <avatar :src="item.User.PortraitUrl" :size="100" class="img-rounded" v-if="item.User.PortraitUrl"></avatar>
+                      <avatar :src="null" :size="100" class="img-rounded" v-else></avatar>
+                    </template>
+                    <template v-else>
+                      <avatar :src="null" :size="100" class="img-rounded"></avatar>
+                    </template>
+                  </span>
+                  <div class="pull-right text-muted m-t-sm">
+                    <template v-if="item.RelationshipOfUs == 0">
+                      <el-button class="pull-right btn-success" type="primary" size="medium" @click="addFriend(item.CompanyId)">
+                        <i class="fa fa-plus"></i>
+                        <span>加为好友</span>
+                      </el-button>
+                    </template>
+                    <template v-else-if="item.RelationshipOfUs == 1">
+                      <el-button class="pull-right btn-info" type="primary" size="medium">
+                        <span>等待通过</span>
+                      </el-button>
+                    </template>
+                    <template v-else-if="item.RelationshipOfUs == 2">
+                      <el-button class="pull-right btn-default" type="primary" size="medium">
+                        <span>已添加</span>
+                      </el-button>
+                    </template>
+                  </div>
+                  <div class="media-body">
+                    <p class="m-b-xs"><strong>{{ item.Name }}</strong></p>
+                    <small class="text-muted">{{ item.JobTitle }}</small>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </template>
+        <template v-else>
+          <button class="btn btn-primary"><i class="fa fa-plus-square"></i> 加入收藏</button>
+        </template>
+      </div>
+      <div class="card-content">
+        <p class="info-item clear">
+          <span class="info-label">公司简称：</span>
+          <span>{{ company.BrandName }}</span>
+        </p>
+        <p class="info-item clear">
+          <span class="info-label">公司全称：</span> <span>{{ company.Name }}</span>
+        </p>
+        <p class="info-item clear" v-if="company.AboutUs">
+          <span class="info-label">公司简介：</span>
+          <span>{{ company.AboutUs }}</span>
+        </p>
+        <p class="info-item clear">
+          <span class="info-label">所在地：</span>
+          <span>{{ company.ResidentProvince }}</span> <span class="divider"></span>
+          <span>{{ company.ResidentCity }}</span> <span class="divider"></span>
+          <span>{{ company.ResidentArea }}</span>
+        </p>
+        <p class="info-item clear">
+          <span class="info-label">详细地址：</span>
+          <span class="info-wrap">{{ company.Address }}</span>
+        </p>
+        <p class="info-item clear">
+          <span class="info-label">联系方式：</span>
+          <span v-if="auth">
+            <span class="service-tel-wrap" v-if="company.ServiceTelImgEncodedData">
+              <span class="service-tel">
+                <template v-for="item in decodedData(company.ServiceTelImgEncodedData).Index">
+                  <span :style="`background-image:url(${decodedData(company.ServiceTelImgEncodedData).ImgUri});background-position: -${item.OffsetX}px -${item.OffsetY}px;`"></span>
+                </template>
+              </span>
+            </span>
+          </span>
+          <span v-else>*********** ( 登入后可见 )</span>
+        </p>
+        <p class="info-item clear">
+          <span class="info-label">公司类型：</span>
+
+          <template v-for="(category, index) in getCategory">
+            <span>{{ category.Name }}</span>
+            <span class="divider" v-if="index !== (getCategory.length -1)"></span>
+          </template>
+
+        </p>
+        <p class="info-item clear">
+          <span class="info-label">行业类型：</span>
+
+          <template v-for="(category, index) in getIndustryType">
+            <span>{{ category.Name }}</span>
+            <span class="divider" v-if="index !== (getIndustryType.length - 1)"></span>
+          </template>
+        </p>
+
+        <p class="info-item clear">
+          <span class="info-label">行业类别：</span>
+
+          <template v-for="(category, index) in getIndustry">
+            <span>{{ category.Name }}</span>
+            <span class="divider" v-if="index !== (getIndustry.length - 1)"></span>
+          </template>
+
+        </p>
+        <p class="info-item clear">
+          <span class="info-label">经营范围：</span>
+          <span v-if="company.CustomMainBusiness">{{ company.CustomMainBusiness }}</span>
+          <template v-else>
+            <span v-for="(item, index) in getOldMainBusiness">
+              {{ item.Name }}
+              <template v-if="index !== (getOldMainBusiness.length - 1)">、</template>
+            </span>
+          </template>
+        </p>
+      </div>
+    </div>
+
+    <el-dialog title="添加好友" v-model="addFriendDialogVisible" size="tiny">
+      <template v-if="employees.length">
+        <employee-list-group :employees="employees"></employee-list-group>
+      </template>
+    </el-dialog>
+
+    <el-dialog title="欢迎来到辅城，请先登录" v-model="loginDialogVisible" size="tiny">
+      <login-dialog-form></login-dialog-form>
+    </el-dialog>
+
+  </div>
+</div>

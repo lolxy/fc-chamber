@@ -1,0 +1,29 @@
+<div class="home-top-section">
+  <div class="container padder-v">
+    <div class="row">
+      <div class="col-sm-3">
+        <router-link :to="{ name: 'home.index' }" class="home-logo">
+          <img src="~@/assets/svg/home/logo.svg" width="162" height="36" alt="辅城">
+        </router-link>
+      </div>
+      <div class="col-sm-6">
+        <div class="search-input">
+          <div class="input-group search-wrap">
+            <input
+            type="text"
+            placeholder="请输入商户/企业名称"
+            class="form-control"
+            v-model="searchKeyword"
+            @keyup.enter="searchCompany">
+            <span class="input-group-btn">
+              <button class="btn btn-primary padder-lg" type="button" @click="searchCompany">搜索</button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 text-center">
+        <p class="service-hotline">客服电话：4008070666</p>
+      </div>
+    </div>
+  </div>
+</div>

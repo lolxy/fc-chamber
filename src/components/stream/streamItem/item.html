@@ -1,0 +1,166 @@
+<div class="stream-item">
+  <div class="stream-item-inner">
+    <div class="stream-item-header wrapper-xs clearfix m-b-sm">
+      <template v-if="type == 'market'">
+        <a class="pull-left thumb-sm m-r-sm" :href="`/company/${item.Sender.CompanyId}/profile`" target="_blank">
+          <template v-if="item.Sender.CompanyId">
+            <avatar :src="item.Sender.Company.LogoUrl" :size="80" class="img-rounded"></avatar>
+          </template>
+          <template v-else>
+            <avatar :src="null" :size="80" class="img-rounded"></avatar>
+          </template>
+        </a>
+      </template>
+      <template v-else>
+        <a class="pull-left thumb-sm m-r-sm" :href="`/company/${item.Sender.CompanyId}/profile`" target="_blank">
+          <template v-if="item.Sender.UserId">
+            <avatar :src="item.Sender.User.PortraitUrl" :size="80" class="img-rounded" v-if="item.Sender.User.PortraitUrl"></avatar>
+            <avatar :src="null" :size="80" class="img-rounded" v-else></avatar>
+          </template>
+          <template v-else>
+            <avatar :src="item.Sender.Company.LogoUrl" :size="80" class="img-rounded" v-if="item.Sender.Company.LogoUrl"></avatar>
+            <avatar :src="null" :size="80" class="img-rounded" v-else></avatar>
+          </template>
+        </a>
+      </template>
+      <template v-if="type == 'market'">
+        <div class="dropdown pull-right m-r-xs" v-if="item.SenderId == meId">
+            <button class="btn btn-primary btn-sm no-border" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-dropdown>
+              <i class="fa fa-cog"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:;" @click="deleteThisStream(item.Id)">删除</a></li>
+            </ul>
+        </div>
+      </template>
+      <div class="m-l-sm m-b-xs">
+        <template v-if="type == 'market' && item.Sender.CompanyId">
+          <a class="company-brand-name" :href="`/company/${item.Sender.CompanyId}/profile`" target="_blank">
+            <template v-if="item.Sender.Company.VerifyStatus == 1">
+              <i class="icon-company-type icon-company-type-1" v-if="!item.Sender.Company.NotAllPass">企</i>
+              <i class="icon-company-type icon-company-type-2" v-else>商</i>
+              <i class="icon-company-type icon-company-verified">证</i>
+            </template>
+            <template v-else>
+              <i class="icon-company-type">商</i>
+            </template>
+            {{ item.Sender.Company.BrandName }}
+          </a>
+          <span class="text-muted m-r-xs m-t-xs pull-right">
+            <timeago :since="item.CreatedTime"></timeago>
+          </span>
+          <div class="stream-tags">
+            <span v-for="tag in item.Tags" class="icon-stream-tag" :class="tag.Icon">{{ tag.Name }}</span>
+          </div>
+          <p>
+            <small class="text-muted clear text-ellipsis">
+              <span>{{ item.Sender.Company.ResidentProvince }}</span>
+              <!-- <template v-if="getIndustry.length">
+                <span v-for="(industry, index) in getIndustry" :key="industry.Id">
+                  {{ industry.Name }} <template v-if="index !== (getIndustry.length - 1)">、</template>
+                </span>
+                <span>-</span>
+              </template> -->
+              <template v-if="getStreamCats.length">
+                 -
+                <span v-for="(category,index) in getStreamCats">{{ category.Name }}
+                  <template v-if="index !== (getStreamCats.length - 1)">、</template>
+                </span>
+              </template>
+            </small>
+          </p>
+        </template>
+        <template v-if="type == 'friends'">
+          <a class="m-b-xs">{{ item.Sender.Name }}</a>
+          <span class="text-muted m-r-xs m-t-sm pull-right">
+            <timeago :since="item.CreatedTime"></timeago>
+          </span>
+          <small class="text-muted clear text-ellipsis" v-if="item.Sender.CompanyId">{{ item.Sender.Company.BrandName }}
+            <template v-if="item.Sender.JobTitle">·{{ item.Sender.JobTitle }}</template>
+          </small>
+          <small class="text-muted clear text-ellipsis" v-else>个人</small>
+        </template>
+      </div>
+      <hr class="m-t-md m-b-n">
+    </div>
+    <div class="wrapper-sm">
+        <div class="tl-content clear">
+          <template v-if="item.Type">
+            <i class="icon-stream-type icon-stream-type-1" v-if="item.Type.Id == 'b49a25a6-e0a0-e611-9844-d625d73ad159'">{{ item.Type.Name }}</i>
+            <i class="icon-stream-type icon-stream-type-2" v-else>{{ item.Type.Name }}</i>
+          </template>
+          <p v-if="item.Content">{{ item.Content }}</p>
+        </div>
+        <template v-if="item.Images.length">
+          <div :class="`clear tweet-gallery tweet-gallery-m${item.Images.length}`">
+            <template v-if="item.Images.length == 1">
+              <div class="gallery-item" v-for="(image, index) in item.Images">
+                <div class="cover-wrap">
+                  <image-item
+                    :id="item.Id"
+                    :index="index"
+                    :image="image"
+                    :thumbSize="600"
+                    :gallery="gallery"
+                    v-on:imageLoaded="onImageLoaded($event, index)"></image-item>
+                </div>
+              </div>
+            </template>
+            <template v-if="item.Images.length == 2">
+              <div class="gallery-item" v-for="(image, index) in item.Images">
+                <div class="cover-wrap">
+                  <image-item
+                    :id="item.Id"
+                    :index="index"
+                    :image="image"
+                    :thumbSize="500"
+                    :gallery="gallery"
+                    v-on:imageLoaded="onImageLoaded($event, index)"></image-item>
+                </div>
+              </div>
+            </template>
+            <template v-if="item.Images.length % 3 == 0 || item.Images.length % 5 == 0 || item.Images.length == 7 || item.Images.length == 8">
+              <div class="gallery-item" v-for="(image, index) in item.Images">
+                <div class="cover-wrap">
+                  <image-item
+                    :id="item.Id"
+                    :index="index"
+                    :image="image"
+                    :thumbSize="400"
+                    :gallery="gallery"
+                    v-on:imageLoaded="onImageLoaded($event, index)"></image-item>
+                </div>
+              </div>
+            </template>
+            <template v-if="item.Images.length == 4">
+              <div class="gallery-item" v-for="(image, index) in item.Images">
+                <div class="cover-wrap">
+                  <image-item
+                    :id="item.Id"
+                    :index="index"
+                    :image="image"
+                    :thumbSize="600"
+                    :gallery="gallery"
+                    v-on:imageLoaded="onImageLoaded($event, index)"></image-item>
+                </div>
+              </div>
+            </template>
+          </div>
+        </template>
+    </div>
+    <template>
+      <div class="tl-footer clear">
+        <el-button type="text" class="pull-right" @click="insertSession(item.Sender.AccId)" v-if="auth"><i class="fa fa-comments"></i> 在线洽谈</el-button>
+        <template v-if="checkFavoriteJson[`${item.Id}`]">
+          <el-button type="text" class="pull-right" @click="removeFavorite(item.Id,checkFavoriteJson[`${item.Id}`].favoriteId)" v-if="checkFavoriteJson[`${item.Id}`].isFavorite"><i class="fa fa-heart"></i> 取消收藏</el-button>
+          <el-button type="text" class="pull-right" @click="addFavorite(item.Id)" v-else><i class="fa fa-heart-o"></i> 收藏</el-button>
+        </template>
+      </div>
+    </template>
+    <template v-if="item.Comments">
+      <div class="comments-container" v-if="item.Comments.length">
+        <comment-item :comment="comment" v-for="comment in item.Comments" :key="comment.Id"></comment-item>
+      </div>
+    </template>
+  </div>
+</div>

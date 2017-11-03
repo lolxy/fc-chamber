@@ -1,0 +1,61 @@
+@import '~@/assets/scss/foundation';
+
+.cham-notice-list {
+  background-color: #fff;
+  padding: 16px;
+
+  .notice-null{
+    padding: 20px;
+    text-align: center;
+  }
+  .notice-item {
+    margin-bottom: 16px;
+
+    a {
+      display: block;
+      padding: 16px 0 10px;
+      border-bottom: 1px solid #e6e8eb;
+
+      &:hover {
+        background-color: #f6f6f6;
+      }
+
+      .col-sm-12 {
+        padding: 0;
+      }
+
+      .item-cover-wrap {
+        padding-right: 16px;
+      }
+
+      .item-info-wrap {
+        padding-right: 20px;
+        height: 30px;
+        line-height: 30px;
+        position: relative;
+      }
+    }
+
+    h3 {
+      font-size: 18px;
+      // margin: 4px 0 12px;
+      margin: 0;
+      height: 30px;
+      line-height: 30px;
+    }
+
+    time{
+      height: 30px;
+      line-height: 30px;
+    }
+
+    .metas {
+      height: 30px;
+      line-height: 30px;
+      span {
+        display: inline-block;
+        margin-right: 8px;
+      }
+    }
+  }
+}

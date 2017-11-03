@@ -1,0 +1,102 @@
+@import '~@/assets/scss/foundation';
+
+.cham-article-entry {
+  padding-top: 10px;
+  .breadcrumbbox{
+    background-color: #fff;
+    margin-bottom: 10px;
+    height: 40px;
+    line-height: 40px;
+    overflow: hidden;
+    .breadcrumb{
+      background-color: #fff;
+      padding: 0;
+      padding-left: 15px;
+    }
+  }
+
+  .article-entry {
+    background-color: #fff;
+    padding: 30px 20px;
+
+    .entry-hd {
+      margin-bottom: 20px;
+
+      h3 {
+        font-size: 22px;
+        margin: 0 0 20px;
+      }
+    }
+
+    .edit-link,.dell-link{
+      color: $primary-color;
+      display: inline-block;
+      margin-left: 10px;
+    }
+
+    .dell-link{
+      cursor: pointer;
+    }
+
+    img {
+      display: block;
+      width: 100% !important;
+      height: auto !important;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 14px;
+      line-height: 150%;
+      margin-bottom: rem-calc(16);
+    }
+  }
+
+  .article-entry-aside {
+    padding: 0px;
+    background-color: #fff;
+    .aside-hd{
+      height: 40px;
+      line-height: 40px;
+      padding-left: 20px;
+      border-bottom: 1px solid #eeeeee;
+      font-weight: bold;
+    }
+    .aside-bd{
+      padding: 20px;
+    }
+  }
+
+  .latest-news {
+    margin: 0;
+    padding: 0;
+  }
+
+  .latest-news li {
+    list-style: none;
+    margin-bottom: 10px;
+  }
+
+  .latest-news .title {
+    display: -webkit-box;
+    max-width: 100%;
+    height: 40px;
+    font-size: 14px;
+    line-height: 160%;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .latest-news  .cover {
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin-right: 12px;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: 50% 50%;
+    float: left;
+  }
+}

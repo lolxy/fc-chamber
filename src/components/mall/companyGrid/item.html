@@ -1,0 +1,128 @@
+<div class="company-list-grid" v-if="items">
+  <div class="grid-item col-sm-6 col-md-3 wrapper-xs" v-for="item in items" :key="item.companyId">
+    <div class="grid-item-bd">
+      <div class="profileCard">
+        <router-link :to="{ name: 'company.profile', params: { id: item.companyId } }" class="profileCard-bg">
+          <template v-if="formatCardBg(item)">
+            <img v-lazy="formatCardBg(item)" alt=""/>
+          </template>
+        </router-link>
+        <div class="profileCard-content">
+          <template v-if="isMyMall">
+            <div class="card-logo" @click="getCompanySelectId(item.companyId)">
+              <el-upload
+                action="//up.qbox.me/"
+                :show-file-list="false"
+                list-type="picture"
+                :on-success="handleLogoUploadSuccess"
+                :before-upload="beforeLogoUpload"
+                :data="uploadLogoImageData"
+                ref="logoImageUploader"
+                class="logo-uploader-wrap"
+                >
+                <template v-if="item.companyLogo">
+                  <avatar :src="item.companyLogo" :size="152" class="profileCard-avatarImage" mode="logo"></avatar>
+                </template>
+                <template v-else>
+                  <avatar :src="getCompanyLogo(item.companyInfo)" :size="152" class="profileCard-avatarImage" mode="logo"></avatar>
+                </template>
+                <div class="editor-mask">
+                  <span><i class="fa fa-camera"></i><br>修改LOGO </span>
+                </div>
+              </el-upload>
+            </div>
+          </template>
+          <template v-else>
+            <div class="card-logo">
+              <template v-if="item.companyLogo">
+                <avatar :src="item.companyLogo" :size="152" class="profileCard-avatarImage" mode="logo"></avatar>
+              </template>
+              <template v-else>
+                <avatar :src="getCompanyLogo(item.companyInfo)" :size="152" class="profileCard-avatarImage" mode="logo"></avatar>
+              </template>
+            </div>
+          </template>
+          <div class="recomicon" v-if="isMyMall">
+            <el-tag type="primary" class="btn-primary" v-if="item.recommendCompany">已推荐</el-tag>
+          </div>
+          <div class="profileCard-userFields">
+              <div class="profileName-wrap clearfix m-b-xs">
+                  <router-link :to="{ name: 'company.profile', params: { id: item.companyId } }" class="profileName pull-left">
+                    <template v-if="item.companyInfo.VerifyStatus == 1">
+                      <span class="icon icon-corp" v-if="!item.companyInfo.NotAllPass">企</span>
+                      <span class="icon icon-store" v-else>商</span>
+                      <span class="icon icon-verified">证</span>
+                    </template>
+                    <template v-else>
+                      <span class="icon icon-default">商</span>
+                    </template>
+                    <strong>{{ item.companyInfo.BrandName }}</strong>
+                  </router-link>
+
+                  <template v-if="isMyMall">
+                    <div class="dropdown pull-right">
+                      <button class="btn btn-default" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-dropdown>
+                        <i class="glyphicon glyphicon-cog"></i> 操作 <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <!-- <li><a @click="modifyCompanyInfo(item.companyId)">修改信息</a></li> -->
+                        <li><a @click="deleteThisCompany(item.companyId)">删除该公司</a></li>
+                      </ul>
+                    </div>
+                  </template>
+
+                  <template v-else>
+                    <template v-if="!item.companyInfo.OwnerId || item.companyInfo.OwnerId !== userId">
+                      <button
+                        v-if="item.companyInfo.OwnerId"
+                        class="btn btn-info btn-sm pull-right"
+                        @click="addFriend(item.companyId);">
+                        <i class="fa fa-plus-square"></i>
+                        <span>加为好友</span>
+                      </button>
+                      <button
+                        v-else
+                        class="btn btn-info btn-sm pull-right"
+                        @click="addFaviourite(item.companyId)">
+                        <i class="fa fa-plus-square"></i>
+                        <span>加入收藏</span>
+                      </button>
+                    </template>
+                    <template v-else>
+                      <button class="btn btn-info btn-sm pull-right">
+                        <i class="fa fa-edit"></i> <span>编辑公司</span>
+                      </button>
+                    </template>
+                  </template>
+
+              </div>
+              <div class="profileCard-location m-b-sm">
+                <img src="~@/assets/svg/company/icon_shop.svg" width="40" v-if="item.companyInfo.HasProducts"/>
+                <span>{{ item.companyInfo.ResidentProvince }} {{ item.companyInfo.ResidentCity }} {{ item.companyInfo.ResidentArea }}</span>
+              </div>
+              <div class="profileCard-meta" v-if="companyExtProperties[item.companyId]">
+                所在位置：{{ getAddressInMall(companyExtProperties[item.companyId]) }}
+              </div>
+
+              <template v-if="isMyMall">
+                <div class="foot-cz">
+                  <el-checkbox v-model="checked[`recommendCompany${item.companyId}`]" v-if="item.recommendCompany" @change="removeRecommond(item.companyId)">取消推荐</el-checkbox>
+                  <el-checkbox v-model="checked[`recommendCompany${item.companyId}`]"  @change="setRecommond(item.companyId)" v-else>推荐</el-checkbox>
+                </div>
+              </template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <el-dialog title="添加好友" v-model="addFriendDialogVisible" size="tiny">
+    <template v-if="currentCompanyEmployees.length">
+      <employee-list-group :employees="currentCompanyEmployees"></employee-list-group>
+    </template>
+  </el-dialog>
+
+  <el-dialog title="欢迎来到辅城，请先登录" v-model="loginDialogVisible" size="tiny">
+    <login-dialog-form></login-dialog-form>
+  </el-dialog>
+</div>

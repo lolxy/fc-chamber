@@ -1,0 +1,69 @@
+.company-employee{
+  .wrapper{
+    padding: 10px;
+  }
+
+  .manager-bd {
+    height: 60vh;
+
+    & > div {
+      height: 100%;
+    }
+  }
+
+  .no_rbac{
+    padding: 50px;
+    text-align: center;
+    background-color: #fff;
+    color:#c30000;
+    font-size: 14px;
+    line-height: 18px;
+    i{
+      font-size: 18px;
+      margin-right: 5px;
+      vertical-align: top;
+    }
+  }
+
+  .list-group-item.active {
+    background-color: #337ab7 !important;
+    border-color: #337ab7 !important;
+  }
+  .panel{
+    border: none;
+    .panel-heading{
+      padding: 15px;
+      padding-bottom: 20px;
+      strong{
+        font-size: 16px;
+        small{
+          font-size: 80%;
+          font-weight: 200;
+        }
+      }
+    }
+
+    .roleinfo{
+      h3{
+        font-size: 16px;
+        margin: 0;
+        height: 30px;
+        line-height: 30px;
+      }
+
+      .roleuserlist{
+        height: 30px;
+        line-height: 30px;
+        .label{
+          margin-left: 10px;
+          padding: 6px 12px;
+        }
+      }
+    }
+  }
+  .dialog-footer{
+    text-align: right;
+    margin-top: 20px;
+    padding-right: 5px;
+  }
+}

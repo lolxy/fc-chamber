@@ -1,0 +1,157 @@
+.wrapper{
+  background-color: #f8f8f8;
+  .company-create{
+    background-color: #fff;
+  }
+  .panel{
+    margin-bottom: 0;
+  }
+  .panel-heading{
+    height: 50px;
+    line-height: 30px;
+    border-bottom: 1px solid #e2e2e2;
+    margin-bottom: 5px;
+    p{
+      margin: 0;
+    }
+  }
+
+  .panel-body{
+    .formbox{
+      margin-top: 15px;
+      hr{border-top: 1px solid #eeeeee;}
+    }
+    .label-caption{
+      height: 40px;
+      line-height: 30px;
+      padding-left: 3px;
+      font-weight: bold;
+    }
+
+    p{margin-top: 20px;}
+  }
+
+  .el-cascader,.el-select{
+    width: 100%;
+  }
+
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-link{
+    cursor: pointer;
+  }
+  .el-alert{
+    margin-top: 20px;
+  }
+  // .alert{
+  //   i{
+  //     float:right;
+  //     height: 40px;
+  //     width: 40px;
+  //     line-height: 40px;
+  //     text-align: center;
+  //     font-size: 15px;
+  //     cursor: pointer;
+  //   }
+  // }
+  .avatar-uploader .el-upload:hover {
+    border-color: #20a0ff;
+  }
+  .el-upload--picture-card{
+    line-height: 100px;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 140px;
+    height: 140px;
+    line-height: 100px;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 140px;
+    height: 140px;
+    display: block;
+  }
+
+  .uploadbox{
+    border: 1px solid #bfcbd9;
+    overflow: hidden;
+    margin-top: 30px;
+    border-radius:4px;
+    padding: 15px 10px 12px;
+    margin-left: 100px;
+    text-align: center;
+    .col-sm-4{
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    input[type="file"]{
+      display:none;
+    }
+    span{
+      display:block;
+      line-height: 20px;
+      font-size: 14px;
+      position:absolute;
+      height: 40px;
+      line-height: 20px;
+      bottom: 25px;
+      width: 140px;
+      padding: 0 10px;
+    }
+
+    .cover-uploader{
+      display: inline-block;
+    }
+
+    .cover {
+      display:block;
+      width: 148px;
+      height: 148px;
+      margin: 0 auto;
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .cover-bg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      -webkit-background-size: cover;
+      background-size: cover;
+      background-position: 50% 50%;
+    }
+
+    .cover .btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #333333;
+      color:#ffffff;
+    }
+  }
+
+  .departmentsFormBox{
+    background-color: #f5f5f5;
+    margin-left: 98px;
+    margin-top: -20px;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    .el-form-item{
+      margin-bottom: 5px;
+    }
+    .mt15{
+      margin-top: 10px;
+    }
+  }
+}

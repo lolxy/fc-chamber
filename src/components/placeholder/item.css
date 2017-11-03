@@ -1,0 +1,29 @@
+.emptyState {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  height: 100%;
+  padding: 70px 0;
+}
+
+.emptyState-inner {
+  font-size: 15px;
+  color: #8590a6;
+  text-align: center;
+}
+
+.emptyState-image {
+  display: block;
+  margin-right: auto;
+  margin-bottom: 24px;
+  margin-left: auto;
+}

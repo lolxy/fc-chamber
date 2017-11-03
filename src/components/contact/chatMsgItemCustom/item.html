@@ -1,0 +1,508 @@
+<div class="message-content-inner">
+  <template v-if="parseMsg(message).type == 'ReceiveFriendRequest'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-friend-request">
+        <p>好友请求</p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.portraitUrl">
+              <avatar :src="parseMsg(message).data.portraitUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.trueName }}</p>
+          <p class="text-lter">{{ parseMsg(message).data.jobTitle }}</p>
+        </div>
+        <p class="m-b-sm">{{ parseMsg(message).data.desc }}</p>
+        <button class="btn btn-info" @click="viewFriendRequest"><i class="fa fa-eye"></i> 查看详情</button>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'VerifyFriendRequest'">
+    <p class="m-b-none">当前版本暂不支持查看此消息，请在手机上查看。</p>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'VerifyEmployeeInvite'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-enployee-request">
+        <p>{{ parseMsg(message).data.title }} | <timeago :since="parseMsg(message).data.operTime"></timeago></p>
+        <div class="clear m-b-xs">
+          <div class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.portraitUrl">
+              <avatar :src="parseMsg(message).data.portraitUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </div>
+          <p class="m-n">{{ parseMsg(message).data.desc }}</p>
+          <timeago :since="parseMsg(message).data.operTime" :max-time="86400"></timeago>
+        </div>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'AuctionClosed'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-auction-card">
+        <p>{{ parseMsg(message).data.title }} | <timeago :since="parseMsg(message).data.operTime"></timeago></p>
+        <p v-html="parseMsg(message).data.desc"></p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.goods">
+              <avatar :src="parseMsg(message).data.goods.imgUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.goods.title }}</p>
+          <p class="m-n">数量：{{ parseMsg(message).data.goods.amounts }} {{ parseMsg(message).data.goods.unit }}</p>
+        </div>
+        <button class="btn btn-info" @click="openAuctionsDetail(parseMsg(message).data.goods.goodsid)"><i class="fa fa-external-link"></i> 查看详情</button>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'BiddingNeedConfirm'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-auction-card">
+        <p>{{ parseMsg(message).data.title }} | <timeago :since="parseMsg(message).data.operTime"></timeago></p>
+        <p v-html="parseMsg(message).data.desc"></p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.goods">
+              <avatar :src="parseMsg(message).data.goods.imgUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.goods.title }}</p>
+          <p class="m-n">数量：{{ parseMsg(message).data.goods.amounts }} {{ parseMsg(message).data.goods.unit }}</p>
+        </div>
+        <button class="btn btn-info" @click="openBiddingsDetail(parseMsg(message).data.goods.goodsid)"><i class="fa fa-external-link"></i> 查看详情</button>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'BiddingClosed'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-auction-card">
+        <p>{{ parseMsg(message).data.title }} | <timeago :since="parseMsg(message).data.operTime"></timeago></p>
+        <p v-html="parseMsg(message).data.desc"></p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.goods">
+              <avatar :src="parseMsg(message).data.goods.imgUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.goods.title }}</p>
+          <p class="m-n">数量：{{ parseMsg(message).data.goods.amounts }} {{ parseMsg(message).data.goods.unit }}</p>
+        </div>
+        <button class="btn btn-info" @click="openBiddingsDetail(parseMsg(message).data.goods.goodsid)"><i class="fa fa-external-link"></i> 查看详情</button>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'ReceiveBiddingOffer'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-auction-card">
+        <p>{{ parseMsg(message).data.title }} | <timeago :since="parseMsg(message).data.operTime"></timeago></p>
+        <p v-html="parseMsg(message).data.desc"></p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.goods">
+              <avatar :src="parseMsg(message).data.goods.imgUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.goods.title }}</p>
+          <p class="m-n">数量：{{ parseMsg(message).data.goods.amounts }} {{ parseMsg(message).data.goods.unit }}</p>
+        </div>
+        <button class="btn btn-info" @click="openBiddingsDetail(parseMsg(message).data.goods.goodsid)"><i class="fa fa-external-link"></i> 查看详情</button>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'ReceiveAuctionOffer'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-auction-card">
+        <p>{{ parseMsg(message).data.title }} | <timeago :since="parseMsg(message).data.operTime"></timeago></p>
+        <p v-html="parseMsg(message).data.desc"></p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.goods">
+              <avatar :src="parseMsg(message).data.goods.imgUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.goods.title }}</p>
+          <p class="m-n">数量：{{ parseMsg(message).data.goods.amounts }} {{ parseMsg(message).data.goods.unit }}</p>
+        </div>
+        <button class="btn btn-info" @click="openAuctionsDetail(parseMsg(message).data.goods.goodsid)"><i class="fa fa-external-link"></i> 查看详情</button>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'AuctionOfferWin'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-auction-card">
+        <p>{{ parseMsg(message).data.title }} | <timeago :since="parseMsg(message).data.operTime"></timeago></p>
+        <p v-html="parseMsg(message).data.desc"></p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.goods">
+              <avatar :src="parseMsg(message).data.goods.imgUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.goods.title }}</p>
+          <p class="m-n">数量：{{ parseMsg(message).data.goods.amounts }} {{ parseMsg(message).data.goods.unit }}</p>
+        </div>
+        <button class="btn btn-info" @click="openAuctionsDetail(parseMsg(message).data.goods.goodsid)"><i class="fa fa-external-link"></i> 查看详情</button>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'AuctionOfferFailed'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-auction-card">
+        <p>{{ parseMsg(message).data.title }} | <timeago :since="parseMsg(message).data.operTime"></timeago></p>
+        <p v-html="parseMsg(message).data.desc"></p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.goods">
+              <avatar :src="parseMsg(message).data.goods.imgUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.goods.title }}</p>
+          <p class="m-n">数量：{{ parseMsg(message).data.goods.amounts }} {{ parseMsg(message).data.goods.unit }}</p>
+        </div>
+        <button class="btn btn-info" @click="openAuctionsDetail(parseMsg(message).data.goods.goodsid)"><i class="fa fa-external-link"></i> 查看详情</button>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'BiddingOfferWin'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-auction-card">
+        <p>{{ parseMsg(message).data.title }} | <timeago :since="parseMsg(message).data.operTime"></timeago></p>
+        <p v-html="parseMsg(message).data.desc"></p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.goods">
+              <avatar :src="parseMsg(message).data.goods.imgUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.goods.title }}</p>
+          <p class="m-n">数量：{{ parseMsg(message).data.goods.amounts }} {{ parseMsg(message).data.goods.unit }}</p>
+        </div>
+        <button class="btn btn-info" @click="openBiddingsDetail(parseMsg(message).data.goods.goodsid)"><i class="fa fa-external-link"></i> 查看详情</button>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'BiddingOfferFailed'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-auction-card">
+        <p>{{ parseMsg(message).data.title }} | <timeago :since="parseMsg(message).data.operTime"></timeago></p>
+        <p v-html="parseMsg(message).data.desc"></p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.goods">
+              <avatar :src="parseMsg(message).data.goods.imgUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.goods.title }}</p>
+          <p class="m-n">数量：{{ parseMsg(message).data.goods.amounts }} {{ parseMsg(message).data.goods.unit }}</p>
+        </div>
+        <button class="btn btn-info" @click="openBiddingsDetail(parseMsg(message).data.goods.goodsid)"><i class="fa fa-external-link"></i> 查看详情</button>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == '3' || parseMsg(message).type == 3">
+    <p class="m-b-n">
+      <img class="custom-emoji" :src="`/static/img/emojis/${parseMsg(message).data.catalog}/${parseMsg(message).data.chartlet}.png`" width="115" alt=""/>
+    </p>
+  </template>
+  <template v-else-if="parseMsg(message).type == '5' || parseMsg(message).type == 5">
+    <template v-if="parseMsg(message).data">
+      <div class="message-auction-card">
+        <p>供应 | {{ parseMsg(message).data.content.Title }}</p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.content.Images">
+              <template v-if="parseMsg(message).data.content.Images.length">
+                <avatar :src="parseMsg(message).data.content.Images[0].ImgUri" :size="128"></avatar>
+              </template>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="128"></avatar>
+            </template>
+          </a>
+          <p class="m-n">数量：{{ parseMsg(message).data.content.Qty }}</p>
+          <p class="m-n">供应价：{{ formatPrice(parseMsg(message).data.content.CurrPrice) }} 元</p>
+          <p class="m-n">结束时间：{{ formatDate(parseMsg(message).data.content.EndTime) }}</p>
+        </div>
+        <a class="btn btn-info" @click="openAuctionsDetail(parseMsg(message).data.content.Id)"><i class="fa fa-external-link"></i> 查看详情</a>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == '6' || parseMsg(message).type == 6">
+    <template v-if="parseMsg(message).data">
+      <div class="message-auction-card">
+        <p>求购 | {{ parseMsg(message).data.content.Title }}</p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.content.Images">
+              <template v-if="parseMsg(message).data.content.Images.length">
+                <avatar :src="parseMsg(message).data.content.Images[0].ImgUri" :size="128"></avatar>
+              </template>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="128"></avatar>
+            </template>
+          </a>
+          <p class="m-n">数量：{{ parseMsg(message).data.content.Qty }}</p>
+          <p class="m-n">类型：{{ parseMsg(message).data.content.ProductionType }}</p>
+          <p class="m-n">结束时间：{{ formatDate(parseMsg(message).data.content.EndTime) }}</p>
+        </div>
+        <a class="btn btn-info" @click="openBiddingsDetail(parseMsg(message).data.content.Id)"><i class="fa fa-external-link"></i> 查看详情</a>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == '9' || parseMsg(message).type == 9">
+    <template v-if="parseMsg(message).data">
+      <div class="message-friends-card">
+        <p>个人名片</p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.portraitUrl">
+              <avatar :src="parseMsg(message).data.portraitUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.userName }}</p>
+          <p class="text-lter">{{ parseMsg(message).data.phoneNumber }}</p>
+        </div>
+        <a class="btn btn-info" @click="openUserProfile(parseMsg(message).data.employId)"><i class="fa fa-external-link"></i> 查看详情</a>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == '10' || parseMsg(message).type == 10">
+    <template v-if="parseMsg(message).data">
+      <div class="message-company-card">
+        <p>公司名片</p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.logoUrl">
+              <avatar :src="parseMsg(message).data.logoUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.brandName }}</p>
+          <p class="text-lter">{{ parseMsg(message).data.address }}</p>
+        </div>
+        <p class="m-b-sm">{{ parseMsg(message).data.desc }}</p>
+        <a class="btn btn-info" @click="openCompanyProfile(parseMsg(message).data.companyId)"><i class="fa fa-external-link"></i> 查看详情</a>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == '11' || parseMsg(message).type == 11">
+    <template v-if="parseMsg(message).data">
+      <div class="message-company-card">
+        <p>微店名片</p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.imageUrl">
+              <avatar :src="parseMsg(message).data.imageUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.brandName }}</p>
+          <p class="text-lter">{{ parseMsg(message).data.address }}</p>
+        </div>
+        <p class="m-b-sm">{{ parseMsg(message).data.desc }}</p>
+        <a @click="openCompanyProducts(parseMsg(message).data.companyId)" class="btn btn-info"><i class="fa fa-external-link"></i> 查看详情</a>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == '12' || parseMsg(message).type == 12">
+    <template v-if="parseMsg(message).data">
+      <div class="message-company-card">
+        <p>产品名片</p>
+        <div class="clear m-b-xs">
+          <a class="pull-left m-r-sm">
+            <template v-if="parseMsg(message).data.imageUrl">
+              <avatar :src="parseMsg(message).data.imageUrl" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="m-n">{{ parseMsg(message).data.title }}</p>
+          <p class="text-lter">产品单价：￥{{ parseMsg(message).data.minPrice }} <template v-if="parseMsg(message).data.maxPrice"> ~ {{ parseMsg(message).data.maxPrice }}</template> / {{ parseMsg(message).data.unit }}</p>
+        </div>
+        <a class="btn btn-info" :href="`/company/product/${parseMsg(message).data.productId}`" target="_blank"><i class="fa fa-external-link"></i> 查看详情</a>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == '13' || parseMsg(message).type == 13">
+    <template v-if="parseMsg(message).data">
+      <div class="message-link-card">
+        <p>网址分享</p>
+        <div class="clear m-b-xs">
+          <a :href="parseMsg(message).data.url" class="pull-left m-r-sm" target="_blank">
+            <template v-if="parseMsg(message).data.urlImage">
+              <avatar :src="parseMsg(message).data.urlImage" :size="96"></avatar>
+            </template>
+            <template v-else>
+              <avatar :src="null" :size="96"></avatar>
+            </template>
+          </a>
+          <p class="title m-n"><a :href="parseMsg(message).data.url" target="_blank">{{ parseMsg(message).data.urlTitle }}</a></p>
+          <p class="url m-n"><a :href="parseMsg(message).data.url" target="_blank">{{ parseMsg(message).data.url }}</a></p>
+        </div>
+        <a class="btn btn-info" :href="parseMsg(message).data.url" target="_blank"><i class="fa fa-external-link"></i> 新窗口中打开</a>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == '14' || parseMsg(message).type == 14">
+    <template v-if="parseMsg(message).data">
+      <a :href="`${parseMsg(message).data.url}?download=${parseMsg(message).data.name}`"><i class="fa fa-file" target="_blank"></i> {{ parseMsg(message).data.name }}</a>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'SystemNotification'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-sys-notify-card">
+        <template v-if="parseMsg(message).data.type == 1">
+          <a :href="parseMsg(message).data.url" target="_blank">
+            <img :src="parseMsg(message).data.imgCoverUrl" :alt="parseMsg(message).data.title">
+          </a>
+        </template>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'WorkTaskRemind'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-work-task-card">
+        <p>{{ parseMsg(message).data.title }} | {{ formatDate(parseMsg(message).data.operTime) }}</p>
+        <p>{{ parseMsg(message).data.desc }}</p>
+        <p class="tipMsg" v-if="parseMsg(message).data.tipMsg">{{ parseMsg(message).data.tipMsg }}</p>
+        <p class="m-n"><a class="btn btn-info" @click="openTaskDetail(parseMsg(message).data.workTaskId)"><i class="fa fa-external-link"></i> 查看详情</a></p>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'WorkTaskReceive'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-work-task-card">
+        <p>{{ parseMsg(message).data.title }} | {{ formatDate(parseMsg(message).data.operTime) }}</p>
+        <p>{{ parseMsg(message).data.desc }}</p>
+        <p class="tipMsg" v-if="parseMsg(message).data.tipMsg">{{ parseMsg(message).data.tipMsg }}</p>
+        <p class="m-n"><a class="btn btn-info" @click="openTaskDetail(parseMsg(message).data.workTaskId)"><i class="fa fa-external-link"></i> 查看详情</a></p>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'WorkTaskRemindByEveryDay'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-work-task-card">
+        <p>{{ parseMsg(message).data.title }} | {{ formatDate(parseMsg(message).data.operTime) }}</p>
+        <p>{{ parseMsg(message).data.desc }}</p>
+        <p class="tipMsg" v-if="parseMsg(message).data.tipMsg">{{ parseMsg(message).data.tipMsg }}</p>
+        <p class="m-n"><a class="btn btn-info" @click="openTaskList"><i class="fa fa-external-link"></i> 查看详情</a></p>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'WorkTaskProcessing'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-work-task-card">
+        <p>{{ parseMsg(message).data.title }} | {{ formatDate(parseMsg(message).data.operTime) }}</p>
+        <p>{{ parseMsg(message).data.desc }}</p>
+        <p class="tipMsg" v-if="parseMsg(message).data.tipMsg">{{ parseMsg(message).data.tipMsg }}</p>
+        <p class="m-n"><a class="btn btn-info" @click="openTaskDetail(parseMsg(message).data.workTaskId)"><i class="fa fa-external-link"></i> 查看详情</a></p>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'WorkTaskCompleted'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-work-task-card">
+        <p>{{ parseMsg(message).data.title }} | {{ formatDate(parseMsg(message).data.operTime) }}</p>
+        <p>{{ parseMsg(message).data.desc }}</p>
+        <p class="tipMsg" v-if="parseMsg(message).data.tipMsg">{{ parseMsg(message).data.tipMsg }}</p>
+        <p class="m-n"><a class="btn btn-info" @click="openTaskDetail(parseMsg(message).data.workTaskId)"><i class="fa fa-external-link"></i> 查看详情</a></p>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'WorkTaskWaiting'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-work-task-card">
+        <p>{{ parseMsg(message).data.title }} | {{ formatDate(parseMsg(message).data.operTime) }}</p>
+        <p>{{ parseMsg(message).data.desc }}</p>
+        <p class="tipMsg" v-if="parseMsg(message).data.tipMsg">{{ parseMsg(message).data.tipMsg }}</p>
+        <p class="m-n"><a class="btn btn-info" @click="openTaskDetail(parseMsg(message).data.workTaskId)"><i class="fa fa-external-link"></i> 查看详情</a></p>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'WorkTaskDue'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-work-task-card">
+        <p>{{ parseMsg(message).data.title }} | {{ formatDate(parseMsg(message).data.operTime) }}</p>
+        <p>{{ parseMsg(message).data.desc }}</p>
+        <p class="tipMsg" v-if="parseMsg(message).data.tipMsg">{{ parseMsg(message).data.tipMsg }}</p>
+        <p class="m-n"><a class="btn btn-info" @click="openTaskDetail(parseMsg(message).data.workTaskId)"><i class="fa fa-external-link"></i> 查看详情</a></p>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'AddReportSet'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-work-task-card">
+        <p>{{ parseMsg(message).data.title }} | {{ formatDate(parseMsg(message).data.operTime) }}</p>
+        <p>{{ parseMsg(message).data.desc }}</p>
+        <p class="tipMsg" v-if="parseMsg(message).data.tipMsg">{{ parseMsg(message).data.tipMsg }}</p>
+      </div>
+    </template>
+  </template>
+  <template v-else-if="parseMsg(message).type == 'RemoveReportSet'">
+    <template v-if="parseMsg(message).data">
+      <div class="message-work-task-card">
+        <p>{{ parseMsg(message).data.title }} | {{ formatDate(parseMsg(message).data.operTime) }}</p>
+        <p>{{ parseMsg(message).data.desc }}</p>
+        <p class="tipMsg" v-if="parseMsg(message).data.tipMsg">{{ parseMsg(message).data.tipMsg }}</p>
+      </div>
+    </template>
+  </template>
+  <template v-else>
+    <span v-if="parseMsg(message).data">
+      当前版本暂不支持查看【{{ parseMsg(message).data.title }}】的消息，请在手机上查看。
+    </span>
+    <span v-else>
+      当前版本暂不支持查看此类型的消息，请在手机上查看。
+    </span>
+  </template>
+
+  <el-dialog title="好友请求" v-model="addFriendDialogVisible" size="tiny" :modal-append-to-body="false">
+    <template v-if="currEmployee.Id">
+      <friend-request-item :employees="[currEmployee]" :requestId="currRequestId"></friend-request-item>
+    </template>
+  </el-dialog>
+  <el-dialog v-model="profileDialogVisible" size="tiny" v-if="currentUserId" :modal-append-to-body="false">
+    <user-profile :userId="currentUserId"></user-profile>
+  </el-dialog>
+</div>

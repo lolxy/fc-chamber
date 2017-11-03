@@ -1,0 +1,9 @@
+<span class="img-wrap">
+  <span
+    :id="`preview-img-${id}_${index}`" 
+    :class="`cover preview-img img-responsive`"
+    v-lazy:background-image="getThumb(image, thumbSize)" @click="$preview.open(index, gallery, galleryOptions(`preview-img-${id}_${index}`))" v-if="gallery"></span>
+  <span
+    :class="`cover preview-img img-responsive`"
+    v-lazy:background-image="getThumb(image, thumbSize)" @click="getImageMeta($event)" v-else></span>
+</span>

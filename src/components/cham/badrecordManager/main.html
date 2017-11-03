@@ -1,0 +1,40 @@
+<div class="badrecord-manager">
+  <el-form ref="badrecordForm" :model="badrecordForm">
+    <div class="col-sm-12 col-md-8">
+      <el-form-item label="公司名称">
+        <el-input v-model="badrecordForm.companyName" placeholder="公司名称"></el-input>
+      </el-form-item>
+      <el-form-item label="公司地址">
+        <el-input v-model="badrecordForm.companyAddress" placeholder="公司地址"></el-input>
+      </el-form-item>
+      <el-form-item label="联系人">
+        <el-input v-model="badrecordForm.contacts" placeholder="联系人"></el-input>
+      </el-form-item>
+      <el-form-item label="分享内容">
+        <froala id="froala-editor" :tag="'textarea'" :config="config" v-model="badrecordForm.shareContent" ref="froala"></froala>
+      </el-form-item>
+      <el-form-item label="上传附件">
+        <el-upload
+          action="//up.qbox.me/"
+          list-type="picture-card"
+          :multiple="true"
+          :show-file-list="true"
+          :on-success="handleSuccess"
+          :before-upload="beforeUpload"
+          :on-remove="handleRemove"
+          :data="coverEditor.enclosure"
+          :on-change="handleChange"
+          ref="fileUploader"
+          :file-list="fileList1"
+          >
+          <!-- <el-button size="small" type="default">点击上传</el-button> -->
+          <i class="el-icon-plus"></i>
+          <div slot="tip" class="el-upload__tip">上传附件只能是jpg或png的图片格式，且大小不超过2M</div>
+        </el-upload>
+      </el-form-item>
+      <el-form-item class="action-row">
+          <el-button type="primary" @click="createNew">立即提交</el-button>
+      </el-form-item>
+    </div>
+  </el-form>
+</div>

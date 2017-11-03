@@ -1,0 +1,65 @@
+<div class="stream-item-content stream-item-market-content">
+  <div class="content-wrap">
+    <div class="tl-content clear">
+      <i class="icon-stream-type icon-stream-type-1" v-if="item.Type.Id == 'b49a25a6-e0a0-e611-9844-d625d73ad159'">{{ item.Type.Name }}</i>
+      <i class="icon-stream-type icon-stream-type-2" v-else>{{ item.Type.Name }}</i>
+      <p v-if="item.Content">{{ item.Content }}</p>
+    </div>
+    <template v-if="item.gallery">
+      <div :class="`clear tweet-gallery tweet-gallery-m${item.gallery.length}`">
+        <template v-if="item.gallery.length == 1">
+          <div class="gallery-item" v-for="(image, index) in item.gallery">
+            <div class="cover-wrap">
+              <image-item 
+                :id="item.Id" 
+                :index="index" 
+                :image="image" 
+                :thumbSize="600" 
+                :gallery="gallery"
+                v-on:imageLoaded="onImageLoaded"></image-item>
+            </div>
+          </div>
+        </template>
+        <template v-if="item.gallery.length == 2">
+          <div class="gallery-item" v-for="(image, index) in item.gallery">
+            <div class="cover-wrap">
+              <image-item 
+                :id="item.Id" 
+                :index="index" 
+                :image="image" 
+                :thumbSize="500" 
+                :gallery="gallery"
+                v-on:imageLoaded="onImageLoaded"></image-item>
+            </div>
+          </div>
+        </template>
+        <template v-if="item.gallery.length % 3 == 0 || item.gallery.length % 5 == 0 || item.gallery.length == 8">
+          <div class="gallery-item" v-for="(image, index) in item.gallery">
+            <div class="cover-wrap">
+              <image-item 
+                :id="item.Id" 
+                :index="index" 
+                :image="image" 
+                :thumbSize="400" 
+                :gallery="gallery"
+                v-on:imageLoaded="onImageLoaded"></image-item>
+            </div>
+          </div>
+        </template>
+        <template v-if="item.gallery.length == 4">
+          <div class="gallery-item" v-for="(image, index) in item.gallery">
+            <div class="cover-wrap">
+              <image-item 
+                :id="item.Id" 
+                :index="index" 
+                :image="image" 
+                :thumbSize="600" 
+                :gallery="gallery"
+                v-on:imageLoaded="onImageLoaded"></image-item>
+            </div>
+          </div>
+        </template>
+      </div>
+    </template>
+  </div>
+</div>

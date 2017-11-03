@@ -1,0 +1,7 @@
+<div class="avatar-wrap" :style="`width:${size/2}px;height:${size/2}px`">
+  <img :src="getThumb(src, size)" :width="size/2" :height="size/2" alt="" @error="imageLoadOnError" v-if="!errorImg"/>
+  <template v-else>
+    <img :src="blankLogo" :width="size/2" :height="size/2" alt="" v-if="mode == 'logo'"/>
+    <img :src="blankAvatar" :width="size/2" :height="size/2" alt="" v-else/>
+  </template>
+</div>

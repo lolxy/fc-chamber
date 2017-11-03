@@ -1,0 +1,77 @@
+<div class="panel home-company-menu-panel">
+  <div class="panel-heading">
+    <img src="~@/assets/icons/menu/icon4.svg" height="28" alt="" class="icon">
+    <strong>找商户/公司</strong>
+  </div>
+  <div class="panel-body">
+    <ul class="home-company-menu">
+      <li class="level-0">
+        <router-link :to="{ name: 'companies' }">
+          <span><strong>商户角色</strong> 商户、公司…</span>
+        </router-link>
+        <ul class="company-submenu dropdown-menu">
+          <template v-for="item in roleList">
+            <li>
+              <template v-if="item.Id">
+                <router-link :to="{ name: 'companies', query: { type: item.Id } }">{{ item.Name }}</router-link>
+              </template>
+              <template v-else>
+                <router-link :to="{ name: 'companies' }">{{ item.Name }}</router-link>
+              </template>
+            </li>
+          </template>
+        </ul>
+      </li>
+      <li class="level-0">
+        <router-link :to="{ name: 'companies' }">
+          <span><strong>公司类型</strong> 制作商、经销商…</span>
+        </router-link>
+        <ul class="company-submenu dropdown-menu">
+          <template v-for="item in categories">
+            <li>
+              <template v-if="item.Id">
+                <router-link :to="{ name: 'companies', query: { categories: item.Id } }">{{ item.Name }}</router-link>
+              </template>
+              <template v-else>
+                <router-link :to="{ name: 'companies' }">{{ item.Name }}</router-link>
+              </template>
+            </li>
+          </template>
+        </ul>
+      </li>
+      <li class="level-0">
+        <router-link :to="{ name: 'companies' }">
+          <span><strong>行业类型</strong> 服装辅料、箱包…</span>
+        </router-link>
+        <ul class="company-submenu dropdown-menu">
+          <template v-for="item in industryTypes">
+            <li>
+              <template v-if="item.Id">
+                <router-link :to="{ name: 'companies', query: { categories: item.Id } }">{{ item.Name }}</router-link>
+              </template>
+              <template v-else>
+                <router-link :to="{ name: 'companies' }">{{ item.Name }}</router-link>
+              </template>
+            </li>
+          </template>
+        </ul>
+      </li>
+      <template v-for="menuItem in industryProps">
+        <li class="level-0">
+          <router-link :to="{ name: 'companies', query: { categories: menuItem.Id }  }">
+            <span><strong>{{ menuItem.Name }}</strong> {{ getCurrentIndustrySummary(menuItem.Id) }}</span>
+          </router-link>
+          <ul class="company-submenu company-submenu-large dropdown-menu" v-if="getCurrentIndustry(menuItem.Id).length > 1">
+            <template v-for="item in getCurrentIndustry(menuItem.Id)">
+              <li>
+                <router-link :to="{ name: 'companies', query: { categories: item.Id } }">
+                  {{ item.Name }}<template v-if="item.CompanyCount">( {{ item.CompanyCount }} )</template>
+                </router-link>
+              </li>
+            </template>
+          </ul>
+        </li>
+      </template>
+    </ul>
+  </div>
+</div>

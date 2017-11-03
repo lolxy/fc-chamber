@@ -1,0 +1,150 @@
+#navbar {
+  display: block;
+  height: 50px;
+  width: 100%;
+  background-color: #fff;
+  color: #fff;
+  position: relative;
+}
+
+#navbar .topbar-brand {
+  position: relative;
+  z-index: 2;
+}
+
+.page-home {
+  #navbar {
+    .container {
+      padding: 0 5px;
+    }
+
+    .topbar-brand {
+      display: none;
+    }
+  }
+}
+
+#navbar .topbar-actions {
+  position: relative;
+  z-index: 3;
+}
+
+#navbar .nav > .account {
+  height: 50px;
+  margin-left: 20px;
+}
+
+#navbar .nav > .account .dropdown-toggle {
+  padding: 10px 5px 8px;
+  line-height: 1.1em;
+  text-align: left;
+}
+
+#navbar .dropdown.account > a,
+#navbar .dropdown.account.open > a,
+#navbar .dropdown.account > a:hover,
+#navbar .dropdown.account.open > a:hover {
+  background-color: #708fa0;
+}
+
+#navbar ul.nav {
+  float: left;
+}
+
+#navbar .navbar-brand {
+  color: #000;
+  float: left;
+  padding: 15px 15px;
+  font-size: 18px;
+  line-height: 20px;
+  background: url('../../assets/img/logo@2x.png') no-repeat 0 50%;
+  width: 71px;
+  height: 100%;
+  -webkit-background-size: 71px 28px;
+  background-size: 71px 28px;
+  text-indent: -9999px;
+  margin-right: 127px;
+}
+
+#navbar .dropdown-menu > li.dropdown-submenu > a {
+  padding-right: 6px;
+}
+
+#navbar .navbar-nav > li > a {
+  color: #000;
+  display: inline-block;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 22px;
+  position: relative;
+}
+
+.page-home #navbar .navbar-nav > li > a {
+  padding: 0 30px;
+}
+
+#navbar .navbar-right > li > a {
+  display: inline-block;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 15px;
+}
+
+#navbar .navbar-nav > li > a:hover {
+  background: none;
+}
+
+#navbar .navbar-nav > li > a.active {
+  color: #fff;
+  font-weight: bold;
+  background-color: #1a4a94;
+}
+
+.identity-switch .fc-icon {
+  font-size: 16px;
+}
+
+.identity-switch .fc-icon::before {
+  margin: 0 0.2em;
+}
+
+.identity-switch span {
+  display: inline-block;
+  max-width: 96px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+}
+
+.identity-switch .caret {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  margin-top: -2px;
+}
+
+.account-settings-menu .realname {
+  display: inline-block;
+  max-width: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+}
+
+.account-settings-menu .caret {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  margin-top: -2px;
+}
+
+.company-switch-menu {
+  width: 240px;
+}
+
+.company-switch-menu li a.active {
+  color: #58666e;
+  background-color: #edf1f2 !important;
+}

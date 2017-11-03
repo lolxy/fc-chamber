@@ -1,0 +1,16 @@
+<div class="mall-articles-list">
+  <div class="article-item" v-for="item in list" :key="item.id">
+    <router-link :to="{ name: 'mall.article.entry', params: { entryId: item.id } }" class="clearfix">
+      <div class="col-sm-12 col-md-3 item-cover-wrap" v-if="item.images">
+          <span class="cover" v-lazy:background-image="item.images.url"></span>
+      </div>
+      <div class="col-sm-12 col-md-9 item-info-wrap">
+        <div class="item-info">
+          <h3>{{ item.title }}</h3>
+          <p class="summary">{{ item.abstractContent }}</p>
+          <p class="metas"><span class="read-count">{{ item.readCount }} 阅读</span> <timeago :since="item.createTime * 1000"></timeago></p>
+        </div>
+      </div>
+    </router-link>
+  </div>
+</div>

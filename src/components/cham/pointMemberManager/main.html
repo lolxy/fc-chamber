@@ -1,0 +1,25 @@
+<div class="cham-companies-manager">
+  <div class="manager-hd clearfix">
+    <div class="col-sm-12">
+      <div class="input-group search-wrap">
+        <input
+        type="text"
+        placeholder="请输入电话号码/用户姓名"
+        class="form-control"
+        v-model="keyword"
+        @keyup.enter="searchMember">
+        <span class="input-group-btn">
+          <button
+            class="btn btn-primary padder-lg"
+            type="button"
+            @click="searchMember">搜索</button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="manager-bd">
+    <template v-if="memberList.length">
+      <member-search-list :items="memberList" :currentCompanyId="currentCompanyId" v-on:reloadList="onReloadList"></member-search-list>
+    </template>
+  </div>
+</div>

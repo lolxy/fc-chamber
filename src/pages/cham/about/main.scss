@@ -1,0 +1,29 @@
+@import '~@/assets/scss/foundation';
+
+.about-wrapper {
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px;
+  .about-nav,.about-content{
+    background-color: #fff;
+  }
+  .about-nav{
+    li{
+      cursor: pointer;
+      &:hover,&.list-group-item.active{
+        background-color: #e2e2e2 !important;
+        border: 1px solid #e2e2e2 !important;
+        color:#333333
+      }
+    }
+  }
+  .about-content{
+    padding: 20px 20px 30px;
+  }
+}
+
+.company-manager-dialog {
+  .el-dialog {
+    top: 10% !important;
+  }
+}

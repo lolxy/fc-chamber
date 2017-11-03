@@ -1,0 +1,12 @@
+<div class="mall-companies-wrap">
+  <template v-if="companyList.length">
+    <company-recommend-grid :items="companyList" v-on:mallCompanyList="reloadList"></company-recommend-grid>
+  </template>
+
+  <infinite-loading :on-infinite="onListInfinite" spinner="waveDots" ref="streamInfiniteLoading">
+    <span slot="no-more"><a href="javascript:void(0);" @click="backtop" class="backtop">返回顶部</a></span>
+    <span slot="no-results">
+      <placeholder text="暂无结果"></placeholder>
+    </span>
+  </infinite-loading>
+</div>
