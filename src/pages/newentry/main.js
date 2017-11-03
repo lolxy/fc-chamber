@@ -8,10 +8,10 @@ export default {
       typeOptions:[
         {
           value: 'news',
-          label: '资讯'
+          label: '商会资讯'
         }, {
           value: 'law',
-          label: '法律'
+          label: '法律政策'
         }, {
           value: 'tec',
           label: '新技术'

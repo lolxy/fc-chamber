@@ -1,12 +1,12 @@
 <div class="cham-article-entry" v-if="entry.id">
   <div class="row">
-  <div class="small-8 columns" style="padding-left:0;">
+  <div class="small-8 columns">
     <div class="breadcrumbbox">
-      <ol class="breadcrumb">
+      <ul class="breadcrumb">
         <li>{{getModuleName(entry.type)}}</li>
         <li>{{getCategroyName(entry.categoryId)}}</li>
         <li class="active">{{ entry.title }}</li>
-      </ol>
+      </ul>
     </div>
 
     <div class="article-entry">
@@ -19,9 +19,10 @@
       </div>
     </div>
   </div>
-  <div class="small-4 columns" style="padding-right:0;">
+  <div class="small-4 columns none-padding-left">
     <div class="article-entry-aside">
       <div class="aside-hd">
+        <i></i>
         最新-{{getModuleName(entry.type)}}
       </div>
       <div class="aside-bd">
