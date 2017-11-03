@@ -13,8 +13,7 @@
  */
 
 // Home Page
-const Error404 = r => require.ensure([], () => r(require('@/pages/error/404.vue')), 'error-404')
-const HomePage = r => require.ensure([], () => r(require('@/pages/chamber/index.vue')), 'home-page')
+const homePage = r => require.ensure([], () => r(require('@/pages/home/index/index.vue')), 'homePage');
 
 // Stream Market
 const streamMarket = r => require.ensure([], () => r(require('@/pages/stream/market/index.vue')), 'stream-market');
@@ -150,24 +149,12 @@ const OAExportOverTimes = r => require.ensure([], () => r(require('@/pages/oa/ex
 export default [
   // Home
   {
-    path: '/chamber/:id',
-    name: 'chamber.index',
-    component: HomePage,
+    path: '/home',
+    name: 'home.index',
+    component: homePage,
     meta: {
-      guest: true
-    }
-  },
-  {
-    path: '/404',
-    name: 'page-no-found',
-    component: Error404,
-    meta: {
-      guest: true
-    }
-  },
-  {
-    path: '/*',
-    redirect: '/404'
+      guest: true,
+    },
   },
 
   // company

@@ -5,12 +5,16 @@
 
 import store from '@/store';
 import authService from '@/services/auth';
+import myService from '@/services/my';
 
 export default {
   data() {
     return {
       isFullscreen: false,
     }
+  },
+  components: {
+    Avatar: require('@/components/avatar/avatar.vue'),
   },
   computed: {
     auth() {
@@ -21,6 +25,9 @@ export default {
     },
     routeRoot() {
       return this.$store.state.route.name.split('.')[0];
+    },
+    contactVisible() {
+      return this.$store.state.contact.panelVisible;
     },
     myProfile() {
       return this.$store.state.myProfile.info;
@@ -112,6 +119,12 @@ export default {
         document.webkitExitFullscreen();
       }
       this.isFullscreen = false;
+    },
+    oepnContactPanel() {
+      if (!this.contactVisible) {
+        store.dispatch('contact/switchContactPanel', 'contact.sessions');
+        store.dispatch('contact/toggleContactPanel', true);
+      }
     },
     goToPage(pageName) {
       store.dispatch('contact/toggleContactPanel', false);
