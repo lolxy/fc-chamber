@@ -35,7 +35,7 @@ export default {
     Avatar: require('@/components/avatar/avatar.vue'),
     profileCover: require('@/components/company/profileCover/item.vue'),
     employeeListGroup: require('@/components/company/employeeListGroup/item.vue'),
-    loginDialogForm: require('@/components/access/loginDialogForm/item.vue'),
+    
     verifyManager: require('@/components/company/verifyManager/item.vue'),
   },
   computed: {

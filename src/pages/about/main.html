@@ -1,0 +1,32 @@
+<div class="about-box">
+  <div class="row">
+    <div class="small-8 columns">
+      <div class="abouts" v-html="chamInfo.introduction" v-if="chamInfo.introduction"></div>
+    </div>
+    <div class="small-4 columns none-padding-left">
+      <div class="mapbox">
+        <div class="baseinfo">
+          <h2><i></i>商会基本信息</h2>
+          <div class="info">
+            <dl>
+              <dt>商会名称：</dt>
+              <dd>{{chamInfo.name}}</dd>
+            </dl>
+            <dl>
+              <dt>详细地址：</dt>
+              <dd>{{chamInfo.addressDetail}}</dd>
+            </dl>
+          </div>
+        </div>
+        <div class="amap-page-container" v-if="chamMap.center">
+          <div class="amap-wrap">
+            <el-amap vid="amap" :zoom="chamMap.zoom" :center="chamMap.center" :scrollWheel="false" :plugin="chamMap.plugin" class="amap-main">
+              <el-amap-marker :position="chamMap.window.position" :visible="true" :events="chamMap.maker.events"></el-amap-marker>
+              <el-amap-info-window :position="chamMap.window.position" :content="chamMap.window.content" :visible="chamMap.window.visible" :offset="[0, -36]" :size="[360, 120]"></el-amap-info-window>
+            </el-amap>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

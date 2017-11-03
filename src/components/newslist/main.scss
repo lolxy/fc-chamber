@@ -1,0 +1,49 @@
+@import '~@/assets/scss/settings';
+#newslist{
+  .box{
+    box-shadow: 1px 1px 20px rgba(0,0,0,0.16);
+    -webkit-box-shadow:1px 1px 20px rgba(0,0,0,0.16);
+    .pic{
+      width: 100%;
+      height: 158px;
+      background-size: cover;
+    }
+    .panel{
+      padding: 15px;
+      .panel-heading{
+        position:relative;
+        height: 40px;
+        overflow: hidden;
+        border-bottom: 1px solid #e3e3e3;
+        margin-bottom: 10px;
+        h2{
+          color:#E03E3E;
+          font-size: rem-calc(20);
+          line-height: 35px;
+        }
+        a.more{
+          display: block;
+          height: 40px;
+          line-height: 40px;
+          position: absolute;
+          right: 0;
+          top: 0;
+          font-size: rem-calc(16);
+          color:#333333;
+        }
+      }
+      .panel-body{
+        height: 140px;
+        overflow: hidden;
+        a{
+          color:#606060;
+          font-size: rem-calc(14);
+          line-height: 28px;
+          &:hover{
+            color:#DD9100;
+          }
+        }
+      }
+    }
+  }
+}

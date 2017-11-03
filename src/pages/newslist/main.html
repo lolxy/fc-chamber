@@ -1,0 +1,39 @@
+<div class="newlist-box">
+  <div class="row">
+    <div class="small-3 columns">
+      <div class="catbox">
+        <h2><i></i> 全部分类</h2>
+        <ul class="no-bullet">
+          <li v-for="elem in currentCatList" :key="elem.id" @click="getCurrentCatId(elem.id)">
+            {{elem.categoryName}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="small-9 columns none-padding-left">
+      <div class="newlist">
+        <div class="article-item" v-for="item in list" :key="item.id">
+          <router-link :to="{ name: 'chember.newentry', params: { entryId: item.id } }" class="clearfix">
+            <div class="small-3 columns item-cover-wrap" v-if="item.cover[0]">
+                <span class="cover" v-lazy:background-image="item.cover[0]"></span>
+            </div>
+            <div class="small-9 columns item-info-wrap">
+              <div class="item-info">
+                <h3>{{ item.title }}</h3>
+                <p class="summary">{{ item.abstractContent }}</p>
+                <p class="metas"><span class="read-count">{{ item.readCount }} 阅读</span> <timeago :since="item.createTime * 1000"></timeago></p>
+              </div>
+            </div>
+          </router-link>
+        </div>
+
+        <infinite-loading :on-infinite="onListInfinite" spinner="waveDots" ref="streamInfiniteLoading">
+          <span slot="no-more"><a href="javascript:void(0);" @click="backtop" class="backtop">返回顶部</a></span>
+          <span slot="no-results">
+            <placeholder text="该栏目或分类下尚未发布文章"></placeholder>
+          </span>
+        </infinite-loading>
+      </div>
+    </div>
+  </div>
+</div>

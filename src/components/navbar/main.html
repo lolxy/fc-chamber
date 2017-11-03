@@ -1,58 +1,48 @@
-<div id="navbar">
-    <div class="container">
-        <div class="topbar-brand pull-left">
-          <router-link :to="{ name: 'home.index' }" class="navbar-brand">辅城网络</router-link>
-        </div>
-
-        <ul class="nav navbar-nav hidden-xs">
+<div id="navbar" class="hide-for-small-only">
+  <div class="row">
+      <div class="small-9 columns">
+        <ul class="navbar-nav">
           <li>
-            <a @click="goToPage('home.index')" :class="{'active': routeRoot == 'home' && !contactVisible}">
+            <a @click="goToPage('chamber.index')" :class="{'active': routeRoot == 'index'}">
               <span>首 页</span>
             </a>
           </li>
           <li>
-            <a @click="goToPage('stream.market')" :class="{'active': routeRoot == 'stream' && !contactVisible}">
-              <span>市场动态</span>
+            <a @click="goToPage('chamber.about')" :class="{'active': routeRoot == 'about'}">
+              <span>商会简介</span>
             </a>
           </li>
           <li>
-            <a @click="goToPage('companies')" :class="{'active': routeRoot == 'companies' && !contactVisible}">
-              <span>搜索引擎</span>
+            <a @click="goToPage('chamber.organization')" :class="{'active': routeRoot == 'organization'}">
+              <span>商会机构</span>
             </a>
           </li>
           <li>
-            <template v-if="auth">
-              <a class="dropdown-toggle" :class="{'active': ( routeRoot === 'company' && isMyCompany) && !contactVisible }" data-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
-                <span class="ng-scope">业务管理</span> <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu" role="menu">
-                <li>
-                  <a @click="goToMyCompany('profile')">公司主页</a>
-                </li>
-                <li>
-                  <a @click="goToMyCompany('products')">公司微店</a>
-                </li>
-                <li>
-                  <a @click="goToMyCompany('stream')">公司动态</a>
-                </li>
-              </ul>
-            </template>
-            <template v-else>
-              <a href="/access/login">
-                <span>业务管理</span>
-              </a>
-            </template>
+            <a @click="goToPage('chamber.news')" :class="{'active': routeRoot == 'news'}">
+              <span>商会资讯</span>
+            </a>
           </li>
           <li>
-            <a @click="goToPage('articles.index')" :class="{'active': routeRoot == 'articles' && !contactVisible}">新闻资讯</a>
+            <a @click="goToPage('chamber.tec')" :class="{'active': routeRoot == 'tec'}">
+              <span>新技术</span>
+            </a>
           </li>
           <li>
-            <a @click="goToPage('circles.auctions')" :class="{'active': routeName == 'circles.auctions' && !contactVisible}">供应</a>
+            <a @click="goToPage('chamber.law')" :class="{'active': routeRoot == 'law'}">
+              <span>法律政策</span>
+            </a>
           </li>
           <li>
-            <a @click="goToPage('circles.biddings')" :class="{'active': routeName == 'circles.biddings' && !contactVisible}">求购</a>
+            <a @click="goToPage('chamber.member')" :class="{'active': routeName == 'circles.member'}">
+              <span>会员专区</span>
+            </a>
           </li>
         </ul>
+      </div>
+      <div class="small-3 columns text-right">
+        <a href="" target="_blank" v-if="!auth">
+          <img src="~@/assets/images/ic_home_membership.png" alt="申请加会" class=""/>
+        </a>
+      </div>
     </div>
 </div>

@@ -1,0 +1,42 @@
+<div class="header">
+  <div class="topbox">
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="row">
+          <div class="small-6 columns">
+            hi,欢迎来到<span v-if="chamInfo">{{chamInfo.name}}</span><span v-else>辅城网</span>
+          </div>
+          <div class="small-6 columns text-right toptool">
+            <span class="login">您好，请先<a href="#" target="_blank">登录</a></span>
+            <span class="rediget"><a href="#" target="_blank">免费注册</a></span>
+            <span class="service">服务热线：<em>400-8000-1233</em></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="headerbox">
+    <div class="row">
+      <div class="small-5 large-4 columns logo">
+        <a href="#" target="_blank">
+          <img src="~@/assets/images/ic_home_logo.png" alt="泉州服装纺织商会" class=""/>
+        </a>
+      </div>
+      <div class="small-6 large-6 columns search">
+        <div class="input-group">
+          <span class="input-group-label">商家</span>
+          <input
+          type="text"
+          placeholder="请输入商家名称"
+          class="input-group-field"
+          v-model="searchKeyword"
+          @keyup.enter="searchCompany">
+          <div class="input-group-button">
+            <input type="submit" class="button" value="搜索" @click="searchCompany">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -17,6 +17,10 @@
  */
 import Vue from 'vue';
 
+// 自定义全局组件
+import defaultLayout from '@/layouts/default.vue';
+
+Vue.component('default-layout', defaultLayout);
 
 Vue.config.debug = process.env.NODE_ENV !== 'production';
 
@@ -267,7 +271,7 @@ Vue.use(VuePreview);
  * http://getbootstrap.com/
  */
 require('bootstrap');
-require('bootstrap/less/bootstrap.less');
+// require('bootstrap/less/bootstrap.less');
 
 /* ============
  * Vue-Awesome-Swiper
@@ -275,6 +279,7 @@ require('bootstrap/less/bootstrap.less');
  *
  */
 require('swiper/dist/css/swiper.css');
+require('./assets/scss/main.scss');
 
 /* ============
  * Font Awesome
@@ -294,7 +299,7 @@ require('font-awesome/less/font-awesome.less');
  * https://themeforest.net/item/angulr-bootstrap-admin-web-app-with-angularjs/8437259
  */
 require('./assets/css/font.css');
-require('./assets/css/app.css');
+// require('./assets/css/app.css');
 // require('./assets/css/xeditable.css');
 
 
@@ -302,7 +307,7 @@ require('./assets/css/app.css');
  * Custom Global CSS
  * ============
  */
-require('./assets/css/global.css');
+// require('./assets/css/global.css');
 
 export default {
   router,

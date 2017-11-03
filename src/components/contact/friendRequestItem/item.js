@@ -33,7 +33,7 @@ export default {
   },
   components: {
     avatar: require('@/components/avatar/avatar.vue'),
-    loginDialogForm: require('@/components/access/loginDialogForm/item.vue'),
+    
   },
   methods: {
     applyRequest(item) {

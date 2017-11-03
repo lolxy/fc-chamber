@@ -1,0 +1,78 @@
+@import '~@/assets/scss/settings';
+#brandEnterprise{
+  .panel{
+    .penel-heading{
+      height: 30px;
+      line-height: 30px;
+      overflow: hidden;
+      position: relative;
+      color:#333333;
+      margin-bottom: 20px;
+      h2{
+        font-size: rem-calc(24);
+        i{display: inline-block;
+          vertical-align: top;
+          width: 10px;
+          height: 30px;
+          background: url(~@/assets/images/ic_home_border.png) center center no-repeat;
+          margin-right: 10px;
+        }
+        span{
+          font-size: rem-calc(16);
+          margin-left: 10px;
+          line-height: 40px;
+          display: inline-block;
+          vertical-align: top;
+          height: 30px;
+        }
+      }
+      a.more{
+        display: block;
+        height: 30px;
+        line-height: 30px;
+        color:#333333;
+        position: absolute;
+        right: 0;
+        top: 0;
+        &:hover{
+          color:#DD9100;
+        }
+      }
+    }
+
+    .panel-body{
+      overflow: hidden;
+      li{
+        width: 12.5%;
+        float: left;
+        padding: 5px;
+        a{
+          display: block;
+          height: 0;
+          padding-bottom: 100%;
+          border: 1px solid #ffffff;
+          position: relative;
+          color:#606060;
+          font-size: rem-calc(16);
+          overflow: hidden;
+          &:hover{
+            border: 1px solid #DD9100;
+          }
+          span{
+            display: block;
+            height: 30px;
+            line-height: 30px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            position: absolute;
+            bottom: 6px;
+            left: auto;
+            width: 100%;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}

@@ -41,7 +41,7 @@ export default {
   ],
   components: {
     avatar: require('@/components/avatar/avatar.vue'),
-    loginDialogForm: require('@/components/access/loginDialogForm/item.vue'),
+    
     employeeListGroup: require('@/components/company/employeeListGroup/item.vue'),
     pointMemberManager: require('@/components/cham/pointMemberManager/main.vue'),
     virtualCompanyManager:require('@/components/cham/virtualCompanyManager/main.vue'),

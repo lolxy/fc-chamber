@@ -1,0 +1,71 @@
+.about-box{
+  margin: 20px auto;
+  .none-padding-left{
+    padding-left: 0;
+  }
+  .abouts{
+    border: 1px solid #e2e2e2;
+    padding: 20px;
+    min-height: 446px;
+  }
+  .mapbox{
+    .amap-page-container,.baseinfo{
+      border: 1px solid #e2e2e2;
+    }
+    .baseinfo{
+      margin-bottom: 15px;
+      h2{
+        height: 40px;
+        line-height: 40px;
+        font-size: 15px;
+        font-weight: bold;
+        margin: 0;
+        border-bottom: 1px solid #e2e2e2;
+        i{
+          display: inline-block;
+          vertical-align: top;
+          height: 20px;
+          width: 5px;
+          border-left: 5px solid #E03E3E;
+          margin: 8px 0;
+          margin-right: 10px;
+        }
+      }
+      .info{
+        padding: 10px;
+        font-size: 14px;
+        dl{
+          position:relative;
+          overflow: hidden;
+          margin: 0;
+          line-height: 20px;
+          border-bottom: 1px dashed #eeeeee;
+          padding: 10px 0;
+          dt{
+            position: absolute;
+            width: 80px;
+            text-align: right;
+            top: 10px;
+            left: 0;
+          }
+          dd{
+            margin-left: 90px;
+          }
+        }
+      }
+    }
+    .amap-page-container{
+      height: 220px;
+      padding: 10px;
+      .amap-wrap {
+        height: 200px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #e2e2e2;
+        .amap-main {
+          height: 100%;
+        }
+      }
+    }
+  }
+}

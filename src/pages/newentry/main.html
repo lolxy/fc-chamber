@@ -1,0 +1,41 @@
+<div class="cham-article-entry" v-if="entry.id">
+  <div class="row">
+  <div class="small-8 columns" style="padding-left:0;">
+    <div class="breadcrumbbox">
+      <ol class="breadcrumb">
+        <li>{{getModuleName(entry.type)}}</li>
+        <li>{{getCategroyName(entry.categoryId)}}</li>
+        <li class="active">{{ entry.title }}</li>
+      </ol>
+    </div>
+
+    <div class="article-entry">
+      <div class="entry-hd">
+        <h3>{{ entry.title }}</h3>
+        <p>发布时间：<timeago :since="entry.createTime * 1000"></timeago></p>
+      </div>
+      <div class="entry-bd">
+        <div class="entry-content" v-html="entry.content"></div>
+      </div>
+    </div>
+  </div>
+  <div class="small-4 columns" style="padding-right:0;">
+    <div class="article-entry-aside">
+      <div class="aside-hd">
+        最新-{{getModuleName(entry.type)}}
+      </div>
+      <div class="aside-bd">
+        <ul class="latest-news">
+          <li v-for="item in latestList">
+            <router-link :to="{ name: 'cham.article.entry', params: { entryId: item.id } }">
+              <span class="cover" v-lazy:background-image="item.cover[0]"></span>
+              <span class="title">{{ item.title }}</span>
+              <span class="text-xs block m-t-xs"><timeago :since="item.createTime * 1000"></timeago></span>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

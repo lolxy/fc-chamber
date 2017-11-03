@@ -27,7 +27,7 @@ export default {
     },
   },
   components: {
-    VLayout: require('@/layouts/default/default.vue'),
+    VLayout: require('@/layouts/default.vue'),
     Avatar: require('@/components/avatar/avatar.vue'),
   },
   methods: {
