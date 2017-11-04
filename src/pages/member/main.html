@@ -1,3 +1,38 @@
-<div class="member-box">
+<div class="cham-companies-wrap">
+  <div class="row">
+    <div class="small-12 columns">
+  <template>
+    <div class="btnbox">
+      <div class="chamtypelist">
+        <ul class="nav no-bullet">
+          <li class="all" :class="{active:!currentTypeId}">
+            <span @click="getCurrentTypeId()">全部企业</span>
+          </li>
+          <li v-for="elem in chamTypeList" :key="elem.typeId" :class="{active:elem.typeId == currentTypeId}">
+            <span @click="getCurrentTypeId(elem.typeId)">{{ elem.name }}</span>
+          </li>
+        </ul>
+        <div class="submenu" v-if="currentChildType.length">
+          <ul class="nav nav-pills">
+            <li v-for="childElem in currentChildType" :key="childElem.typeId" :class="{active:childElem.typeId == currentChildTypeId}">
+              <span @click="getCurrentChildTypeId(childElem.typeId)">{{ childElem.name }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </template>
 
+  <template v-if="memberList.length">
+    <company-grid :items="memberList" :currentChildTypeId="currentChildTypeId"></company-grid>
+  </template>
+
+  <infinite-loading :on-infinite="onListInfinite" spinner="waveDots" ref="streamInfiniteLoading">
+    <span slot="no-more"><a href="javascript:void(0);" @click="backtop" class="backtop">返回顶部</a></span>
+    <span slot="no-results">
+      <placeholder text="暂无会员数据"></placeholder>
+    </span>
+  </infinite-loading>
+  </div>
+  </div>
 </div>

@@ -44,6 +44,14 @@ $fontweight:bold;
     .logo{
       height: 70px;
       margin: 15px 0;
+      .logotext{
+        font-size: 30px;
+        display: block;
+        height: 70px;
+        line-height: 70px;
+        overflow: hidden;
+        color:#E03E3E
+      }
     }
     .search{
       height: 40px;

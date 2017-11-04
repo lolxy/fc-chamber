@@ -1,0 +1,115 @@
+@import '~@/assets/scss/foundation';
+
+.apply-manager {
+  background-color: #fff;
+  overflow: hidden;
+  .formbox{
+    border: 1px solid #e2e2e2;
+    padding: 20px;
+    margin: 20px auto;
+    overflow: hidden;
+  }
+  .none-padding-right{
+    padding-right: 0 !important;
+  }
+  .small-6{
+    padding-right: 15px;
+    padding-left: 0;
+  }
+  .el-form-item {
+    margin-bottom:10px;
+  }
+  .el-input__inner{
+    margin-bottom: 0;
+  }
+  .el-form-item__label {
+    float: none;
+    margin: 0;
+    text-align: left;
+  }
+  .action-row {
+    margin-top: 16px;
+  }
+  .col-md-9 {
+    @include breakpoint(large) {
+      padding-right: 16px;
+    }
+  }
+
+  .fr-box.fr-basic {
+    .fr-element {
+      padding: 12px 15px;
+    }
+  }
+  .fr-toolbar.fr-top {
+    box-shadow: none;
+    border: #d8d8d8 solid 1px;
+
+    &.fr-sticky-on {
+      top: 33px !important;
+    }
+  }
+  .fr-box.fr-basic.fr-top .fr-wrapper {
+    box-shadow: none;
+    border: #d8d8d8 solid 1px;
+    border-top: 0 none;
+  }
+
+  .el-form-item__content {
+    line-height: 140%;
+  }
+
+  p {
+    line-height: 150%;
+    margin: 0 0 16px;
+  }
+
+  table {
+    th,
+    td {
+      padding: 8px 12px;
+    }
+  }
+}
+
+.avatar-uploader .el-upload {
+  background-color: #fff;
+  border: 1px dashed #d9d9d9;
+  width: 100%;
+  max-height: 191px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #20a0ff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 189px;
+  height: 189px;
+  line-height: 189px;
+  text-align: center;
+}
+.cover-thumb {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.btnbox{
+  display: block;
+  width: 100%;
+  clear: both;
+  border-top: 1px solid #e2e2e2;
+  margin-top:20px;
+  padding-top: 10px;
+  .el-button{
+    background-color:#E03E3E;
+    border: 1px solid #e03e3e;
+    &:hover{
+      background-color: #e03f3f;
+    }
+  }
+}

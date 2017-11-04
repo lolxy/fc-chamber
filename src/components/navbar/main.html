@@ -33,16 +33,16 @@
             </a>
           </li>
           <li>
-            <a @click="goToPage('chamber.member')" :class="{'active': routeName == 'circles.member'}">
+            <a @click="goToPage('chamber.member')" :class="{'active': routeRoot == 'member'}">
               <span>会员专区</span>
             </a>
           </li>
         </ul>
       </div>
       <div class="small-3 columns text-right">
-        <a href="" target="_blank" v-if="!auth">
-          <img src="~@/assets/images/ic_home_membership.png" alt="申请加会" class=""/>
-        </a>
+        <router-link :to="{ name: 'chamber.apply', params: { chamId: chamId } }">
+          <img src="~@/assets/images/ic_home_membership.png" alt="申请加会"/>
+        </router-link>
       </div>
     </div>
 </div>

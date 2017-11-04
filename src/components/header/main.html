@@ -7,9 +7,10 @@
             hi,欢迎来到<span v-if="chamInfo">{{chamInfo.name}}</span><span v-else>辅城网</span>
           </div>
           <div class="small-6 columns text-right toptool">
-            <span class="login">您好，请先<a href="#" target="_blank">登录</a></span>
-            <span class="rediget"><a href="#" target="_blank">免费注册</a></span>
-            <span class="service">服务热线：<em>400-8000-1233</em></span>
+            <span class="login" v-if="auth">您好，{{userName}}</span>
+            <span class="login" v-else>您好，请先<a :href="`${baseUrl}/access/login?redictUrl=${baseUrl}/chamber/${chamId}`">登录</a></span>
+            <span class="rediget"><a :href="`${baseUrl}/access/signup`" target="_blank">免费注册</a></span>
+            <span class="service">服务热线：<em>4008 070 666</em></span>
           </div>
         </div>
       </div>
@@ -19,9 +20,12 @@
   <div class="headerbox">
     <div class="row">
       <div class="small-5 large-4 columns logo">
-        <a href="#" target="_blank">
-          <img src="~@/assets/images/ic_home_logo.png" alt="泉州服装纺织商会" class=""/>
-        </a>
+        <router-link :to="{ name: 'chamber.index', params: { chamId: chamId } }">
+          <template v-if="chamInfo">
+            <img :src="chamInfo.logoUrl" :alt="chamInfo.name" v-if="chamInfo.logoUrl"/>
+            <span class="logotext" v-else>{{chamInfo.name}}</span>
+          </template>
+        </router-link>
       </div>
       <div class="small-6 large-6 columns search">
         <div class="input-group">

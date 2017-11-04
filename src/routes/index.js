@@ -21,8 +21,10 @@ const chamNews = r => require.ensure([], () => r(require('@/pages/newslist/main.
 const chamLaw = r => require.ensure([], () => r(require('@/pages/newslist/main.vue')), 'chamber-law');
 const chamTec = r => require.ensure([], () => r(require('@/pages/newslist/main.vue')), 'chamber-tec');
 const chamMember = r => require.ensure([], () => r(require('@/pages/member/main.vue')), 'chamber-member');
+const chamNotice = r => require.ensure([], () => r(require('@/pages/notice/main.vue')), 'chamber-notice');
 const NewEntry = r => require.ensure([], () => r(require('@/pages/newentry/main.vue')), 'chamber-newentry');
-
+const chamApply = r => require.ensure([], () => r(require('@/pages/apply/main.vue')), 'chamber-apply');
+const chamNoticeDetail = r => require.ensure([], () => r(require('@/pages/noticedetail/main.vue')), 'chamber-noticedetail');
 /**
  * The routes
  *
@@ -82,6 +84,30 @@ export default [
         path: 'tec',
         name: 'chamber.tec',
         component: chamTec,
+        meta: {
+          guest: true,
+        },
+      },
+      {
+        path: 'apply',
+        name: 'chamber.apply',
+        component: chamApply,
+        meta: {
+          guest: true,
+        },
+      },
+      {
+        path: 'notice',
+        name: 'chamber.notice',
+        component: chamNotice,
+        meta: {
+          guest: true,
+        },
+      },
+      {
+        path: 'noticedetail/:entryId',
+        name: 'chamber.noticedetail',
+        component: chamNoticeDetail,
         meta: {
           guest: true,
         },

@@ -3,7 +3,7 @@
     <div class="panel small-12 columns">
       <div class="penel-heading">
         <h2><i></i> 电子商场<span>Electronic Mall</span></h2>
-        <a href="#" target="_blank" class="more">更多...</a>
+        <router-link :to="{ name: 'chamber.member', params: { chamId: chamId } }" class="more">更多...</router-link>
       </div>
       <div class="panel-body">
         <ul class="no-bullet">

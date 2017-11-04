@@ -2,14 +2,16 @@
   <div class="panel">
     <div class="panel-heading">
       <h2>商会资讯</h2>
-      <a href="#" class="more">更多...</a>
+      <router-link :to="{ name: 'chamber.news', params: { chamId: chamId } }" class="more">更多...</router-link>
     </div>
     <div class="panel-body">
         <div v-bar="{preventParentScroll: true,scrollThrottle: 30}">
           <div>
             <ul class="no-bullet">
                 <li v-for="elem in newslist" :key="elem.id">
-                  <a href="#" target="_blank" class="text-overflow" :title="elem.title">{{elem.title}}</a>
+                  <router-link :to="{ name: 'chember.newentry', params: { entryId: elem.id } }" class="text-overflow" :title="elem.title">
+                    {{elem.title}}
+                  </router-link>
                   <p class="text-overflow">{{elem.abstractContent}}</p>
                 </li>
             </ul>
@@ -21,15 +23,17 @@
   <div class="panel">
     <div class="panel-heading">
       <h2>通告</h2>
-      <a href="#" class="more">更多...</a>
+      <router-link :to="{ name: 'chamber.notice', params: { chamId: chamId } }" class="more">更多...</router-link>
     </div>
     <div class="panel-body">
       <div v-bar="{preventParentScroll: true,scrollThrottle: 30}">
         <div>
           <ul class="no-bullet">
             <li v-for="elem in noticelist" :key="elem.id">
-              <a href="#" target="_blank" class="text-overflow" :title="elem.title">{{elem.title}}</a>
-              <p class="text-overflow">由香港贸易发展局、香港科技大学深圳由香港贸易发展局、香港科技大学深圳由香港贸易发展局、香港科技大学深圳由香港贸易发展局、香港科技大学深圳</p>
+              <router-link :to="{ name: 'chamber.noticedetail', params: { entryId: elem.id } }" class="text-overflow" :title="elem.title">
+                {{elem.title}}
+              </router-link>
+              <p class="text-overflow">{{elem.abstractContent}}</p>
             </li>
           </ul>
         </div>

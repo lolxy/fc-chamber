@@ -1,0 +1,120 @@
+.newlist-box{
+  margin: 20px auto;
+  .catbox{
+    border: 1px solid #e2e2e2;
+    h2{
+      height: 40px;
+      line-height: 40px;
+      font-size: 15px;
+      font-weight: bold;
+      border-bottom: 1px solid #e2e2e2;
+      margin: 0;
+      i{
+        display: inline-block;
+        height: 20px;
+        width: 5px;
+        border-left: 5px solid #E03E3E;
+        margin-right: 10px;
+        margin-top: 8px;
+        vertical-align: top;
+      }
+    }
+    ul{
+      padding: 10px;
+      margin: 0;
+      li{
+        height: 36px;
+        line-height: 25px;
+        padding: 5px;
+        border: 1px solid #ffffff;
+        border-bottom: 1px dashed #e2e2e2;
+        cursor: pointer;
+        margin-bottom: 5px;
+        &:hover{
+          background-color: #f9f9f9;
+          border: 1px dashed #e2e2e2;
+        }
+      }
+    }
+  }
+  .none-padding-left{
+    padding-left: 0;
+  }
+
+  .newlist{
+    border: 1px solid #e2e2e2;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .backtop{
+    border: 1px solid #e2e2e2;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 20px;
+    text-align: center;
+    color:#333333;
+    &:hover{
+      color:#000000;
+      background-color: #f8f8f8;
+    }
+  }
+
+  .article-item {
+    margin-bottom: 16px;
+
+    a {
+      display: block;
+      padding: 16px 0 10px;
+      border-bottom: 1px solid #e6e8eb;
+      color:#333333;
+
+      &:hover {
+        background-color: #f8f9f9;
+        h3{
+          color:#E03E3E;
+        }
+      }
+
+      .item-cover-wrap {
+        padding-right: 16px;
+      }
+
+      .item-info-wrap {
+        padding-right: 20px;
+        position: relative;
+      }
+    }
+
+    h3 {
+      font-size: 15px;
+      margin: 4px 0 12px;
+    }
+
+    .metas {
+      margin-bottom: 16px;
+
+      span {
+        display: inline-block;
+        margin-right: 8px;
+      }
+    }
+
+    .cover {
+      display: block;
+      position: relative;
+      overflow: hidden;
+      -webkit-background-size: cover;
+      background-size: cover;
+      margin-bottom: rem-calc(6);
+
+      &::before {
+        content: '';
+        display: block;
+        width: 100%;
+        padding-top: 62.5%;
+      }
+    }
+  }
+}

@@ -6,11 +6,11 @@
         <div class="panel">
           <div class="panel-heading">
             <h2>企业资讯</h2>
-            <a href="#" class="more" target="_blank">更多...</a>
+            <router-link :to="{ name: 'chamber.news', params: { chamId: chamId } }" class="more">更多...</router-link>
           </div>
           <div class="panel-body">
             <template v-for="elem in newsList">
-               <a href="#" target="_blank" title="" class="text-overflow">{{elem.title}}</a>
+               <router-link :to="{ name: 'chember.newentry', params: { entryId: elem.id } }" class="text-overflow" :title="elem.title">{{elem.title}}</router-link>
             </template>
           </div>
         </div>
@@ -23,11 +23,11 @@
         <div class="panel">
           <div class="panel-heading">
             <h2>新技术</h2>
-            <a href="#" class="more" target="_blank">更多...</a>
+            <router-link :to="{ name: 'chamber.tec', params: { chamId: chamId } }" class="more">更多...</router-link>
           </div>
           <div class="panel-body">
             <template v-for="elem in lawList">
-               <a href="#" target="_blank" title="" class="text-overflow">{{elem.title}}</a>
+              <router-link :to="{ name: 'chember.newentry', params: { entryId: elem.id } }" class="text-overflow" :title="elem.title">{{elem.title}}</router-link>
             </template>
           </div>
         </div>
@@ -40,11 +40,11 @@
         <div class="panel">
           <div class="panel-heading">
             <h2>法律政策</h2>
-            <a href="#" class="more" target="_blank">更多...</a>
+            <router-link :to="{ name: 'chamber.law', params: { chamId: chamId } }" class="more">更多...</router-link>
           </div>
           <div class="panel-body">
             <template v-for="elem in newTecList">
-               <a href="#" target="_blank" title="" class="text-overflow">{{elem.title}}</a>
+               <router-link :to="{ name: 'chember.newentry', params: { entryId: elem.id } }" class="text-overflow" :title="elem.title">{{elem.title}}</router-link>
             </template>
           </div>
         </div>

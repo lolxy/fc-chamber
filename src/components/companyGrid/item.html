@@ -1,0 +1,45 @@
+<div class="company-list-grid" v-if="items">
+    <div class="grid-item small-3 columns wrapper-xs" v-for="(item,index) in items" :key="item.id">
+        <div class="grid-item-bd">
+          <div class="profileCard">
+            <a :href="`${baseUrl}/${item.companyId}/profile`" target="_blank" class="profileCard-bg">
+              <template v-if="formatCardBg(item.companyInfo)">
+                <img v-lazy="formatCardBg(item.companyInfo)" alt=""/>
+              </template>
+            </a>
+            <div class="profileCard-content">
+              <template>
+                <div class="card-logo">
+                  <template v-if="item.companyLogo">
+                    <avatar :src="item.companyLogo" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                  </template>
+                  <template v-else>
+                    <avatar :src="getCompanyLogo(item.companyInfo)" :size="152" class="companyGard-avatarImage" mode="logo"></avatar>
+                  </template>
+                </div>
+              </template>
+              <div class="profileCard-userFields">
+                  <div class="profileName-wrap clearfix m-b-xs">
+
+                    <a :href="`${baseUrl}/${item.companyId}/profile`" target="_blank" class="profileName pull-left">
+                      <strong>{{ item.companyInfo.BrandName }}</strong>
+                    </a>
+
+                  </div>
+                  <div class="profileCard-location">
+                    <img src="~@/assets/svg/company/icon_shop.svg" width="40" v-if="item.HasProducts"/>
+                    <span v-if="item.companyInfo.ResidentProvince">{{ item.companyInfo.ResidentProvince }} {{ item.companyInfo.ResidentCity }} {{ item.companyInfo.ResidentArea }}</span>
+                  </div>
+                  <div class="cham-category">
+                    商会类型：{{ getEnterpriseTypeName(item.typeId,item.childTypeId) }}
+                  </div>
+                  <div class="profileCard-meta">
+                    <span>公司全称：</span><strong>{{item.companyInfo.Name}}</strong>
+                  </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

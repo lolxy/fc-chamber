@@ -7,6 +7,14 @@
     padding: 0px !important;
   }
   .footbox{
+    // 新增
+    padding: 20px;
+    p{
+      color:rgba(255,255,255,0.6);
+      font-size: 14px;
+      margin: 10px auto;
+    }
+    // 新增
     overflow: hidden;
     color:#ffffff;
     a{

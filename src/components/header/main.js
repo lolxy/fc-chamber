@@ -6,15 +6,22 @@ export default {
   data() {
     return {
       chamInfo:null,
-      searchKeyword:''
+      searchKeyword:'',
+      baseUrl:`${process.env.baseUrl}`
     }
   },
   computed:{
+    auth() {
+      return this.$store.state.auth.authenticated;
+    },
     route() {
       return this.$store.state.route;
     },
     chamId() {
       return this.$store.state.route.params.chamId
+    },
+    userName() {
+      return this.$store.state.myProfile.info.UserName
     }
   },
   mounted() {

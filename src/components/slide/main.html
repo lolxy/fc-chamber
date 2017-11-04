@@ -16,9 +16,7 @@
     </template>
     <template v-else>
       <swiper-slide>
-        <a href="#" target="_blank">
-            <span class="cover" :style="`background-image:url(${require('@/assets/images/ic_home_banner.png')});background-size:cover;`"></span>
-        </a>
+        <span class="cover" :style="`background-image:url(${require('@/assets/images/ic_home_banner.png')});background-size:cover;`"></span>
       </swiper-slide>
     </template>
     <!-- 以下控件元素均为可选 -->
@@ -30,14 +28,14 @@
     <div class="newlist">
       <swiper :options="newSwiperOption" ref="myNewSwiper">
         <swiper-slide v-for="elem in newsList" :key="elem.id">
-          <a href="#" target="_blank" class="text-overflow">{{elem.title}}</a>
+          <router-link :to="{ name: 'chember.newentry', params: { entryId: elem.id } }" class="text-overflow" :title="elem.title">{{elem.title}}</router-link>
         </swiper-slide>
       </swiper>
     </div>
     <div class="more">
-      <a href="#" target="_blank">
+      <router-link :to="{ name: 'chamber.news', params: { chamId: chamId } }">
         <img src="~@/assets/images/ic_home_more.png" alt="more"/>
-      </a>
+      </router-link>
     </div>
   </div>
 </div>
