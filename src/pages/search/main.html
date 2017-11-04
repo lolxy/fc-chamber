@@ -1,0 +1,17 @@
+<div class="cham-companies-wrap">
+  <div class="row">
+    <div class="small-12 columns">
+  <div class="searchbox">
+  <template v-if="memberList.length">
+    <company-grid :items="memberList"></company-grid>
+  </template>
+  <template v-if="noresult">
+    <div class="noresult">
+      对不起，搜索不到您要的结果！
+    </div>
+  </template>
+  </div>
+
+  </div>
+  </div>
+</div>

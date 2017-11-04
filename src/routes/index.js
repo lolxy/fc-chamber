@@ -25,6 +25,7 @@ const chamNotice = r => require.ensure([], () => r(require('@/pages/notice/main.
 const NewEntry = r => require.ensure([], () => r(require('@/pages/newentry/main.vue')), 'chamber-newentry');
 const chamApply = r => require.ensure([], () => r(require('@/pages/apply/main.vue')), 'chamber-apply');
 const chamNoticeDetail = r => require.ensure([], () => r(require('@/pages/noticedetail/main.vue')), 'chamber-noticedetail');
+const chamSearch = r => require.ensure([], () => r(require('@/pages/search/main.vue')), 'chamber-search');
 /**
  * The routes
  *
@@ -48,6 +49,14 @@ export default [
       guest: true
     },
     children: [
+      {
+        path: 'search',
+        name: 'chamber.search',
+        component: chamSearch,
+        meta: {
+          guest: true,
+        },
+      },
       {
         path: 'about',
         name: 'chamber.about',

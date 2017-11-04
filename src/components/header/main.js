@@ -38,7 +38,15 @@ export default {
       });
     },
     searchCompany() {
-      this.$router.push({ name: 'companies', query: { keyword: this.searchKeyword }});
+      if(this.searchKeyword){
+        this.$router.push({ name: 'chamber.search', params: { chamId:this.chamId }, query:{keyword: this.searchKeyword }});
+      }else{
+        this.$message(
+          {
+            message:'搜索关键字不能为空！',
+            type:'warning'
+          });
+      }
     }
   }
 };
