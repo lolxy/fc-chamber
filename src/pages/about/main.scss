@@ -4,14 +4,14 @@
     padding-left: 0;
   }
   .abouts{
-    border: 1px solid #e2e2e2;
+    border: 1px solid #f1f1f1;
     padding: 20px;
     min-height: 446px;
     font-size: 14px;
   }
   .mapbox{
     .amap-page-container,.baseinfo{
-      border: 1px solid #e2e2e2;
+      border: 1px solid #f1f1f1;
     }
     .baseinfo{
       margin-bottom: 15px;
@@ -21,7 +21,7 @@
         font-size: 15px;
         font-weight: bold;
         margin: 0;
-        border-bottom: 1px solid #e2e2e2;
+        border-bottom: 1px solid #f1f1f1;
         i{
           display: inline-block;
           vertical-align: top;
@@ -63,7 +63,7 @@
         height: 200px;
         position: relative;
         overflow: hidden;
-        border: 1px solid #e2e2e2;
+        border: 1px solid #f1f1f1;
         .amap-main {
           height: 100%;
         }

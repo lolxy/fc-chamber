@@ -1,13 +1,13 @@
 .newlist-box{
   margin: 20px auto;
   .catbox{
-    border: 1px solid #e2e2e2;
+    border: 1px solid #f1f1f1;
     h2{
       height: 40px;
       line-height: 40px;
       font-size: 15px;
       font-weight: bold;
-      border-bottom: 1px solid #e2e2e2;
+      border-bottom: 1px solid #f1f1f1;
       margin: 0;
       i{
         display: inline-block;
@@ -27,12 +27,12 @@
         line-height: 25px;
         padding: 5px;
         border: 1px solid #ffffff;
-        border-bottom: 1px dashed #e2e2e2;
+        border-bottom: 1px dashed #f1f1f1;
         cursor: pointer;
         margin-bottom: 5px;
         &:hover{
           background-color: #f9f9f9;
-          border: 1px dashed #e2e2e2;
+          border: 1px dashed #f1f1f1;
         }
       }
     }
@@ -42,13 +42,13 @@
   }
 
   .newlist{
-    border: 1px solid #e2e2e2;
+    border: 1px solid #f1f1f1;
     padding: 10px;
     font-size: 14px;
   }
 
   .backtop{
-    border: 1px solid #e2e2e2;
+    border: 1px solid #f1f1f1;
     display: inline-block;
     height: 40px;
     line-height: 40px;

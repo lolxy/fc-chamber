@@ -1,19 +1,27 @@
 .company-list-grid{
-  border: 1px solid #e2e2e2;
+  /*border: 1px solid #f1f1f1;*/
   border-bottom: none;
   overflow: hidden;
-  padding: 15px;
-  padding-bottom: 0;
+  /*padding: 15px;*/
+  padding-bottom: 15px;
+  /*padding: 5px;*/
 }
 .grid-item{
-  border: 1px solid #efefef;
+  /*border: 1px solid #efefef;*/
   border-right: none;
   box-sizing: border-box;
-  padding: 10px;
-  margin-bottom: 15px;
+  padding: 5px;
+  padding-bottom: 8px;
+  /*margin: 10px;*/
+  /*margin-bottom: 5px;*/
 }
-.grid-item:last-child,.grid-item:nth-child(4n){
-  border-right: 1px solid #efefef;
+.grid-item:nth-child(4n){
+  /*border-right: 1px solid #efefef;*/
+  padding-right: 0;
+}
+.grid-item:nth-child(4n+1){
+  /*border-right: 1px solid #efefef;*/
+  padding-left: 0;
 }
 .profileCard {
   background-color: #fff;
@@ -97,8 +105,9 @@
 }
 
 .profileCard-content {
-  margin: 13px 15px;
+  padding: 13px 15px;
   position: relative;
+  border: 1px solid #f1f1f1;
 }
 
 .profileCard-userFields {

@@ -3,8 +3,9 @@
 .apply-manager {
   background-color: #fff;
   overflow: hidden;
+  padding-bottom: 158px;
   .formbox{
-    border: 1px solid #e2e2e2;
+    border: 1px solid #f1f1f1;
     padding: 20px;
     margin: 20px auto;
     overflow: hidden;
@@ -102,7 +103,7 @@
   display: block;
   width: 100%;
   clear: both;
-  border-top: 1px solid #e2e2e2;
+  border-top: 1px solid #f1f1f1;
   margin-top:20px;
   padding-top: 10px;
   .el-button{
